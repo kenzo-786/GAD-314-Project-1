@@ -5,7 +5,11 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 4f;
     public float sprintSpeed = 7f;
     public float crouchSpeed = 2f;
-    public float jumpForce = 5f;
+    public float jumpForce = 3f;
+
+    public Transform cameraTransform;
+    public Vector3 cameraOffset = new Vector3(0, 3, -4);
+    public float cameraSmoothSpeed = 5f;
 
     private Rigidbody rb;
     private bool isGrounded = true;
@@ -20,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         MovePlayer();
         HandleJump();
+        UpdateCamera();
     }
 
     void MovePlayer()
@@ -65,16 +70,21 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
-        {
             isGrounded = true;
-        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
-        {
             isGrounded = false;
-        }
+    }
+
+    void UpdateCamera()
+    {
+        if (cameraTransform == null) return;
+
+        Vector3 targetPos = transform.position + cameraOffset;
+        cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPos, cameraSmoothSpeed * Time.deltaTime);
+        cameraTransform.LookAt(transform.position);
     }
 }

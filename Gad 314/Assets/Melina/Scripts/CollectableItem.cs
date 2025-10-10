@@ -1,10 +1,13 @@
 using UnityEngine;
+using TMPro;
 
 public class CollectableItem : MonoBehaviour
 {
     public string itemName = "Item";
     private bool playerInRange = false;
     private PlayerInventory playerInventory;
+
+    public TextMeshProUGUI pickupPrompt; // assign in Inspector
 
     void Update()
     {
@@ -19,6 +22,7 @@ public class CollectableItem : MonoBehaviour
         if (playerInventory != null)
         {
             playerInventory.AddItem(itemName);
+            HidePrompt();
             Destroy(gameObject);
         }
     }
@@ -29,6 +33,7 @@ public class CollectableItem : MonoBehaviour
         {
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInventory>();
+            ShowPrompt();
         }
     }
 
@@ -38,6 +43,19 @@ public class CollectableItem : MonoBehaviour
         {
             playerInRange = false;
             playerInventory = null;
+            HidePrompt();
         }
+    }
+
+    void ShowPrompt()
+    {
+        if (pickupPrompt != null)
+            pickupPrompt.gameObject.SetActive(true);
+    }
+
+    void HidePrompt()
+    {
+        if (pickupPrompt != null)
+            pickupPrompt.gameObject.SetActive(false);
     }
 }

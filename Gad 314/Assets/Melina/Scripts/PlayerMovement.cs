@@ -1,90 +1,101 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-    public float walkSpeed = 4f;
-    public float sprintSpeed = 7f;
-    public float crouchSpeed = 2f;
-    public float jumpForce = 3f;
-
+    [Header("References")]
+    public Rigidbody rb;
     public Transform cameraTransform;
-    public Vector3 cameraOffset = new Vector3(0, 3, -4);
+    public GameObject miniMapCanvas;
+
+    [Header("Movement Settings")]
+    public float walkSpeed = 4f;
+    public float sprintSpeed = 6f;
+    public float crouchSpeed = 2.5f;
+    public float jumpForce = 5f;
+
+    [Header("Crouch Settings")]
+    public float crouchHeight = 0.5f;
+    public float standingHeight = 1f;
+
+    [Header("Camera Settings")]
+    public Vector3 cameraOffset = new Vector3(0f, 5f, -5f);
     public float cameraSmoothSpeed = 5f;
 
-    private Rigidbody rb;
-    private bool isGrounded = true;
+    private Vector3 moveInput;
+    private bool isGrounded;
+    private bool isCrouching;
+    private bool isSprinting;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
+
         rb.freezeRotation = true;
+
+        if (miniMapCanvas != null)
+            miniMapCanvas.SetActive(true); 
     }
 
     void Update()
     {
-        MovePlayer();
-        HandleJump();
-        UpdateCamera();
+        HandleInput();
+        HandleCrouchVisual();
+        HandleCameraFollow();
     }
 
-    void MovePlayer()
+    void FixedUpdate()
     {
-        Vector3 moveDirection = Vector3.zero;
+        HandleMovement();
+        HandleJump();
+    }
 
-        if (Input.GetKey(KeyCode.W))
-            moveDirection += transform.forward;
-        if (Input.GetKey(KeyCode.S))
-            moveDirection -= transform.forward;
-        if (Input.GetKey(KeyCode.A))
-            moveDirection -= transform.right;
-        if (Input.GetKey(KeyCode.D))
-            moveDirection += transform.right;
+    void HandleInput()
+    {
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+        moveInput = transform.right * x + transform.forward * z;
 
-        float currentSpeed = walkSpeed;
-        if (Input.GetKey(KeyCode.LeftShift))
-            currentSpeed = sprintSpeed;
+        isCrouching = Input.GetKey(KeyCode.C);
+        isSprinting = Input.GetKey(KeyCode.LeftShift) && !isCrouching;
+    }
 
-        if (Input.GetKey(KeyCode.C))
-        {
-            currentSpeed = crouchSpeed;
-            transform.localScale = new Vector3(1f, 0.5f, 1f);
-        }
-        else
-        {
-            transform.localScale = new Vector3(1f, 1f, 1f);
-        }
+    void HandleMovement()
+    {
+        float speed = walkSpeed;
+        if (isCrouching) speed = crouchSpeed;
+        else if (isSprinting) speed = sprintSpeed;
 
-        Vector3 velocity = moveDirection.normalized * currentSpeed;
+        Vector3 velocity = moveInput.normalized * speed;
         rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
     }
 
     void HandleJump()
     {
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
+        isGrounded = Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, 1.2f);
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    void HandleCrouchVisual()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-            isGrounded = true;
+        float targetHeight = isCrouching ? crouchHeight : standingHeight;
+        Vector3 scale = transform.localScale;
+        scale.y = Mathf.Lerp(scale.y, targetHeight, Time.deltaTime * 10f);
+        transform.localScale = scale;
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-            isGrounded = false;
-    }
-
-    void UpdateCamera()
+    void HandleCameraFollow()
     {
         if (cameraTransform == null) return;
 
         Vector3 targetPos = transform.position + cameraOffset;
         cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPos, cameraSmoothSpeed * Time.deltaTime);
-        cameraTransform.LookAt(transform.position);
+        cameraTransform.LookAt(transform.position + Vector3.up * 1f);
     }
 }

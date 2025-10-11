@@ -3,11 +3,15 @@ using TMPro;
 
 public class CollectableItem : MonoBehaviour
 {
-    public string itemName = "Item";
+    [Header("Item Settings")]
+    public string itemName;         
+    public Sprite itemIcon;         
+
+    [Header("UI Prompt")]
+    public TextMeshProUGUI pickupPrompt;
+
     private bool playerInRange = false;
     private PlayerInventory playerInventory;
-
-    public TextMeshProUGUI pickupPrompt; // assign in Inspector
 
     void Update()
     {
@@ -21,7 +25,7 @@ public class CollectableItem : MonoBehaviour
     {
         if (playerInventory != null)
         {
-            playerInventory.AddItem(itemName);
+            playerInventory.AddItem(itemName, itemIcon);
             HidePrompt();
             Destroy(gameObject);
         }

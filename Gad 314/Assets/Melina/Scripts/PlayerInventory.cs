@@ -1,9 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class InventoryItem
+{
+    public string itemName;
+    public Sprite icon;
+    public int quantity;
+
+    public InventoryItem(string name, Sprite icon)
+    {
+        this.itemName = name;
+        this.icon = icon;
+        this.quantity = 1;
+    }
+}
+
 public class PlayerInventory : MonoBehaviour
 {
-    public Dictionary<string, int> inventory = new Dictionary<string, int>();
+    public List<InventoryItem> items = new List<InventoryItem>();
     private InventoryUI inventoryUI;
 
     void Start()
@@ -11,14 +26,16 @@ public class PlayerInventory : MonoBehaviour
         inventoryUI = FindObjectOfType<InventoryUI>();
     }
 
-    public void AddItem(string itemName)
+    public void AddItem(string itemName, Sprite itemIcon)
     {
-        if (inventory.ContainsKey(itemName))
-            inventory[itemName]++;
+        InventoryItem existingItem = items.Find(i => i.itemName == itemName);
+
+        if (existingItem != null)
+            existingItem.quantity++;
         else
-            inventory[itemName] = 1;
+            items.Add(new InventoryItem(itemName, itemIcon));
 
         if (inventoryUI != null)
-            inventoryUI.UpdateInventoryDisplay(inventory);
+            inventoryUI.RefreshInventory(items);
     }
 }

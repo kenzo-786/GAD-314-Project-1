@@ -4,8 +4,9 @@ using TMPro;
 public class CollectableItem : MonoBehaviour
 {
     [Header("Item Settings")]
-    public string itemName;         
-    public Sprite itemIcon;         
+    public string itemName;
+    public Sprite itemIcon;
+    public GameObject worldPrefab; // reference to itself
 
     [Header("UI Prompt")]
     public TextMeshProUGUI pickupPrompt;
@@ -26,6 +27,12 @@ public class CollectableItem : MonoBehaviour
         if (playerInventory != null)
         {
             playerInventory.AddItem(itemName, itemIcon);
+
+            // Save worldPrefab to inventory if needed
+            InventoryItem item = playerInventory.items.Find(i => i.name == itemName);
+            if (item != null && item.worldPrefab == null)
+                item.worldPrefab = worldPrefab;
+
             HidePrompt();
             Destroy(gameObject);
         }

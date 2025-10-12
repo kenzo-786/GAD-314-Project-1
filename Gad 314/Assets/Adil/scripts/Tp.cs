@@ -28,7 +28,7 @@ public class Tp : MonoBehaviour
         CharacterController cc = player.GetComponent<CharacterController>();
         if (cc != null) cc.enabled = false;
 
-        player.transform.position = transformTp.position;
+        player.transform.position = transformTp.position + Vector3.up * 0.1f;
 
         if (cc != null) cc.enabled = true;
 

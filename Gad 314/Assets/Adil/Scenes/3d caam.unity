@@ -3224,6 +3224,7 @@ GameObject:
   - component: {fileID: 895871528}
   - component: {fileID: 895871527}
   - component: {fileID: 895871530}
+  - component: {fileID: 895871531}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3298,7 +3299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895871526}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.20177881, y: 0.000000017098712, z: -0.0000000035226135, w: 0.97943115}
+  m_LocalRotation: {x: 0.20177881, y: 0.000000026189355, z: -0.000000005395435, w: 0.97943115}
   m_LocalPosition: {x: 4.387, y: 14.471556, z: -5.934582}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3337,6 +3338,50 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &895871531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895871526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1016723381
 GameObject:
   m_ObjectHideFlags: 0
@@ -4048,6 +4093,10 @@ MonoBehaviour:
   mouseSensitivity: 2
   gravity: -9.81
   cameraTransform: {fileID: 1798889532}
+  crouchHeight: 1
+  standingHeight: 2
+  crouchSpeed: 2
+  crouchKey: 304
 --- !u!143 &1577758346
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4066,11 +4115,11 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2.0000002
+  m_Height: 2
   m_Radius: 0.50000006
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1791381522
@@ -5458,7 +5507,7 @@ MonoBehaviour:
       Enabled: 0
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
-  CenterOnActivate: 1
+  CenterOnActivate: 0
   TargetOffset: {x: 0, y: 0, z: 0}
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
@@ -5580,7 +5629,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798889526}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2017788, y: 0.000000017098708, z: -0.0000000035226122, w: 0.97943115}
+  m_LocalRotation: {x: 0.2017788, y: 0.000000026189355, z: -0.000000005395435, w: 0.97943115}
   m_LocalPosition: {x: 4.387, y: 14.471556, z: -5.934582}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -2,15 +2,34 @@ using UnityEngine;
 
 public class PatrollingEnemy : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public Transform[] points;
+    public int currentTargetPoint;
+    public float speed;
+    public bool playerSpotted;
+
     void Start()
     {
-        
+        currentTargetPoint = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if(playerSpotted == false)
+        {
+            if(transform.position == points[currentTargetPoint].position)
+            {
+                NextPoint();
+            }
+            transform.position = Vector3.MoveTowards(transform.position, points[currentTargetPoint].position, speed * Time.deltaTime);
+        }
+    }
+
+    void NextPoint()
+    {
+        currentTargetPoint++;
+        if(currentTargetPoint >= points.Length)
+        {
+            currentTargetPoint = 0;
+        }
     }
 }

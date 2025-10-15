@@ -22,6 +22,10 @@ public class PatrollingEnemy : MonoBehaviour
             }
             transform.position = Vector3.MoveTowards(transform.position, points[currentTargetPoint].position, speed * Time.deltaTime);
         }
+        if (playerSpotted == true)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, points[currentTargetPoint].position, speed * Time.deltaTime);
+        }
     }
 
     void NextPoint()

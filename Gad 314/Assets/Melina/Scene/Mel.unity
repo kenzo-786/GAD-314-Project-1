@@ -4691,6 +4691,7 @@ MonoBehaviour:
   moveSpeed: 5
   mouseSensitivity: 2
   gravity: -9.81
+  jumpHeight: 0.5
   cameraTransform: {fileID: 0}
   crouchHeight: 1
   standingHeight: 2

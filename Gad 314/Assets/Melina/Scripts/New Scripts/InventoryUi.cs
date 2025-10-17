@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUi : MonoBehaviour
 {
     public Inventory inventory;
     public Transform slotParent;

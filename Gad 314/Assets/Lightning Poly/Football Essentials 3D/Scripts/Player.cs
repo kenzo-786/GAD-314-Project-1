@@ -80,10 +80,10 @@ namespace LightningPoly.FootballEssentials3D
             Vector3 targetVelocity = moveDirection * moveSpeed;
             if (!isGrounded)
             {
-                targetVelocity.y = rb.velocity.y;
+                targetVelocity.y = rb.linearVelocity.y;
             }
 
-            rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, (isGrounded ? acceleration : deceleration) * Time.fixedDeltaTime);
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, (isGrounded ? acceleration : deceleration) * Time.fixedDeltaTime);
         }
 
         void RotateCharacter()
@@ -99,7 +99,7 @@ namespace LightningPoly.FootballEssentials3D
         {
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
-                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 isGrounded = false;
             }

@@ -5,6 +5,7 @@ public class Shooting : MonoBehaviour
 {
     public float bSpeed;
     public float firingRate, bDamage;
+    public int bAmount = 0;
 
     public Transform bTransform;
     public GameObject bPrefab;
@@ -18,10 +19,12 @@ public class Shooting : MonoBehaviour
             timer -= Time.deltaTime / firingRate;
         }
 
-        if(Input.GetButtonDown("Fire1") && timer <= 0)
+        if(Input.GetButtonDown("Fire1") && timer <= 0 && bAmount > 0)
         {
             Shoot();
             Debug.Log("He shoots!");
+            bAmount--;
+            Debug.Log("Bullets left: " + bAmount);
         }
     }
 
@@ -30,5 +33,15 @@ public class Shooting : MonoBehaviour
         GameObject bullet = Instantiate(bPrefab, bTransform.position, Quaternion.identity);
         bullet.GetComponent<Rigidbody>().AddForce(bTransform.forward * bSpeed, ForceMode.Impulse);
         bullet.GetComponent<BulletBehavior>().pain = bDamage;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Bullet Pick-Up")
+        {
+            bAmount = 10;
+            Destroy(collision.gameObject);
+            Debug.Log("Picked up 10 ammo!");
+        }
     }
 }

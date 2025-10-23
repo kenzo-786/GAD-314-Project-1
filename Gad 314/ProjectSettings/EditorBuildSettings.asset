@@ -5,15 +5,39 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Thani/MainMenu.unity
-    guid: 874c4c3d2038049d7b6d5bc0d356fe5e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Thani/PatrollingEnemy.unity
     guid: d83a19c38736f4b499621c1844270652
+  - enabled: 0
+    path: Assets/Thani/MainMenu.unity
+    guid: 874c4c3d2038049d7b6d5bc0d356fe5e
+  - enabled: 0
+    path: Assets/Sabeeh/Scene/CharacterSwitchTest.unity
+    guid: 86a543db4e449b643853ccebd1609d66
+  - enabled: 0
+    path: Assets/Melina/Scene/Spawning Enemies.unity
+    guid: 24350f84930473b4bbce7a8059685c45
+  - enabled: 0
+    path: Assets/Adil/Scenes/enemy patroling.unity
+    guid: 9dd73f2da360f5f4191cef5d5164f779
+  - enabled: 1
+    path: Assets/Sabeeh/Scene/MainMenu.unity
+    guid: 8471ed3ac3326b44fa453aa0ddcc54fb
+  - enabled: 1
+    path: Assets/Scenes/SceneOne.unity
+    guid: 74fc48c099f9bfd4a852befc5ac25661
+  - enabled: 1
+    path: Assets/Scenes/SceneTwo.unity
+    guid: 683f92041dd1ebe4488e07c8ffac0d83
+  - enabled: 1
+    path: Assets/Scenes/SceneThree.unity
+    guid: b537c9dfab9b5ec4ea5f7bbe3317cb1a
+  - enabled: 1
+    path: Assets/Scenes/SceneFour.unity
+    guid: 9d664b94009625545b9ddc2af9ab2285
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

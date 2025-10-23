@@ -35,12 +35,12 @@ public class Shooting : MonoBehaviour
         bullet.GetComponent<BulletBehavior>().pain = bDamage;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        if(collision.gameObject.tag == "Bullet Pick-Up")
+        if(other.gameObject.tag == "Bullet Pick-Up")
         {
             bAmount = 10;
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
             Debug.Log("Picked up 10 ammo!");
         }
     }

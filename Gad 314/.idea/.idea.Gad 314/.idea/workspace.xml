@@ -6,15 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Lightning Poly/Football Essentials 3D/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Lightning Poly/Football Essentials 3D/Scripts/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/Mel.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/Mel.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/Melina.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/Melina.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/NavMeshAreas.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/NavMeshAreas.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Assets/Prefabs/Enemy.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Assets/Prefabs/Enemy.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/Spawning Enemies.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/Spawning Enemies.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/Spawning Enemies/NavMesh-NavMesh Surface.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/Spawning Enemies/NavMesh-NavMesh Surface.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/EnemyFollow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/EnemyFollow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/PressurePlateTrigger.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/PressurePlateTrigger.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/TrailGuideManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/TrailGuideManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,6 +28,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/EnemyFollow.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/EnemySpawner.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/TrailGuideManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/Unlit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -109,6 +109,7 @@
       <workItem from="1760625549828" duration="5536000" />
       <workItem from="1760682933666" duration="1862000" />
       <workItem from="1761156003242" duration="3261000" />
+      <workItem from="1761195460113" duration="3004000" />
     </task>
     <servers />
   </component>

@@ -14,8 +14,6 @@ public class EnemyFollow : MonoBehaviour
     void Update()
     {
         if (target != null)
-        {
             agent.SetDestination(target.position);
-        }
     }
 }

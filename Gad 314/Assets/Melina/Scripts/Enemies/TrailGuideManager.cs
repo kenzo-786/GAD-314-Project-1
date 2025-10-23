@@ -1,27 +1,35 @@
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class TrailGuideManager : MonoBehaviour
 {
-    public GameObject[] guideObjects;
-    public float glowIntensity = 3f;
-    public Color glowColor = Color.cyan;
+    public Transform player;
+    public Transform pressurePlate;
+    private LineRenderer lineRenderer;
 
-    void Start()
+    void Awake()
     {
-        foreach (var obj in guideObjects)
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.positionCount = 2;
+        lineRenderer.enabled = true;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+    }
+
+    void Update()
+    {
+        if (player != null && pressurePlate != null && lineRenderer.enabled)
         {
-            if (obj.TryGetComponent<Light>(out Light light))
-            {
-                light.color = glowColor;
-                light.intensity = glowIntensity;
-                light.range = 5f;
-            }
+            Vector3 start = player.position + Vector3.up * 0.2f;
+            Vector3 end = pressurePlate.position + Vector3.up * 0.2f;
+            lineRenderer.SetPosition(0, start);
+            lineRenderer.SetPosition(1, end);
         }
     }
 
     public void HideTrail()
     {
-        foreach (var obj in guideObjects)
-            obj.SetActive(false);
+        if (lineRenderer != null)
+            lineRenderer.enabled = false;
     }
 }

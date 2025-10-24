@@ -9,8 +9,8 @@ public class PressurePlateTrigger : MonoBehaviour
     public Transform player;
     public float triggerDistance = 1.5f;
 
-    public int waves = 3;
-    public int enemiesPerWave = 2;
+    public int waves = 4;
+    public int enemiesPerWave = 4;
     public float delayBetweenWaves = 3f;
 
     public bool HasTriggered { get; private set; } = false;

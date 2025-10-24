@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 5438948338994683613}
   - component: {fileID: 1605211200621825032}
   - component: {fileID: 1861980599101615340}
+  - component: {fileID: 3579037778640580691}
   m_Layer: 0
   m_Name: player (Shooting)
   m_TagString: Untagged
@@ -241,8 +242,8 @@ Transform:
   m_GameObject: {fileID: 5960014615114639437}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.43360862, y: 0.43360862, z: 0.43360862}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 93421773547705298}
@@ -396,17 +397,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5960014615114639437}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10eda696c96fc4fb78c77ede3812cfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shooting
-  bSpeed: 10
+  bSpeed: 50
   firingRate: 0.1
   bDamage: 5
   bAmount: 10
   bTransform: {fileID: 2786362389065666522}
   bPrefab: {fileID: 250830781735753546, guid: 87f7bd6e21b524e7fb40f9ddd7815c7e, type: 3}
+--- !u!114 &3579037778640580691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5960014615114639437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5594d636ffb7b49909ea815efff2e99f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GunEnabler
+  shooting: {fileID: 1861980599101615340}
+  gun: {fileID: 8303151349533388736}
 --- !u!1 &8303151349533388736
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &49738520416738200
 Transform:
   m_ObjectHideFlags: 0

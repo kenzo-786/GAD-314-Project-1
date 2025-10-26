@@ -27,29 +27,31 @@ public class AlternativeMovement : MonoBehaviour
 
     void Update()
     {
-        HandleRotation();
         HandleMovement();
         ApplyGravity();
         HandleCrouch();
     }
 
-    private void HandleRotation()
-    {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        rotationY += mouseX;
-        transform.rotation = Quaternion.Euler(0f, rotationY, 0f);
-    }
-
     private void HandleMovement()
     {
+        
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         Vector3 move = new Vector3(horizontal, 0f, vertical).normalized;
-        Vector3 moveDir = transform.TransformDirection(move);
+       // Vector3 moveDir = transform.TransformDirection(move);
 
-        float speed = isCrouching ? crouchSpeed : moveSpeed;
-        controller.Move(moveDir * speed * Time.deltaTime);
+        if (move.magnitude >= 0.1f)
+        {
+            float targetYRotation = cameraTransform.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(0f, targetYRotation, 0f);
+            Vector3 moveDir = Quaternion.Euler(0f, targetYRotation, 0f) * move;
+
+            float speed = isCrouching ? crouchSpeed : moveSpeed;
+            controller.Move(moveDir * speed * Time.deltaTime);
+        }
+
+        
     }
 
     private void HandleCrouch()

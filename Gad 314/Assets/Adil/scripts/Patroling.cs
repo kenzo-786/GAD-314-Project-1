@@ -46,13 +46,14 @@ public class Patroling : MonoBehaviour
         agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
 
         Debug.Log(wayPoints.childCount);
-       // currentState = AIState.Patrolling;
+      
 
 
     }
 
     private void Update()
     {
+
         Debug.Log(currentState + " | " + agent.isStopped + " | " + agent.remainingDistance);
 
 

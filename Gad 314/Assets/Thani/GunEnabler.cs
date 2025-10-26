@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GunEnabler : MonoBehaviour
 {
-    public Shooting shooting;
+    public NewShooting shooting;
     public GameObject gun;
 
     void OnTriggerEnter(Collider other)

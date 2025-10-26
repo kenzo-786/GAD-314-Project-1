@@ -10,6 +10,10 @@ public class Shooting : MonoBehaviour
     public Transform bTransform;
     public GameObject bPrefab;
 
+    [SerializeField] Transform aimPos;
+    [SerializeField] float aimSpeed = 20;
+    [SerializeField] LayerMask aimMask;
+
     private float timer;
 
     private void Update()
@@ -25,6 +29,14 @@ public class Shooting : MonoBehaviour
             Debug.Log("He shoots!");
             bAmount--;
             Debug.Log("Bullets left: " + bAmount);
+        }
+
+        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+
+        if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
+        {
+            aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSpeed * Time.deltaTime);
         }
     }
 

@@ -68,7 +68,13 @@ public class AlternativePatrolling : MonoBehaviour
     {
         agent.isStopped = true;
 
+        if (waitCounter <= 0f)
+            waitCounter = waitAtPoint;
+
         waitCounter -= Time.deltaTime;
+
+
+
         if (waitCounter <= 0f)
         {
             currentState = AIState.Patrolling;
@@ -108,10 +114,14 @@ public class AlternativePatrolling : MonoBehaviour
         if (distanceToPlayer > chaseRange)
         {
             lastSawPlayerTimer += Time.deltaTime;
+
+
             if (lastSawPlayerTimer >= suspiciousTime)
             {
                 currentState = AIState.Idle;
+                waitCounter = suspiciousTime;
                 lastSawPlayerTimer = 0f;
+                agent.isStopped = true;
             }
         }
         else

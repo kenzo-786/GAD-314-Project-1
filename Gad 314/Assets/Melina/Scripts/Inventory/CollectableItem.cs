@@ -1,47 +1,37 @@
 using UnityEngine;
 using TMPro;
 
-public class CollectableItem : MonoBehaviour
+public class CollectibleItem : MonoBehaviour
 {
-    public InventoryItem itemData;
-    public TextMeshProUGUI pickupPrompt; 
+    public InventoryItem item;
+    public TMP_Text collectText;
 
-    private bool playerInRange = false;
-    private PlayerInventory playerInventory;
-
-    void Update()
+    void Start()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.Q))
-            CollectItem();
+        if (collectText != null)
+            collectText.enabled = false;
     }
 
-    void CollectItem()
+    void OnTriggerEnter(Collider other)
     {
-        if (playerInventory != null && itemData != null)
+        if (other.CompareTag("Player") && collectText != null)
+            collectText.enabled = true;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player") && collectText != null)
+            collectText.enabled = false;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Q))
         {
-            playerInventory.AddItem(itemData);
-            if (pickupPrompt != null) pickupPrompt.gameObject.SetActive(false);
+            InventoryManager.Instance.AddItem(item);
+            if (collectText != null)
+                collectText.enabled = false;
             Destroy(gameObject);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = true;
-            playerInventory = other.GetComponent<PlayerInventory>();
-            if (pickupPrompt != null) pickupPrompt.gameObject.SetActive(true);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = false;
-            playerInventory = null;
-            if (pickupPrompt != null) pickupPrompt.gameObject.SetActive(false);
         }
     }
 }

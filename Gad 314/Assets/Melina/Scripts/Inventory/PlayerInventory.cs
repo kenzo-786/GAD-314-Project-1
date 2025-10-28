@@ -5,21 +5,23 @@ public class PlayerInventory : MonoBehaviour
 {
     public int maxSlots = 5;
     public List<InventoryItem> items = new List<InventoryItem>();
-    public Transform dropPoint; 
+    public Transform dropPoint;
     public GameObject droppedPrefabTemplate;
-
     public InventoryUI inventoryUI;
 
     void Start()
     {
-        if (inventoryUI != null) inventoryUI.RefreshInventory(items);
+        if (inventoryUI != null)
+            inventoryUI.RefreshInventory(items);
     }
 
     public bool AddItem(InventoryItem item)
     {
         if (items.Count >= maxSlots) return false;
         items.Add(item);
-        if (inventoryUI != null) inventoryUI.RefreshInventory(items);
+        Debug.Log($"Added item: {item.itemName}");
+        if (inventoryUI != null)
+            inventoryUI.RefreshInventory(items);
         return true;
     }
 
@@ -28,7 +30,8 @@ public class PlayerInventory : MonoBehaviour
         if (items.Contains(item))
         {
             items.Remove(item);
-            if (inventoryUI != null) inventoryUI.RefreshInventory(items);
+            if (inventoryUI != null)
+                inventoryUI.RefreshInventory(items);
         }
     }
 
@@ -37,10 +40,13 @@ public class PlayerInventory : MonoBehaviour
         if (!items.Contains(item)) return;
         RemoveItem(item);
 
-        GameObject prefabToSpawn = item.worldPrefab != null ? item.worldPrefab : droppedPrefabTemplate;
+        GameObject prefabToSpawn = droppedPrefabTemplate;
         if (prefabToSpawn == null) return;
 
-        Vector3 pos = dropPoint != null ? dropPoint.position : transform.position + transform.forward * 1.5f + Vector3.up * 0.5f;
+        Vector3 pos = dropPoint != null
+            ? dropPoint.position
+            : transform.position + transform.forward * 1.5f + Vector3.up * 0.5f;
+
         GameObject dropped = Instantiate(prefabToSpawn, pos, Quaternion.identity);
         ItemFloat floatScript = dropped.GetComponent<ItemFloat>();
         if (floatScript != null) floatScript.Initialize(item);

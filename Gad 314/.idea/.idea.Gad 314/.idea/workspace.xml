@@ -6,27 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Assets/Prefabs/SlotPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Assets/Prefabs/SlotPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Assets/Prefabs/SlotPrefab.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Assets/Prefabs/SlotPrefab.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/Collecting and Storing.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/Collecting and Storing.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/ScriptableObjects.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/ScriptableObjects/Items.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/ScriptableObjects/Items/Amber.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/ScriptableObjects/Items/Amber.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/ScriptableObjects/Items/Core Seed.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/ScriptableObjects/Items/Core Seed.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/ScriptableObjects/Items/Eternal Flower.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/ScriptableObjects/Items/Eternal Flower.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/Inventory.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/Inventory.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/CollectableItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/CollectableItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventorySlotUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventorySlotUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryUi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryUi.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemFloat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemFloat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemPickup.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemPickup.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemPickupHandler.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemPickupHandler.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemSO.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemSO.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/PlayerCollector.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/PlayerCollector.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/PlayerInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/PlayerInventory.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +31,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Enemies/TrailGuideManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/CollectableItem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryItem.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventorySlotUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemFloat.cs" root0="FORCE_HIGHLIGHTING" />
@@ -140,6 +130,7 @@
       <workItem from="1761211861669" duration="4000" />
       <workItem from="1761337289140" duration="283000" />
       <workItem from="1761592656507" duration="3144000" />
+      <workItem from="1761659554235" duration="4110000" />
     </task>
     <servers />
   </component>

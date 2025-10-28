@@ -7,4 +7,3 @@ public class InventoryItem : ScriptableObject
     public Sprite icon;
     public GameObject worldPrefab;
 }
-    

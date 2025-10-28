@@ -246,57 +246,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &122425249
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 122425250}
-  - component: {fileID: 122425251}
-  m_Layer: 5
-  m_Name: Inventory UI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &122425250
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122425249}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2104446972}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &122425251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122425249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 300b8af7ab5d2eb43a52283284f48ab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
-  inventoryPanel: {fileID: 2104446971}
-  slotContainer: {fileID: 1750449707}
-  slotPrefab: {fileID: 6475769785655510779, guid: 5450f76b440f45742ba0b3f3a6f6c4fa, type: 3}
 --- !u!43 &164876246
 Mesh:
   m_ObjectHideFlags: 0
@@ -488,7 +437,7 @@ GameObject:
   - component: {fileID: 211262947}
   - component: {fileID: 211262946}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1924,7 +1873,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300b8af7ab5d2eb43a52283284f48ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
-  inventoryPanel: {fileID: 2104446971}
   slotContainer: {fileID: 1750449707}
   slotPrefab: {fileID: 6475769785655510779, guid: 5450f76b440f45742ba0b3f3a6f6c4fa, type: 3}
 --- !u!1 &555301479
@@ -2319,7 +2267,7 @@ GameObject:
   - component: {fileID: 845386576}
   - component: {fileID: 845386575}
   m_Layer: 5
-  m_Name: Canvas (1)
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2476,8 +2424,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4828,10 +4776,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc535a571077bd43b4dfac3e305a936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickupHandler
-  pickupRadius: 2
-  itemLayer:
-    m_Bits: 0
-  inventory: {fileID: 0}
 --- !u!114 &1577758353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4855,28 +4799,6 @@ MonoBehaviour:
   crouchKey: 304
   miniMapCanvas: {fileID: 845386574}
   toggleMapKey: 109
---- !u!114 &1577758354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577758338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14f693f22af0b2044b805671d9402d63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  maxSlots: 5
-  items:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  dropPoint: {fileID: 540348408}
-  droppedPrefabTemplate: {fileID: 813942846494724210}
-  inventoryUI: {fileID: 122425251}
 --- !u!114 &1577758355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4889,6 +4811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 171607cd7a86e6a46bd3bd0ba10dbc66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollector
+  inventory: {fileID: 0}
 --- !u!1 &1750449706
 GameObject:
   m_ObjectHideFlags: 0
@@ -4899,8 +4822,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1750449707}
   - component: {fileID: 1750449709}
-  - component: {fileID: 1750449708}
-  - component: {fileID: 1750449710}
   m_Layer: 5
   m_Name: SlotContainer
   m_TagString: Untagged
@@ -4927,20 +4848,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1750449708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750449706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!114 &1750449709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4950,38 +4857,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1750449706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
   m_Padding:
     m_Left: 0
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 10
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
---- !u!114 &1750449710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750449706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 300b8af7ab5d2eb43a52283284f48ab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
-  inventoryPanel: {fileID: 2104446971}
-  slotContainer: {fileID: 1750449707}
-  slotPrefab: {fileID: 6475769785655510779, guid: 5450f76b440f45742ba0b3f3a6f6c4fa, type: 3}
+  m_ChildAlignment: 3
+  m_StartCorner: 0
+  m_StartAxis: 1
+  m_CellSize: {x: 80, y: 80}
+  m_Spacing: {x: 5, y: 5}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &1791381522
 GameObject:
   m_ObjectHideFlags: 0
@@ -6507,13 +6397,14 @@ GameObject:
   - component: {fileID: 2104446972}
   - component: {fileID: 2104446974}
   - component: {fileID: 2104446973}
+  - component: {fileID: 2104446975}
   m_Layer: 5
   m_Name: InventoryPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2104446972
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6527,7 +6418,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1750449707}
-  - {fileID: 122425250}
   m_Father: {fileID: 845386578}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6548,7 +6438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.8745098}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6573,6 +6463,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2104446971}
   m_CullTransparentMesh: 1
+--- !u!114 &2104446975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104446971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300b8af7ab5d2eb43a52283284f48ab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
+  slotContainer: {fileID: 1750449707}
+  slotPrefab: {fileID: 1246632391185272974, guid: a6ad8455b128669468310dfcb76fb53d, type: 3}
 --- !u!43 &2112692583
 Mesh:
   m_ObjectHideFlags: 0
@@ -6845,9 +6749,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2674319552279355643, guid: 8dd72e409af5d25449cdeec0e1f25a92, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6776244428342020735, guid: 8dd72e409af5d25449cdeec0e1f25a92, type: 3}
       propertyPath: m_Name
       value: Item1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156359703144637051, guid: 8dd72e409af5d25449cdeec0e1f25a92, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6897,8 +6809,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13912dbe172336a489f6d5e01b29b22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectableItem
-  itemData: {fileID: 11400000, guid: 40a2fd970a82aa6479773aca9161dbca, type: 2}
-  pickupPrompt: {fileID: 850490542}
+  item: {fileID: 11400000, guid: 40a2fd970a82aa6479773aca9161dbca, type: 2}
+  collectText: {fileID: 850490542}
 --- !u!1001 &2496045929205208776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6959,9 +6871,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3011829344694724522, guid: 68028e1e64633a24bb5ae9b56ffb88e8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6440044090325938423, guid: 68028e1e64633a24bb5ae9b56ffb88e8, type: 3}
       propertyPath: m_Name
       value: Item3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6813247952783299400, guid: 68028e1e64633a24bb5ae9b56ffb88e8, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7011,8 +6931,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13912dbe172336a489f6d5e01b29b22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectableItem
-  itemData: {fileID: 11400000, guid: a13962601548ad042817b5bd18bc160a, type: 2}
-  pickupPrompt: {fileID: 850490542}
+  item: {fileID: 11400000, guid: a13962601548ad042817b5bd18bc160a, type: 2}
+  collectText: {fileID: 850490542}
 --- !u!1001 &3471962489233169710
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7095,9 +7015,6 @@ PrefabInstance:
       insertIndex: 5
       addedObject: {fileID: 1577758346}
     - targetCorrespondingSourceObject: {fileID: 2598382427026741565, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
-      insertIndex: 7
-      addedObject: {fileID: 1577758354}
-    - targetCorrespondingSourceObject: {fileID: 2598382427026741565, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1577758355}
   m_SourcePrefab: {fileID: 100100000, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
@@ -7109,6 +7026,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1523021913}
     m_Modifications:
+    - target: {fileID: 1612534131052847652, guid: e35ea04397dc1d54b87fa3de2b4188f9, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2667352728251871264, guid: e35ea04397dc1d54b87fa3de2b4188f9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7959318038726971079, guid: e35ea04397dc1d54b87fa3de2b4188f9, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -7213,8 +7138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13912dbe172336a489f6d5e01b29b22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectableItem
-  itemData: {fileID: 11400000, guid: 89b3640579f2c3743a6958d98f0972e2, type: 2}
-  pickupPrompt: {fileID: 850490542}
+  item: {fileID: 11400000, guid: 89b3640579f2c3743a6958d98f0972e2, type: 2}
+  collectText: {fileID: 850490542}
 --- !u!1001 &7370740883140276981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7223,6 +7148,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1523021913}
     m_Modifications:
+    - target: {fileID: 1431621154796528133, guid: 7fc3bdff977b3024f94c7a5fe9463780, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1556325261885870759, guid: 7fc3bdff977b3024f94c7a5fe9463780, type: 3}
       propertyPath: m_Name
       value: Item5
@@ -7279,6 +7208,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5152799439934921126, guid: 7fc3bdff977b3024f94c7a5fe9463780, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7327,8 +7260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13912dbe172336a489f6d5e01b29b22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectableItem
-  itemData: {fileID: 11400000, guid: 6cac22fe17c79b34cad1338b6199c950, type: 2}
-  pickupPrompt: {fileID: 850490542}
+  item: {fileID: 11400000, guid: 6cac22fe17c79b34cad1338b6199c950, type: 2}
+  collectText: {fileID: 850490542}
 --- !u!1001 &8114435531064270993
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7340,6 +7273,14 @@ PrefabInstance:
     - target: {fileID: 2845303081814613927, guid: 555fc9590bfb1a645a96adf0753af121, type: 3}
       propertyPath: m_Name
       value: Item4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308571653705646726, guid: 555fc9590bfb1a645a96adf0753af121, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7556840423668754536, guid: 555fc9590bfb1a645a96adf0753af121, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9208808699556971960, guid: 555fc9590bfb1a645a96adf0753af121, type: 3}
       propertyPath: m_LocalScale.x
@@ -7441,8 +7382,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13912dbe172336a489f6d5e01b29b22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectableItem
-  itemData: {fileID: 11400000, guid: 64d305b9c41615d45a11bc16107d7875, type: 2}
-  pickupPrompt: {fileID: 850490542}
+  item: {fileID: 11400000, guid: 64d305b9c41615d45a11bc16107d7875, type: 2}
+  collectText: {fileID: 850490542}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

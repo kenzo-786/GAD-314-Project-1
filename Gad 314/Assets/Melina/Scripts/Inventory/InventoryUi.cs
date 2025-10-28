@@ -1,39 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    public GameObject inventoryPanel;
     public Transform slotContainer;
     public GameObject slotPrefab;
 
-    private bool isOpen = false;
-    private PlayerInventory playerInventory;
-
     void Start()
     {
-        playerInventory = FindObjectOfType<PlayerInventory>();
-        inventoryPanel.SetActive(false);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (slotContainer == null || slotPrefab == null)
         {
-            isOpen = !isOpen;
-            inventoryPanel.SetActive(isOpen);
+            Debug.LogError("InventoryUI not set correctly in Inspector!");
+            return;
         }
+
+        gameObject.SetActive(true);
+        Debug.Log("Inventory UI initialized and always visible.");
     }
 
     public void RefreshInventory(List<InventoryItem> items)
     {
-        foreach (Transform c in slotContainer) Destroy(c.gameObject);
-        for (int i = 0; i < playerInventory.maxSlots; i++)
+        foreach (Transform child in slotContainer)
+            Destroy(child.gameObject);
+
+        foreach (var item in items)
         {
             GameObject slot = Instantiate(slotPrefab, slotContainer);
             InventorySlotUI slotUI = slot.GetComponent<InventorySlotUI>();
-            if (i < items.Count) slotUI.Setup(items[i], playerInventory);
-            else slotUI.SetupEmpty(playerInventory);
+            slotUI.SetItem(item);
         }
     }
 }

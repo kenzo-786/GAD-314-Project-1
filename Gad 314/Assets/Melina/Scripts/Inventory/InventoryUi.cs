@@ -1,41 +1,39 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class InventoryUi : MonoBehaviour
+public class InventoryUI : MonoBehaviour
 {
-    public Inventory inventory;
-    public Transform slotParent;
+    public GameObject inventoryPanel;
+    public Transform slotContainer;
     public GameObject slotPrefab;
 
-    private void Start()
+    private bool isOpen = false;
+    private PlayerInventory playerInventory;
+
+    void Start()
     {
-        if (inventory == null || slotParent == null || slotPrefab == null) return;
-        inventory.OnItemAdded += AddSlotForItem;
+        playerInventory = FindObjectOfType<PlayerInventory>();
+        inventoryPanel.SetActive(false);
     }
 
-    private void OnDestroy()
+    void Update()
     {
-        if (inventory != null)
-            inventory.OnItemAdded -= AddSlotForItem;
-    }
-
-    private void AddSlotForItem(ItemStack stack)
-    {
-        GameObject slot = Instantiate(slotPrefab, slotParent);
-        Transform iconTransform = slot.transform.Find("Icon");
-        Transform countTransform = slot.transform.Find("CountText");
-
-        if (iconTransform != null)
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            Image icon = iconTransform.GetComponent<Image>();
-            icon.sprite = stack.item.icon;
-            icon.enabled = true;
+            isOpen = !isOpen;
+            inventoryPanel.SetActive(isOpen);
         }
+    }
 
-        if (countTransform != null)
+    public void RefreshInventory(List<InventoryItem> items)
+    {
+        foreach (Transform c in slotContainer) Destroy(c.gameObject);
+        for (int i = 0; i < playerInventory.maxSlots; i++)
         {
-            Text countText = countTransform.GetComponent<Text>();
-            countText.text = stack.quantity > 1 ? stack.quantity.ToString() : "";
+            GameObject slot = Instantiate(slotPrefab, slotContainer);
+            InventorySlotUI slotUI = slot.GetComponent<InventorySlotUI>();
+            if (i < items.Count) slotUI.Setup(items[i], playerInventory);
+            else slotUI.SetupEmpty(playerInventory);
         }
     }
 }

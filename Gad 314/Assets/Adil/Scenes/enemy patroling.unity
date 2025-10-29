@@ -1698,6 +1698,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &617829677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2598382427026741565, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
+  m_PrefabInstance: {fileID: 682404395}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &673403875
 Mesh:
   m_ObjectHideFlags: 0
@@ -1951,7 +1956,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2598382427026741565, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1084624626}
   m_SourcePrefab: {fileID: 100100000, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
 --- !u!1 &734465806
 GameObject:
@@ -2623,6 +2631,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3925442856377844406, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
   m_PrefabInstance: {fileID: 682404395}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1084624626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617829677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483c587b0c1959e46a6576873ca1c37d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dashing
+  dashSpeed: 15
+  dashTime: 0.2
 --- !u!1 &1160047204
 GameObject:
   m_ObjectHideFlags: 0
@@ -75108,8 +75130,8 @@ MonoBehaviour:
   wayPoints: {fileID: 1601000775}
   waitAtPoint: 2
   currentState: 0
-  chaseRange: 10.83
-  suspiciousTime: 5.62
+  chaseRange: 8
+  suspiciousTime: 0
 --- !u!136 &2751188439634481831
 CapsuleCollider:
   m_ObjectHideFlags: 0

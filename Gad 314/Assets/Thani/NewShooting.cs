@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 using Unity.Cinemachine;
 
 public class NewShooting : MonoBehaviour
@@ -11,19 +11,21 @@ public class NewShooting : MonoBehaviour
     public float xAxis, yAxis;
     public Transform camFollowPos;
 
-    //-----------------------------------//
+    public CinemachineCamera vCam;
+    public float adsFov = 40;
+    public float hipFov;
+    public float currentFov;
+    public float fovSmoothSpeed = 10;
 
-    public float bSpeed;
-    public float firingRate, bDamage;
-    public int bAmount = 0;
-
-    public Transform bTransform;
-    public GameObject bPrefab;
-
-    private float timer;
+    public Transform aimPos;
+    public Vector3 actualAimPos;
+    public float aimSpeed = 20;
+    public LayerMask aimMask;
 
     void Start()
     {
+        vCam = GetComponentInChildren<CinemachineCamera>();
+        hipFov = vCam.Lens.FieldOfView;
         SwitchState(Hip);
     }
 
@@ -33,20 +35,17 @@ public class NewShooting : MonoBehaviour
         yAxis -= Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
         yAxis = Mathf.Clamp(yAxis, -80, 80);
 
+        vCam.Lens.FieldOfView = Mathf.Lerp(vCam.Lens.FieldOfView, currentFov, fovSmoothSpeed * Time.deltaTime);
+
+        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
+        {
+            aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSpeed * Time.deltaTime);
+        }
+
         curState.UpdateState(this);
-
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime / firingRate;
-        }
-
-        if (Input.GetButtonDown("Fire1") && timer <= 0 && bAmount > 0)
-        {
-            Shoot();
-            Debug.Log("He shoots!");
-            bAmount--;
-            Debug.Log("Bullets left: " + bAmount);
-        }
     }
 
     private void LateUpdate()
@@ -59,22 +58,5 @@ public class NewShooting : MonoBehaviour
     {
         curState = state;
         curState.EnterState(this);
-    }
-
-    void Shoot()
-    {
-        GameObject bullet = Instantiate(bPrefab, bTransform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().AddForce(bTransform.forward * bSpeed, ForceMode.Impulse);
-        bullet.GetComponent<BulletBehavior>().pain = bDamage;
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Bullet Pick-Up")
-        {
-            bAmount = 10;
-            Destroy(other.gameObject);
-            Debug.Log("Picked up 10 ammo!");
-        }
     }
 }

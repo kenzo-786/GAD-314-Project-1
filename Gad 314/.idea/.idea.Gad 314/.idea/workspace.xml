@@ -6,12 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Scenes/enemy patroling/NavMesh-Floor.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Scenes/enemy patroling/NavMesh-Floor.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/scripts/Patroling.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/scripts/Patroling.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Materials/Future-era.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Materials/Future-era.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Materials/New Material.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Materials/New Material.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Scenes/lab 2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Scenes/lab 2.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/enemy patroling 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/enemy patroling 1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/enemy patroling 1/NavMesh-Floor.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/enemy patroling 1/NavMesh-Floor.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +35,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemFloat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/PlayerInventory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Player/PlayerHealth.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/Unlit.shader" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />

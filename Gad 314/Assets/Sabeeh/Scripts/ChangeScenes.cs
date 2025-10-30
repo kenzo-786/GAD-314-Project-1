@@ -7,18 +7,5 @@ public class ChangeScenes : MonoBehaviour
     {
         SceneManager.LoadScene("SceneTwo");
     }
-    public void GoToSceneThree()
-    {
-        SceneManager.LoadScene("SceneThree");
-    }
 
-    public void GoToSceneFour()
-    {
-        SceneManager.LoadScene("SceneFour");
-    }
-
-    public void GoToSceneFive()
-    {
-        SceneManager.LoadScene("SceneFive");
-    }
 }

@@ -6,17 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Materials/Future-era.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Materials/Future-era.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Materials/New Material.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Materials/New Material.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Scenes/lab 2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Scenes/lab 2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/enemy patroling 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/enemy patroling 1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/enemy patroling 1/NavMesh-Floor.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/enemy patroling 1/NavMesh-Floor.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="printScope" value="1" />
+    <option name="PRINT_LINE_NUMBERS" value="true" />
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Downloads" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />

@@ -1898,6 +1898,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2776640743435606255, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
+      propertyPath: jumpHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2776640743435606255, guid: 136641435cc9c8941881a2a1ddee69ea, type: 3}
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 877230995}
@@ -2201,7 +2205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734465806}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18818326, y: 0.0076907887, z: -0.0014736521, w: 0.98210275}
+  m_LocalRotation: {x: 0.18818356, y: 0.007489928, z: -0.0014351647, w: 0.9821043}
   m_LocalPosition: {x: 26.798, y: 3.0715554, z: 15.946459}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2543,7 +2547,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877230992}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1881833, y: 0.007690789, z: -0.0014736524, w: 0.98210275}
+  m_LocalRotation: {x: 0.18818359, y: 0.0074899294, z: -0.001435165, w: 0.9821043}
   m_LocalPosition: {x: 26.798, y: 3.0715554, z: 15.946459}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

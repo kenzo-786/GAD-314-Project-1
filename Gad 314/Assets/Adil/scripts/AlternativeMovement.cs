@@ -12,6 +12,7 @@ public class AlternativeMovement : MonoBehaviour
     public float standingHeight = 2f;
     public float crouchSpeed = 2f;
     public KeyCode crouchKey = KeyCode.LeftControl;
+    public Vector3 moveDir;
 
     private CharacterController controller;
     private float rotationY;
@@ -39,16 +40,21 @@ public class AlternativeMovement : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         Vector3 move = new Vector3(horizontal, 0f, vertical).normalized;
-       // Vector3 moveDir = transform.TransformDirection(move);
+        // Vector3 moveDir = transform.TransformDirection(move);
+
+        float targetYRotation = cameraTransform.eulerAngles.y;
+        moveDir = Quaternion.Euler(0f, targetYRotation, 0f) * move;
+
 
         if (move.magnitude >= 0.1f)
         {
-            float targetYRotation = cameraTransform.eulerAngles.y;
             transform.rotation = Quaternion.Euler(0f, targetYRotation, 0f);
-            Vector3 moveDir = Quaternion.Euler(0f, targetYRotation, 0f) * move;
-
             float speed = isCrouching ? crouchSpeed : moveSpeed;
             controller.Move(moveDir * speed * Time.deltaTime);
+        }
+        else
+        {
+            moveDir = Vector3.zero;
         }
 
         

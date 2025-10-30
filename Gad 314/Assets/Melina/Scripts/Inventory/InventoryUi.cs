@@ -1,41 +1,34 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryUi : MonoBehaviour
+public class InventoryUI : MonoBehaviour
 {
-    public Inventory inventory;
-    public Transform slotParent;
+    public Transform slotContainer;
     public GameObject slotPrefab;
 
-    private void Start()
+    void Start()
     {
-        if (inventory == null || slotParent == null || slotPrefab == null) return;
-        inventory.OnItemAdded += AddSlotForItem;
-    }
-
-    private void OnDestroy()
-    {
-        if (inventory != null)
-            inventory.OnItemAdded -= AddSlotForItem;
-    }
-
-    private void AddSlotForItem(ItemStack stack)
-    {
-        GameObject slot = Instantiate(slotPrefab, slotParent);
-        Transform iconTransform = slot.transform.Find("Icon");
-        Transform countTransform = slot.transform.Find("CountText");
-
-        if (iconTransform != null)
+        if (slotContainer == null || slotPrefab == null)
         {
-            Image icon = iconTransform.GetComponent<Image>();
-            icon.sprite = stack.item.icon;
-            icon.enabled = true;
+            Debug.LogError("InventoryUI not set correctly in Inspector!");
+            return;
         }
 
-        if (countTransform != null)
+        gameObject.SetActive(true);
+        Debug.Log("Inventory UI initialized and always visible.");
+    }
+
+    public void RefreshInventory(List<InventoryItem> items)
+    {
+        foreach (Transform child in slotContainer)
+            Destroy(child.gameObject);
+
+        foreach (var item in items)
         {
-            Text countText = countTransform.GetComponent<Text>();
-            countText.text = stack.quantity > 1 ? stack.quantity.ToString() : "";
+            GameObject slot = Instantiate(slotPrefab, slotContainer);
+            InventorySlotUI slotUI = slot.GetComponent<InventorySlotUI>();
+            slotUI.SetItem(item);
         }
     }
 }

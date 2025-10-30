@@ -3,25 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void StartGame()
+    // Called when Play button is clicked
+    public void PlayGame()
     {
-        // Load your main game scene
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("SceneOne");
     }
 
-    public void OpenSettings(GameObject settingsPanel)
+    public void ExitGame()
     {
-        settingsPanel.SetActive(true);
-    }
-
-    public void OpenCredits(GameObject creditsPanel)
-    {
-        creditsPanel.SetActive(true);
-    }
-
-    public void QuitGame()
-    {
-        Debug.Log("Quit Game");
+        Debug.Log("Exit button clicked!");
         Application.Quit();
-    }
+ }
 }

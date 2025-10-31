@@ -11,8 +11,13 @@ public class AlternativeMovement : MonoBehaviour
     public float crouchHeight = 1f;
     public float standingHeight = 2f;
     public float crouchSpeed = 2f;
-    public KeyCode crouchKey = KeyCode.LeftControl;
+    [SerializeField] KeyCode crouchKey = KeyCode.LeftControl;
     public Vector3 moveDir;
+
+    [Header("Jump settings")]
+    [SerializeField] float jumpHeight = 1.5f;
+    [SerializeField] KeyCode jumpKey = KeyCode.Space;
+
 
     private CharacterController controller;
     private float rotationY;
@@ -31,6 +36,7 @@ public class AlternativeMovement : MonoBehaviour
         HandleMovement();
         ApplyGravity();
         HandleCrouch();
+        HandleJump();
     }
 
     private void HandleMovement()
@@ -59,6 +65,20 @@ public class AlternativeMovement : MonoBehaviour
 
         
     }
+
+    private void HandleJump()
+    {
+        if (controller.isGrounded && Input.GetKeyDown(jumpKey) && !isCrouching)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        if (Input.GetKeyUp(jumpKey) && velocity.y > 0)
+        {
+            velocity.y *= 0.5f;
+        }
+    
+}
 
     private void HandleCrouch()
     {

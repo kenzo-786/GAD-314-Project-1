@@ -362,11 +362,10 @@ MonoBehaviour:
   - {fileID: 2086042994}
   - {fileID: 1509471580}
   - {fileID: 743301402}
-  - {fileID: 0}
   trailGuide: {fileID: 1217245391}
   player: {fileID: 462708948}
   triggerDistance: 1.5
-  waves: 4
+  waves: 1
   enemiesPerWave: 4
   delayBetweenWaves: 3
 --- !u!65 &345392896
@@ -1617,7 +1616,7 @@ Transform:
   m_GameObject: {fileID: 1739660750}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.58948, y: -1, z: -19.07542}
+  m_LocalPosition: {x: -4.58948, y: -1, z: 1.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

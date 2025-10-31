@@ -4,6 +4,7 @@ public class GunEnabler : MonoBehaviour
 {
     public NewShooting shooting;
     public GameObject gun;
+    public bool isEnabled;
 
     void OnTriggerEnter(Collider other)
     {
@@ -11,6 +12,7 @@ public class GunEnabler : MonoBehaviour
         {
             Destroy(other.gameObject);
             shooting.enabled = true;
+            isEnabled = true;
             gun.SetActive(true);
         }
     }

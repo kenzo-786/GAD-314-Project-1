@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 8931608872380613150}
   - component: {fileID: 8168994258580797619}
   - component: {fileID: 5863953992828229016}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bullet
-  m_TagString: Bullet
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,5 +152,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf3591c802b34741be8ee3c9966cf64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBehavior
-  pain: 0
-  secondsToLive: 2
+  pain: 10
+  secondsToLive: 1

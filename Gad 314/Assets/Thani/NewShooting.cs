@@ -31,6 +31,7 @@ public class NewShooting : MonoBehaviour
     public Transform muzzle;                
     public bool useHitscan = true;          
     public float hitscanRange = 2000f;
+    public int bAmount = 0;
 
     [Header("Projectile")]
     public Rigidbody projectilePrefab;
@@ -38,6 +39,8 @@ public class NewShooting : MonoBehaviour
 
     public LineRenderer tracer;            
     public float tracerDuration = 0.03f;
+
+    public GunEnabler enabler;
 
     void Start()
     {
@@ -78,8 +81,14 @@ public class NewShooting : MonoBehaviour
         // === Input: Fire ===
         if (Input.GetButtonDown("Fire1"))
         {
-            if (useHitscan) FireHitscan();
-            else FireProjectile();
+            if (enabler.isEnabled == true)
+            {
+                Debug.Log("He shoots!");
+                bAmount--;
+                Debug.Log("Bullets left: " + bAmount);
+                if (useHitscan) FireHitscan();
+                else FireProjectile();
+            }
         }
 
         if (curState != null) curState.UpdateState(this);

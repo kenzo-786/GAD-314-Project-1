@@ -17,9 +17,6 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Terrain")
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }

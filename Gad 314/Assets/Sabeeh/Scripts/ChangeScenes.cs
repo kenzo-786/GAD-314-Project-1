@@ -7,5 +7,8 @@ public class ChangeScenes : MonoBehaviour
     {
         SceneManager.LoadScene("SceneTwo");
     }
-
+    public void GoToSceneThree()
+    {
+        SceneManager.LoadScene("SceneThree");
+    }
 }

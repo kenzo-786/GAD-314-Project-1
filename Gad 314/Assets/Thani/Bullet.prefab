@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5863953992828229016}
   m_Layer: 3
   m_Name: Bullet
-  m_TagString: Terrain
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,3 +154,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletBehavior
   pain: 10
   secondsToLive: 1
+  enemy: {fileID: 0}

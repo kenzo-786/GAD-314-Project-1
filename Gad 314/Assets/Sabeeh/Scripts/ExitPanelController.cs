@@ -50,7 +50,7 @@ public class ExitPanelController : MonoBehaviour
     {
 
 
-        
+        Debug.Log("Pressed");
         SceneManager.LoadScene("DeveloperMenu");
     }
 }

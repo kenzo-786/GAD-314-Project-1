@@ -684,7 +684,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Credits: Anna'
+  m_text: "Credits: \nAll Credits go to Investor Anna"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dde6a914ad8bbbc42966c113477bccd2, type: 2}
   m_sharedMaterial: {fileID: 1659299721230443956, guid: dde6a914ad8bbbc42966c113477bccd2, type: 2}
@@ -749,7 +749,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 64.15346, w: 0}
+  m_margin: {x: 0, y: 0, z: 13.651058, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

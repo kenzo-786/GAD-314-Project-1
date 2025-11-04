@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class Crosshair : MonoBehaviour
 {
-    void Awake()
-    {
-        Cursor.visible = false;
-    }
+    public Texture2D cursorTexture;
+    private Vector2 cursorHotspot;
 
-    void Update()
+    void Start()
     {
-        Vector2 mouseCursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mouseCursorPos;
+        cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
+        Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.Auto);
     }
 }

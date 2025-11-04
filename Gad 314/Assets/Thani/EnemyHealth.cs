@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public BulletBehavior bulletDamage;
-    public int health = 100;
+    public float health = 100;
+    public BulletBehavior bullet;
 
     void Update()
     {
@@ -13,13 +13,16 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "Bullet")
+        if (other.gameObject.tag == "Bullet")
         {
-            bulletDamage = other.gameObject.GetComponent<BulletBehavior>();
-            bulletDamage.pain -= health;
+            bullet = other.gameObject.GetComponent<BulletBehavior>();
+            Debug.Log("Enemy hit!");
+            health -= bullet.pain;
+            Debug.Log(health);
             Destroy(other.gameObject);
+            Debug.Log("Bullet destroyed!");
         }
     }
 }

@@ -17,6 +17,10 @@ public class BulletBehavior : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Destroy(gameObject);
+        if (other.gameObject.tag == "Terrain")
+        {
+            Debug.Log("Hit the level!");
+            Destroy(gameObject);
+        }
     }
 }

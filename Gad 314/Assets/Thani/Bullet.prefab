@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8931608872380613150}
   - component: {fileID: 8168994258580797619}
   - component: {fileID: 5863953992828229016}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -152,5 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf3591c802b34741be8ee3c9966cf64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletBehavior
-  pain: 0
-  secondsToLive: 2
+  pain: 10
+  secondsToLive: 1
+  enemy: {fileID: 0}

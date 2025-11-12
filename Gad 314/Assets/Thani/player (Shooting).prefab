@@ -221,10 +221,8 @@ GameObject:
   - component: {fileID: 7292970680627332058}
   - component: {fileID: 2516903572508620101}
   - component: {fileID: 470193516959304410}
-  - component: {fileID: 9124069143811478912}
   - component: {fileID: 5438948338994683613}
   - component: {fileID: 1605211200621825032}
-  - component: {fileID: 1861980599101615340}
   - component: {fileID: 3579037778640580691}
   m_Layer: 0
   m_Name: player (Shooting)
@@ -331,20 +329,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9124069143811478912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5960014615114639437}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1713d0e35074aa4ba4fd00f295ff796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Movement
-  speed: 5
-  mouseSensi: 2
 --- !u!114 &5438948338994683613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +349,7 @@ MonoBehaviour:
   standingHeight: 2
   crouchSpeed: 2
   crouchKey: 304
+  moveDir: {x: 0, y: 0, z: 0}
 --- !u!143 &1605211200621825032
 CharacterController:
   m_ObjectHideFlags: 0
@@ -390,24 +375,6 @@ CharacterController:
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1861980599101615340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5960014615114639437}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10eda696c96fc4fb78c77ede3812cfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Shooting
-  bSpeed: 50
-  firingRate: 0.1
-  bDamage: 5
-  bAmount: 10
-  bTransform: {fileID: 2786362389065666522}
-  bPrefab: {fileID: 250830781735753546, guid: 87f7bd6e21b524e7fb40f9ddd7815c7e, type: 3}
 --- !u!114 &3579037778640580691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,7 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5594d636ffb7b49909ea815efff2e99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GunEnabler
-  shooting: {fileID: 1861980599101615340}
+  shooting: {fileID: 0}
   gun: {fileID: 8303151349533388736}
 --- !u!1 &8303151349533388736
 GameObject:

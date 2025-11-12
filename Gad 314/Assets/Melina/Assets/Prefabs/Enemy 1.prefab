@@ -194,9 +194,10 @@ GameObject:
   - component: {fileID: 1327994308310092658}
   - component: {fileID: 1496691287992108192}
   - component: {fileID: 3039434588096045473}
+  - component: {fileID: 5986466877844682332}
   m_Layer: 0
   m_Name: Enemy 1
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -290,14 +291,14 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.07474749
-  m_Height: 0.27692133
+  m_Radius: 0.1
+  m_Height: 0.3
   m_Direction: 1
-  m_Center: {x: -0.0036806874, y: 0.1380476, z: -0.0074715912}
+  m_Center: {x: 0, y: 0.1380476, z: -0.0074715912}
 --- !u!114 &3514728218123180346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +351,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AlternativePatrolling
   wayPoints: {fileID: 0}
+  waitAtPoint: 2
+  chaseRange: 5
+  suspiciousTime: 3
+  currentState: 1
 --- !u!114 &3039434588096045473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,6 +368,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyFollow
   target: {fileID: 0}
+--- !u!114 &5986466877844682332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445929634832112001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feadb1ad616c9449da536725244c7149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  health: 100
+  bullet: {fileID: 5863953992828229016, guid: 87f7bd6e21b524e7fb40f9ddd7815c7e, type: 3}
 --- !u!1 &7599535998679754021
 GameObject:
   m_ObjectHideFlags: 0

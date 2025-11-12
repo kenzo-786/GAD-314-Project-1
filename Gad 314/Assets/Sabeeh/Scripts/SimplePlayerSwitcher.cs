@@ -5,8 +5,8 @@ public class SimplePlayerSwitcher : MonoBehaviour
     public PlayerMovement player1;
     public PlayerMovement player2;
 
-    public float swapRange = 5f; // Maximum distance for swapping
-    public float player2FollowSpeed = 3f; // Speed at which Player 2 follows Player 1
+    public float swapRange = 5f; 
+    public float player2FollowSpeed = 3f; 
 
     private PlayerMovement activePlayer;
     private Transform cameraTransform;
@@ -51,7 +51,7 @@ public class SimplePlayerSwitcher : MonoBehaviour
         {
             float step = player2FollowSpeed * Time.deltaTime;
             float distance = Vector3.Distance(player1.transform.position, player2.transform.position);
-            if (distance > 1f) // Keep a small distance
+            if (distance > 1f) 
             {
                 player2.transform.position = Vector3.MoveTowards(player2.transform.position, player1.transform.position, step);
             }

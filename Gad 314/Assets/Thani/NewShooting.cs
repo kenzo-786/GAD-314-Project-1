@@ -1,31 +1,57 @@
- using UnityEngine;
+using UnityEngine;
 using Unity.Cinemachine;
 
 public class NewShooting : MonoBehaviour
 {
-    NewPlayerAimBase curState;
+    private NewPlayerAimBase curState;
     public HipFiring Hip = new HipFiring();
     public Aiming Aim = new Aiming();
 
-    public float mouseSensitivity = 1;
+    [Header("Look")]
+    [Range(0.05f, 10f)] public float mouseSensitivity = 1f;
     public float xAxis, yAxis;
     public Transform camFollowPos;
 
-    public CinemachineCamera vCam;
-    public float adsFov = 40;
-    public float hipFov;
-    public float currentFov;
-    public float fovSmoothSpeed = 10;
+    [Header("Camera")]
+    public CinemachineCamera vCam;          
+    public Camera gameplayCam;              
+    public float adsFov = 40f;
+    [HideInInspector] public float hipFov;
+    [HideInInspector] public float currentFov;
+    public float fovSmoothSpeed = 10f;
 
-    public Transform aimPos;
+    [Header("Aim")]
+    public Transform aimPos;               
     public Vector3 actualAimPos;
-    public float aimSpeed = 20;
-    public LayerMask aimMask;
+    public float aimSpeed = 20f;
+    public LayerMask aimMask = ~0;          
+    public float maxAimDistance = 2000f;
+
+    [Header("Firing")]
+    public Transform muzzle;                
+    public bool useHitscan = true;          
+    public float hitscanRange = 2000f;
+    public int bAmount = 0;
+
+    [Header("Projectile")]
+    public Rigidbody projectilePrefab;
+    public float projectileSpeed = 120f;
+
+    public LineRenderer tracer;            
+    public float tracerDuration = 0.03f;
+
+    public GunEnabler enabler;
 
     void Start()
     {
-        vCam = GetComponentInChildren<CinemachineCamera>();
-        hipFov = vCam.Lens.FieldOfView;
+        if (vCam == null) vCam = GetComponentInChildren<CinemachineCamera>();
+        if (gameplayCam == null) gameplayCam = Camera.main;
+
+        if (vCam != null)
+        {
+            hipFov = vCam.Lens.FieldOfView;
+            currentFov = hipFov;
+        }
         SwitchState(Hip);
     }
 
@@ -33,30 +59,113 @@ public class NewShooting : MonoBehaviour
     {
         xAxis += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
         yAxis -= Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-        yAxis = Mathf.Clamp(yAxis, -80, 80);
+        yAxis = Mathf.Clamp(yAxis, -80f, 80f);
 
-        vCam.Lens.FieldOfView = Mathf.Lerp(vCam.Lens.FieldOfView, currentFov, fovSmoothSpeed * Time.deltaTime);
+        if (vCam != null)
+            vCam.Lens.FieldOfView = Mathf.Lerp(vCam.Lens.FieldOfView, currentFov, fovSmoothSpeed * Time.deltaTime);
 
-        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
+        Ray aimRay = GetAimRay();
+        if (Physics.Raycast(aimRay, out RaycastHit hit, maxAimDistance, aimMask, QueryTriggerInteraction.Ignore))
         {
-            aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSpeed * Time.deltaTime);
+            Vector3 target = hit.point;
+            aimPos.position = Vector3.Lerp(aimPos.position, target, aimSpeed * Time.deltaTime);
+            actualAimPos = target;
+        }
+        else
+        {
+            Vector3 fallback = aimRay.GetPoint(maxAimDistance);
+            aimPos.position = Vector3.Lerp(aimPos.position, fallback, aimSpeed * Time.deltaTime);
+            actualAimPos = fallback;
         }
 
-        curState.UpdateState(this);
+        // === Input: Fire ===
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if (enabler.isEnabled == true)
+            {
+                Debug.Log("He shoots!");
+                bAmount--;
+                Debug.Log("Bullets left: " + bAmount);
+                if (useHitscan) FireHitscan();
+                else FireProjectile();
+            }
+        }
+
+        if (curState != null) curState.UpdateState(this);
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
-        camFollowPos.localEulerAngles = new Vector3(yAxis, camFollowPos.localEulerAngles.y, camFollowPos.localEulerAngles.z);
-        transform.eulerAngles = new Vector3(camFollowPos.localEulerAngles.x, xAxis, camFollowPos.localEulerAngles.z);
+        if (camFollowPos != null)
+        {
+            camFollowPos.localEulerAngles = new Vector3(
+                yAxis, camFollowPos.localEulerAngles.y, camFollowPos.localEulerAngles.z
+            );
+        }
+
+        transform.rotation = Quaternion.Euler(0f, xAxis, 0f);
     }
 
     public void SwitchState(NewPlayerAimBase state)
     {
         curState = state;
-        curState.EnterState(this);
+        curState?.EnterState(this);
+    }
+
+    public void SetADS(bool adsOn)
+    {
+        currentFov = adsOn ? adsFov : hipFov;
+    }
+
+    Ray GetAimRay()
+    {
+        Camera cam = gameplayCam != null ? gameplayCam : Camera.main;
+        Vector3 mp = Input.mousePosition;
+        return cam.ScreenPointToRay(mp);
+    }
+
+    void FireHitscan()
+    {
+        if (muzzle == null)
+        {
+            Debug.LogWarning("[NewShooting] Missing muzzle Transform.");
+            return;
+        }
+
+        Ray ray = GetAimRay();
+
+        Vector3 endPoint = ray.GetPoint(hitscanRange);
+        if (Physics.Raycast(ray, out RaycastHit hit, hitscanRange, aimMask, QueryTriggerInteraction.Ignore))
+        {
+            endPoint = hit.point;
+        }
+
+        if (tracer != null)
+        {
+            StartCoroutine(DoTracer(muzzle.position, endPoint));
+        }
+    }
+
+    void FireProjectile()
+    {
+        if (muzzle == null || projectilePrefab == null)
+        {
+            Debug.LogWarning("[NewShooting] Missing muzzle or projectile prefab.");
+            return;
+        }
+
+        Vector3 dir = (actualAimPos - muzzle.position).normalized;
+        Rigidbody rb = Instantiate(projectilePrefab, muzzle.position, Quaternion.LookRotation(dir));
+        rb.linearVelocity = dir * projectileSpeed;
+    }
+
+    System.Collections.IEnumerator DoTracer(Vector3 a, Vector3 b)
+    {
+        tracer.enabled = true;
+        tracer.positionCount = 2;
+        tracer.SetPosition(0, a);
+        tracer.SetPosition(1, b);
+        yield return new WaitForSeconds(tracerDuration);
+        tracer.enabled = false;
     }
 }

@@ -19,6 +19,7 @@ public class BulletBehavior : MonoBehaviour
     {
         if (other.gameObject.tag == "Terrain")
         {
+            Debug.Log("Hit the level!");
             Destroy(gameObject);
         }
     }

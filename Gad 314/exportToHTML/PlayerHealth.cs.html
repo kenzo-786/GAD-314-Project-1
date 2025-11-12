@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>PlayerHealth.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #f47067;}
+.s1 { color: #adbac7;}
+.s2 { color: #adbac7;}
+.s3 { color: #6cb6ff;}
+.s4 { color: #96d0ff;}
+</style>
+</head>
+<body bgcolor="#22272e">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+PlayerHealth.cs</font>
+</center></td></tr></table>
+<pre><span class="s0">using </span><span class="s1">UnityEngine</span><span class="s2">;</span>
+<span class="s0">using </span><span class="s1">UnityEngine.UI</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">PlayerHealth : MonoBehaviour</span>
+<span class="s1">{</span>
+    <span class="s0">public float </span><span class="s1">maxHealth </span><span class="s0">= </span><span class="s3">100f</span><span class="s2">;</span>
+    <span class="s0">public float </span><span class="s1">currentHealth</span><span class="s2">;</span>
+    <span class="s0">public float </span><span class="s1">regenRate </span><span class="s0">= </span><span class="s3">5f</span><span class="s2">;</span>
+    <span class="s0">private bool </span><span class="s1">isBeingChased </span><span class="s0">= false</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">Slider healthBar</span><span class="s2">;</span>
+    <span class="s0">public </span><span class="s1">GameObject damageTextPrefab</span><span class="s2">;</span>
+
+    <span class="s0">private void </span><span class="s1">Start()</span>
+    <span class="s1">{</span>
+        <span class="s1">currentHealth </span><span class="s0">= </span><span class="s1">maxHealth</span><span class="s2">;</span>
+        <span class="s0">if </span><span class="s1">(healthBar </span><span class="s0">!= null</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s1">healthBar.maxValue </span><span class="s0">= </span><span class="s1">maxHealth</span><span class="s2">;</span>
+            <span class="s1">healthBar.value </span><span class="s0">= </span><span class="s1">currentHealth</span><span class="s2">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">Update()</span>
+    <span class="s1">{</span>
+        <span class="s0">if </span><span class="s1">(!isBeingChased </span><span class="s0">&amp;&amp; </span><span class="s1">currentHealth </span><span class="s0">&lt; </span><span class="s1">maxHealth)</span>
+        <span class="s1">{</span>
+            <span class="s1">currentHealth </span><span class="s0">+= </span><span class="s1">regenRate </span><span class="s0">* </span><span class="s1">Time.deltaTime</span><span class="s2">;</span>
+            <span class="s1">currentHealth </span><span class="s0">= </span><span class="s1">Mathf.Min(currentHealth</span><span class="s2">, </span><span class="s1">maxHealth)</span><span class="s2">;</span>
+            <span class="s1">UpdateHealthUI()</span><span class="s2">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">TakeDamage(</span><span class="s0">float </span><span class="s1">damage)</span>
+    <span class="s1">{</span>
+        <span class="s1">currentHealth </span><span class="s0">-= </span><span class="s1">damage</span><span class="s2">;</span>
+        <span class="s1">currentHealth </span><span class="s0">= </span><span class="s1">Mathf.Max(currentHealth</span><span class="s2">, </span><span class="s3">0</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">UpdateHealthUI()</span><span class="s2">;</span>
+        <span class="s1">ShowDamageText(damage)</span><span class="s2">;</span>
+
+        <span class="s0">if </span><span class="s1">(currentHealth </span><span class="s0">&lt;= </span><span class="s3">0</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s1">Debug.Log(</span><span class="s4">&quot;Player died!&quot;</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">SetChased(</span><span class="s0">bool </span><span class="s1">chased)</span>
+    <span class="s1">{</span>
+        <span class="s1">isBeingChased </span><span class="s0">= </span><span class="s1">chased</span><span class="s2">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">UpdateHealthUI()</span>
+    <span class="s1">{</span>
+        <span class="s0">if </span><span class="s1">(healthBar </span><span class="s0">!= null</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s1">healthBar.value </span><span class="s0">= </span><span class="s1">currentHealth</span><span class="s2">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">ShowDamageText(</span><span class="s0">float </span><span class="s1">damage)</span>
+    <span class="s1">{</span>
+        <span class="s0">if </span><span class="s1">(damageTextPrefab </span><span class="s0">!= null</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s1">Vector3 screenPos </span><span class="s0">= </span><span class="s1">Camera.main.WorldToScreenPoint(transform.position </span><span class="s0">+ </span><span class="s1">Vector3.up </span><span class="s0">* </span><span class="s3">2f </span><span class="s0">+ </span><span class="s1">Vector3.right </span><span class="s0">* </span><span class="s3">1f</span><span class="s1">)</span><span class="s2">;</span>
+            <span class="s1">GameObject dmgText </span><span class="s0">= </span><span class="s1">Instantiate(damageTextPrefab</span><span class="s2">, </span><span class="s1">screenPos</span><span class="s2">, </span><span class="s1">Quaternion.identity)</span><span class="s2">;</span>
+            <span class="s0">if </span><span class="s1">(GameObject.Find(</span><span class="s4">&quot;Canvas&quot;</span><span class="s1">) </span><span class="s0">!= null</span><span class="s1">)</span>
+                <span class="s1">dmgText.transform.SetParent(GameObject.Find(</span><span class="s4">&quot;Canvas&quot;</span><span class="s1">).transform</span><span class="s2">, </span><span class="s0">false</span><span class="s1">)</span><span class="s2">;</span>
+
+            <span class="s1">Text text </span><span class="s0">= </span><span class="s1">dmgText.GetComponent</span><span class="s0">&lt;</span><span class="s1">Text</span><span class="s0">&gt;</span><span class="s1">()</span><span class="s2">;</span>
+            <span class="s0">if </span><span class="s1">(text </span><span class="s0">!= null</span><span class="s1">)</span>
+            <span class="s1">{</span>
+                <span class="s1">text.text </span><span class="s0">= </span><span class="s4">&quot;-&quot; </span><span class="s0">+ </span><span class="s1">damage.ToString(</span><span class="s4">&quot;0&quot;</span><span class="s1">)</span><span class="s2">;</span>
+                <span class="s1">text.color </span><span class="s0">= </span><span class="s1">Color.red</span><span class="s2">;</span>
+            <span class="s1">}</span>
+
+            <span class="s1">Destroy(dmgText</span><span class="s2">, </span><span class="s3">1f</span><span class="s1">)</span><span class="s2">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

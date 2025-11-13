@@ -168,4 +168,14 @@ public class NewShooting : MonoBehaviour
         yield return new WaitForSeconds(tracerDuration);
         tracer.enabled = false;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Bullet Pick-Up")
+        {
+            bAmount = 10;
+            Destroy(other.gameObject);
+            Debug.Log("Picked up 10 ammo!");
+        }
+    }
 }

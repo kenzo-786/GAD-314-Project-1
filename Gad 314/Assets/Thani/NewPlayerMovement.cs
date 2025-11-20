@@ -25,6 +25,9 @@ public class NewPlayerMovement : MonoBehaviour
     public Running Run = new Running();
     public Crouching Crouch = new Crouching();
 
+    public AudioSource gunPickUp;
+    public AudioSource bulletPickUp;
+
     void Start()
     {
         control = GetComponent<CharacterController>();
@@ -68,5 +71,18 @@ public class NewPlayerMovement : MonoBehaviour
         else if (velocity.y < 0) velocity.y = -2;
 
         control.Move(velocity * Time.deltaTime);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Gun Pick-Up")
+        {
+            gunPickUp.Play();
+        }
+
+        if (other.gameObject.tag == "Bullet Pick-Up")
+        {
+            bulletPickUp.Play();
+        }
     }
 }

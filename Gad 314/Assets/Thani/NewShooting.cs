@@ -6,6 +6,7 @@ public class NewShooting : MonoBehaviour
     private NewPlayerAimBase curState;
     public HipFiring Hip = new HipFiring();
     public Aiming Aim = new Aiming();
+    public AudioSource shootSFX;
 
     [Header("Look")]
     [Range(0.05f, 10f)] public float mouseSensitivity = 1f;
@@ -86,6 +87,7 @@ public class NewShooting : MonoBehaviour
                 Debug.Log("He shoots!");
                 bAmount--;
                 Debug.Log("Bullets left: " + bAmount);
+                shootSFX.Play();
                 if (useHitscan) FireHitscan();
                 else FireProjectile();
             }

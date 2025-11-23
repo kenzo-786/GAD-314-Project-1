@@ -4,6 +4,7 @@ public class EnemyHealth : MonoBehaviour
 {
     public float health = 100;
     public BulletBehavior bullet;
+    public AudioSource hit;
 
     void Update()
     {
@@ -21,6 +22,7 @@ public class EnemyHealth : MonoBehaviour
             Debug.Log("Enemy hit!");
             health -= bullet.pain;
             Debug.Log(health);
+            hit.Play();
             Destroy(other.gameObject);
             Debug.Log("Bullet destroyed!");
         }

@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Materials/New Material.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Materials/New Material.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/SciLab.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/SciLab.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,6 +138,7 @@
       <workItem from="1763918947280" duration="692000" />
       <workItem from="1763920469293" duration="855000" />
       <workItem from="1763975052491" duration="754000" />
+      <workItem from="1763993396876" duration="798000" />
     </task>
     <servers />
   </component>

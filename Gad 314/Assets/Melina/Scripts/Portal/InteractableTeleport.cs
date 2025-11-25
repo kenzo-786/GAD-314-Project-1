@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class InteractableTeleport : MonoBehaviour 
+public class InteractableTeleport : MonoBehaviour
 {
     public string sceneToLoad;
     public float holdTime = 2f;
@@ -13,6 +13,7 @@ public class InteractableTeleport : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Start() called. promptText = " + (promptText == null ? "NULL" : "Assigned"));
         promptText.gameObject.SetActive(false);
     }
 
@@ -27,6 +28,7 @@ public class InteractableTeleport : MonoBehaviour
 
                 if (holdTimer >= holdTime)
                 {
+                    Debug.Log("Teleport triggered");
                     Teleport();
                 }
             }
@@ -40,23 +42,34 @@ public class InteractableTeleport : MonoBehaviour
 
     private void Teleport()
     {
+        Debug.Log("Scene loading: " + sceneToLoad);
         SceneManager.LoadScene(sceneToLoad);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Trigger Enter called by: " + other.name);
+
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Player detected in trigger");
             playerNear = true;
             promptText.text = "Hold T to Teleport";
             promptText.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Entered object is NOT Player. Tag = " + other.tag);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Trigger Exit called by: " + other.name);
+
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Player left trigger");
             playerNear = false;
             holdTimer = 0f;
             promptText.gameObject.SetActive(false);

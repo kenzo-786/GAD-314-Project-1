@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/SciLab.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/SciLab.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,9 +34,12 @@
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemFloat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/PlayerInventory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Lights/SpotlightFlicker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Player/PlayerHealth.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Portal/TimeTravelPortal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/Unlit.shader" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.timeline@6b9e48457ddb/Editor/treeview/TrackGui/TimelineGroupGUI.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -62,7 +66,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/Hands On Head Build\Gad 314.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/OneDrive/Desktop/GAD314 week 8\Gad 314.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\hoiit\OneDrive\Desktop\Hands On Head Build" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -132,6 +136,13 @@
       <workItem from="1761659554235" duration="4110000" />
       <workItem from="1761829453415" duration="14000" />
       <workItem from="1761829488109" duration="4002000" />
+      <workItem from="1763918947280" duration="692000" />
+      <workItem from="1763920469293" duration="855000" />
+      <workItem from="1763975052491" duration="754000" />
+      <workItem from="1763993396876" duration="798000" />
+      <workItem from="1764024797595" duration="1171000" />
+      <workItem from="1764048745367" duration="709000" />
+      <workItem from="1764057416522" duration="2503000" />
     </task>
     <servers />
   </component>

@@ -45,8 +45,15 @@ public class NewShooting : MonoBehaviour
 
     void Start()
     {
-        if (vCam == null) vCam = GetComponentInChildren<CinemachineCamera>();
-        if (gameplayCam == null) gameplayCam = Camera.main;
+        if (vCam == null)
+        {
+            vCam = GetComponentInChildren<CinemachineCamera>();
+        }
+
+        if (gameplayCam == null)
+        {
+            gameplayCam = Camera.main;
+        }
 
         if (vCam != null)
         {
@@ -88,8 +95,14 @@ public class NewShooting : MonoBehaviour
                 bAmount--;
                 Debug.Log("Bullets left: " + bAmount);
                 shootSFX.Play();
-                if (useHitscan) FireHitscan();
-                else FireProjectile();
+                if (useHitscan)
+                {
+                    FireHitscan();
+                }
+                else
+                {
+                    FireProjectile();
+                }
             }
         }
 

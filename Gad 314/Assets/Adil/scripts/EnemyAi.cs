@@ -36,7 +36,7 @@ public class EnemyAi : MonoBehaviour
     void Start()
     {
         playerPos = Vector3.zero;
-        isPartol = true;
+        isPartol = true;    
         caughtPlayer = false;
         playerInRange = false;
         waitTime = startTime;

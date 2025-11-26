@@ -5,7 +5,7 @@ using TMPro;
 public class InventoryManager3 : MonoBehaviour
 {
     [Header("Configuration")]
-    public int slotCount = 5;
+    public int slotCount = 6;
     public Color selectedColor = Color.yellow;
     public Color normalColor = Color.white;
 
@@ -58,6 +58,7 @@ public class InventoryManager3 : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3)) SelectSlot(2);
         if (Input.GetKeyDown(KeyCode.Alpha4)) SelectSlot(3);
         if (Input.GetKeyDown(KeyCode.Alpha5)) SelectSlot(4);
+        if (Input.GetKeyDown(KeyCode.Alpha6)) SelectSlot(5);
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
 
@@ -146,10 +147,61 @@ public class InventoryManager3 : MonoBehaviour
 
             if (slots[i].count > 0)
             {
+                Sprite icon = GetIconForType(slots[i].type);
+                slotImages[i].sprite = icon;
+                slotImages[i].enabled = true;
 
+                slotImages[i].preserveAspect = true;
+
+                if (countTexts[i] != null)
+                    countTexts[i].text = slots[i].count.ToString();
+            }
+            else
+            {
+                slotImages[i].sprite = null;
+                slotImages[i].enabled = false;
+
+                if (countTexts[i] != null)
+                    countTexts[i].text = "";
             }
         }
     }
+
+    private Sprite GetIconForType(ItemType type)
+    {
+        foreach (var item in allItems)
+        {
+            if (item.type == type) return item.icon;
+        }
+        return null;
+    }
+
+    [System.Serializable]
+    public class ItemDefinition
+    {
+        public string name;
+        public ItemType type;
+        public Sprite icon;
+    }
+
+    public class InventorySlot
+    {
+        public ItemType type;
+        public int count;
+    }
+
+    public enum ItemType
+    {
+        None,
+        Egg,
+        Crystal,
+        Volcanic,
+        Flower,
+        Stone,
+        Radar
+    }
+
+
 }
     
 

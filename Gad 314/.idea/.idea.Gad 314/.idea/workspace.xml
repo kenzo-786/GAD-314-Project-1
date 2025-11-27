@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scene/SciLab.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scene/SciLab.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/scripts/HoldToTeleport.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/scripts/HoldToTeleport.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/scripts/LevelLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/scripts/LevelLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MainGame/SciLab.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainGame/SciLab.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +37,9 @@
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/InventoryUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/ItemFloat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Inventory/PlayerInventory.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Lights/SpotlightFlicker.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Lights/SpotLightFlicker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Player/PlayerHealth.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Portal/TeleportSpawnPoint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Melina/Scripts/Portal/TimeTravelPortal.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/Lit.shader" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@1e1527b3a17b/Shaders/Unlit.shader" root0="SKIP_HIGHLIGHTING" />

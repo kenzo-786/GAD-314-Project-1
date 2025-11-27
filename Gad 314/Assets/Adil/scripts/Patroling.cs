@@ -6,127 +6,130 @@ using UnityEngine.AI;
 
 public class Patroling : MonoBehaviour
 {
-enum AIState
-{
-    Idle, Patrolling, Chasing
-}
-
-[Header("Patrol")]
-[SerializeField] private Transform wayPoints;
-[SerializeField] private float waitAtPoint = 2f;
-private int currentWayPoint;
-private float waitCounter;
-
-[Header("Component")]
-NavMeshAgent agent;
-
-
-[Header("AI State")]
-[SerializeField] AIState currentState;
-
-[Header("chasing")]
-[SerializeField] private float chaseRange;
-
-[Header("Suspicious")]
-[SerializeField] private float suspiciousTime;
-private float lastSawPlayer;
-
-private GameObject player;
-
-private void Start()
-{
-    agent = GetComponent<NavMeshAgent>();
-    player = GameObject.FindGameObjectWithTag("Player");
-
-    currentWayPoint = 0;
-    waitCounter = waitAtPoint;
-    lastSawPlayer = suspiciousTime;
-
-    agent.isStopped = false;
-    agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
-
-    Debug.Log(wayPoints.childCount);
-  
-
-
-}
-
-private void Update()
-{
-
-    Debug.Log(currentState + " | " + agent.isStopped + " | " + agent.remainingDistance);
-
-
-
-    if (!agent.pathPending && agent.remainingDistance <= 0.2f)
+    public enum AIState
     {
-        currentWayPoint = (currentWayPoint + 1) % wayPoints.childCount;
-        agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
+        Idle, Patrolling, Chasing, Investigating
     }
 
-    float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+   
+    
+        [Header("Patrol")]
+        public Transform wayPoints;
+        public float waitAtPoint = 2f;
+        private int currentWayPoint = 0;
+        private float waitCounter;
 
-    switch (currentState)
-    {
-        case AIState.Idle:
+        [Header("Components")]
+        private NavMeshAgent agent;
+        private Renderer rend;
 
-            if(waitCounter > 0)
+        [Header("AI State")]
+        public AIState currentState;
+
+        [Header("Chasing")]
+        public float chaseRange;
+
+        [Header("Noise")]
+        public float hearRange = 30f;
+
+        private Vector3 targetPosition;
+        private GameObject player;
+
+        private bool investigatingRock = false;
+
+        void Start()
+        {
+            agent = GetComponent<NavMeshAgent>();
+            rend = GetComponent<Renderer>();
+            player = GameObject.FindGameObjectWithTag("Player");
+
+            waitCounter = waitAtPoint;
+
+            RockDistraction.onRockThrown += OnRockNoise;
+
+            // Start patrolling
+            currentState = AIState.Patrolling;
+            agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
+        }
+
+        void OnDestroy()
+        {
+            RockDistraction.onRockThrown -= OnRockNoise;
+        }
+
+        void Update()
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+            switch (currentState)
+            {
+                case AIState.Patrolling:
+                    HandlePatrol();
+                    if (distanceToPlayer <= chaseRange)
+                        currentState = AIState.Chasing;
+                    break;
+
+                case AIState.Chasing:
+                    agent.isStopped = false;
+                    agent.SetDestination(player.transform.position);
+                    if (distanceToPlayer > chaseRange)
+                        currentState = investigatingRock ? AIState.Investigating : AIState.Patrolling;
+                    break;
+
+                case AIState.Investigating:
+                    agent.isStopped = false;
+                    agent.SetDestination(targetPosition);
+
+                    // Reached rock, go back to patrol
+                    if (Vector3.Distance(transform.position, targetPosition) < 0.5f)
+                    {
+                        investigatingRock = false;
+                        currentState = AIState.Patrolling;
+                        SetNextPatrolPoint();
+                    }
+
+                    if (distanceToPlayer <= chaseRange)
+                        currentState = AIState.Chasing;
+                    break;
+            }
+        }
+
+        void HandlePatrol()
+        {
+            if (!agent.pathPending && agent.remainingDistance < 0.2f)
             {
                 waitCounter -= Time.deltaTime;
-            }
-            else
-            {
-                currentState = AIState.Patrolling;
-                agent.isStopped = false;
-                agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
-            }
-            if(distanceToPlayer <= chaseRange)
-            {
-                currentState = AIState.Chasing;
-            }
-            break;
-
-
-        case AIState.Patrolling:
-
-            agent.isStopped = false;
-
-            if (!agent.pathPending && agent.remainingDistance <= 0.2f)
-            {
-                currentWayPoint = (currentWayPoint + 1) % wayPoints.childCount;
-                currentState = AIState.Idle;
-                waitCounter = waitAtPoint;
-            }
-
-            if (distanceToPlayer <= chaseRange)
-            {
-                currentState = AIState.Chasing;
-            }
-            break;
-
-        case AIState.Chasing:
-
-            agent.isStopped = false;
-            agent.SetDestination(player.transform.position);
-
-            if (distanceToPlayer > chaseRange)
-            {
-                lastSawPlayer -= Time.deltaTime;
-
-                if (lastSawPlayer <= 0)
+                if (waitCounter <= 0f)
                 {
-                    currentState = AIState.Idle;
-                    lastSawPlayer = suspiciousTime;
+                    SetNextPatrolPoint();
                 }
             }
-            else
+        }
+
+        void SetNextPatrolPoint()
+        {
+            currentWayPoint = (currentWayPoint + 1) % wayPoints.childCount;
+            agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
+            waitCounter = waitAtPoint;
+        }
+
+        void OnRockNoise(Vector3 pos)
+        {
+            if (Vector3.Distance(transform.position, pos) <= hearRange)
             {
-                
-                lastSawPlayer = suspiciousTime;
+                targetPosition = pos;
+                investigatingRock = true;
+                currentState = AIState.Investigating;
+
+                StartCoroutine(FlashRed());
             }
+        }
 
-            break;
-
+        IEnumerator FlashRed()
+        {
+            Color original = rend.material.color;
+            rend.material.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            rend.material.color = original;
+        }
     }
-}
-}

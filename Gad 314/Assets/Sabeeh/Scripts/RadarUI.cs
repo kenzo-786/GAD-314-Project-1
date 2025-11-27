@@ -1,98 +1,94 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class RadarUI : MonoBehaviour
 {
+    public Image radarBackground;  // The radar image
+    public Image playerDot;
+    public GameObject enemyDotPrefab;
 
-    public Transform player;
-    public RectTransform radarPanel;
-    public RectTransform playerDot;        // Green dot
-    public GameObject enemyDotPrefab;      // Red dot prefab
+    public float radarRange = 30f; // detection radius
 
-    [Header("Settings")]
-    public float radarRange = 30f;
-
-    private bool radarEnabled = false;
-    private Dictionary<Transform, GameObject> enemyDots = new Dictionary<Transform, GameObject>();
+    private List<Image> enemyDots = new List<Image>();
+    private List<GameObject> enemies = new List<GameObject>();
+    private bool radarActive = false;
+    private Transform player;
 
     void Start()
     {
-        radarPanel.gameObject.SetActive(false);
+        radarBackground.gameObject.SetActive(false);
         playerDot.gameObject.SetActive(false);
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
-        if (!radarEnabled) return;
+        if (!radarActive) return;
 
-        // Update enemy dots positions relative to player
+        UpdatePlayerDot();
         UpdateEnemyDots();
     }
 
     public void EnableRadar()
     {
-        radarEnabled = true;
-        radarPanel.gameObject.SetActive(true);
+        radarActive = true;
+        radarBackground.gameObject.SetActive(true);
         playerDot.gameObject.SetActive(true);
     }
 
-    // Called when pressing R
-    public void Scan()
+    // Called when player presses R
+    public void ActivateEnemyDots()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        // Find all enemies in the scene
+        GameObject[] foundEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        enemies.Clear();
+        enemies.AddRange(foundEnemies);
 
-        foreach (GameObject enemy in enemies)
+        // Destroy previous dots
+        foreach (var dot in enemyDots)
+            Destroy(dot.gameObject);
+        enemyDots.Clear();
+
+        // Create new enemy dots
+        foreach (var enemy in enemies)
         {
-            Transform enemyTransform = enemy.transform;
-            float distance = Vector3.Distance(player.position, enemyTransform.position);
-
-            if (distance <= radarRange)
-            {
-                if (!enemyDots.ContainsKey(enemyTransform))
-                {
-                    GameObject dot = Instantiate(enemyDotPrefab, radarPanel);
-                    dot.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                    enemyDots.Add(enemyTransform, dot);
-                }
-            }
+            Image dot = Instantiate(enemyDotPrefab, radarBackground.transform).GetComponent<Image>();
+            dot.color = Color.red;
+            enemyDots.Add(dot);
         }
-
-        // Remove enemies out of range
-        List<Transform> toRemove = new List<Transform>();
-        foreach (var pair in enemyDots)
-        {
-            float dist = Vector3.Distance(player.position, pair.Key.position);
-            if (dist > radarRange)
-            {
-                Destroy(pair.Value);
-                toRemove.Add(pair.Key);
-            }
-        }
-        foreach (Transform t in toRemove)
-            enemyDots.Remove(t);
     }
 
-    void UpdateEnemyDots()
+    private void UpdatePlayerDot()
     {
-        foreach (var pair in enemyDots)
+        // Player always in center
+        playerDot.rectTransform.anchoredPosition = Vector2.zero;
+    }
+
+    private void UpdateEnemyDots()
+    {
+        for (int i = 0; i < enemies.Count; i++)
         {
-            Transform enemy = pair.Key;
-            GameObject dot = pair.Value;
+            if (i >= enemyDots.Count) continue;
 
-            // Calculate offset relative to player
-            Vector3 offset = enemy.position - player.position;
+            Vector3 offset = enemies[i].transform.position - player.position;
 
-            // Rotate offset so it matches radar orientation (player forward is up)
-            Vector3 rotatedOffset = Quaternion.Inverse(Quaternion.Euler(0, player.eulerAngles.y, 0)) * offset;
+            // Convert to 2D radar space
+            Vector2 pos = new Vector2(offset.x, offset.z);
 
-            // Scale for radar panel
-            float x = (rotatedOffset.x / radarRange) * (radarPanel.sizeDelta.x / 2);
-            float y = (rotatedOffset.z / radarRange) * (radarPanel.sizeDelta.y / 2);
+            // Rotate relative to player forward
+            float angle = Mathf.Atan2(pos.y, pos.x) - Mathf.Atan2(player.forward.z, player.forward.x);
+            float distance = pos.magnitude;
 
-            dot.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
+            distance = Mathf.Min(distance, radarRange); // clamp to radar range
+
+            float radarRadius = radarBackground.rectTransform.rect.width / 2f;
+
+            float x = Mathf.Cos(angle) * (distance / radarRange) * radarRadius;
+            float y = Mathf.Sin(angle) * (distance / radarRange) * radarRadius;
+
+            enemyDots[i].rectTransform.anchoredPosition = new Vector2(x, y);
         }
-
-        // Player dot stays at center
-        playerDot.anchoredPosition = Vector2.zero;
     }
 }

@@ -1,13 +1,12 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class ThirdPersonMovement : MonoBehaviour
 {
-    [Header("Movement")]
     public float walkSpeed = 6f;
     public float sprintSpeed = 12f;
-
     public float turnSmoothTime = 0.1f;
 
     [Header("Jumping & Gravity")]
@@ -21,6 +20,18 @@ public class ThirdPersonMovement : MonoBehaviour
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;
 
+    [Header("Rock Interaction")]
+    public Transform holdPoint;
+    public float throwForce = 15f;
+    public float pickupRange = 3f;
+
+    [Header("Radar")]
+    public float radarRange = 20f;
+    public GameObject radarUI;
+    public Transform radarIconPrefab; 
+    private List<Transform> radarIcons = new List<Transform>();
+    private bool hasRadar = false;
+
     [Header("References")]
     public Transform cameraTransform;
 
@@ -30,70 +41,70 @@ public class ThirdPersonMovement : MonoBehaviour
     private bool _isGrounded;
 
     private bool _isDashing;
-    private float _dashTimeLeft;
     private float _lastDashTime;
+
+    private GameObject heldRock;
+    private GameObject nearbyRadar; 
 
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
-
         if (cameraTransform == null)
-        {
             cameraTransform = Camera.main.transform;
-        }
+
+        if (radarUI != null)
+            radarUI.SetActive(false);
     }
 
     private void Update()
     {
         _isGrounded = _controller.isGrounded;
+        if (_isGrounded && _velocity.y < 0) _velocity.y = -2f;
 
-        if (_isGrounded && _velocity.y < 0)
+        HandleDash();
+
+        if (!_isDashing)
         {
-            _velocity.y = -2f;
-
-            HandleDash();
+            HandleMovement();
+            HandleJump();
         }
-        if (_isDashing) return;
 
-        HandleMovement();
-        HandleJump();
         ApplyGravity();
+        HandleRadarPickup();
+        HandleRockInteraction();
+        UpdateRadar();
     }
 
+    #region Movement
     private void HandleMovement()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        Vector3 dir = new Vector3(h, 0f, v).normalized;
 
-        float targetSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
 
-        if (direction.magnitude >= 0.1f)
+        if (dir.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
-
+            float targetAngle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            _controller.Move(moveDir.normalized * targetSpeed * Time.deltaTime);
+            _controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
     }
 
     private void HandleJump()
     {
         if (Input.GetButtonDown("Jump") && _isGrounded)
-        {
             _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
     }
 
     private void HandleDash()
     {
         if (Input.GetKeyDown(KeyCode.E) && Time.time >= _lastDashTime + dashCooldown)
-        {
             StartCoroutine(DashRoutine());
-        }
     }
 
     private IEnumerator DashRoutine()
@@ -101,26 +112,13 @@ public class ThirdPersonMovement : MonoBehaviour
         _isDashing = true;
         _lastDashTime = Time.time;
 
-        Vector3 dashDir;
-
-        if (_controller.velocity.sqrMagnitude > 0.1f)
-        {
-            dashDir = transform.forward;
-        }
-        else
-        {
-            Vector3 camForward = cameraTransform.forward;
-            camForward.y = 0;
-            dashDir = camForward.normalized;
-
-            if (dashDir.sqrMagnitude > 0.01f)
-            {
-                transform.rotation = Quaternion.LookRotation(dashDir);
-            }
-        }
+        Vector3 dashDir = _controller.velocity.sqrMagnitude > 0.1f ? transform.forward : cameraTransform.forward;
+        dashDir.y = 0;
+        dashDir.Normalize();
+        if (dashDir.sqrMagnitude > 0.01f)
+            transform.rotation = Quaternion.LookRotation(dashDir);
 
         float startTime = Time.time;
-
         while (Time.time < startTime + dashDuration)
         {
             _controller.Move(dashDir * dashSpeed * Time.deltaTime);
@@ -132,15 +130,123 @@ public class ThirdPersonMovement : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (_velocity.y < 0)
-        {
-            _velocity.y += gravity * gravityMultiplier * Time.deltaTime;
-        }
-        else
-        {
-            _velocity.y += gravity * Time.deltaTime;
-        }
-
+        _velocity.y += (_velocity.y < 0 ? gravity * gravityMultiplier : gravity) * Time.deltaTime;
         _controller.Move(_velocity * Time.deltaTime);
     }
+    #endregion
+
+    #region Rock Interaction
+    private void HandleRockInteraction()
+    {
+       
+        if (Input.GetKeyDown(KeyCode.T) && heldRock == null)
+        {
+            Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
+            foreach (Collider hit in hits)
+            {
+                if (hit.CompareTag("Rock"))
+                {
+                    heldRock = hit.gameObject;
+                    Rigidbody rb = heldRock.GetComponent<Rigidbody>();
+                    rb.isKinematic = true;
+                    heldRock.transform.position = holdPoint.position;
+                    heldRock.transform.rotation = holdPoint.rotation;
+                    heldRock.transform.parent = holdPoint;
+                    break;
+                }
+            }
+        }
+
+        
+        if (heldRock != null && Input.GetMouseButtonDown(0))
+        {
+            heldRock.transform.parent = null;
+
+            Rigidbody rb = heldRock.GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+            rb.velocity = Vector3.zero;
+
+            heldRock.transform.position = holdPoint.position + cameraTransform.forward * 0.5f;
+
+            Vector3 throwDir = (cameraTransform.forward + Vector3.up * 0.7f).normalized;
+            rb.AddForce(throwDir * throwForce, ForceMode.Impulse);
+
+            RockImpact rockImpact = heldRock.GetComponent<RockImpact>();
+            if (rockImpact == null)
+                rockImpact = heldRock.AddComponent<RockImpact>();
+
+            rockImpact.Throw(throwDir * throwForce);
+
+            heldRock = null;
+        }
+
+        if (heldRock != null)
+        {
+            heldRock.transform.position = holdPoint.position;
+            heldRock.transform.rotation = holdPoint.rotation;
+        }
+    }
+    #endregion
+
+    #region Radar
+    private void HandleRadarPickup()
+    {
+       
+        Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
+        nearbyRadar = null;
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Radar"))
+            {
+                nearbyRadar = hit.gameObject;
+                break;
+            }
+        }
+
+      
+        if (nearbyRadar != null && Input.GetKeyDown(KeyCode.T))
+        {
+            hasRadar = true; // Player now has radar
+            if (radarUI != null)
+                radarUI.SetActive(true); // Show the UI
+
+            
+        }
+    }
+
+    private void UpdateRadar()
+    {
+        if (!hasRadar || radarUI == null || radarIconPrefab == null) return;
+
+       
+        foreach (Transform icon in radarIcons)
+            Destroy(icon.gameObject);
+        radarIcons.Clear();
+
+      
+        Collider[] hits = Physics.OverlapSphere(transform.position, radarRange);
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Enemy"))
+            {
+                Transform icon = Instantiate(radarIconPrefab, radarUI.transform);
+                icon.localPosition = new Vector3(
+                    (hit.transform.position.x - transform.position.x),
+                    (hit.transform.position.z - transform.position.z),
+                    0f
+                );
+                radarIcons.Add(icon);
+            }
+        }
+    }
+    #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, pickupRange);
+    }
 }
+
+

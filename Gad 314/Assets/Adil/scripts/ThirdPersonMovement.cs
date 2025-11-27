@@ -15,6 +15,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public float gravityMultiplier = 2f;
 
     [Header("Dash")]
+    public KeyCode dashKey = KeyCode.R;
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;

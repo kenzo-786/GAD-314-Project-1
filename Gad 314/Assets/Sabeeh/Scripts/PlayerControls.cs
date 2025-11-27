@@ -51,7 +51,6 @@ public class PlayerControls : MonoBehaviour
         Move();
     }
 
-    // --- CAMERA ---
     void Look()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -64,7 +63,6 @@ public class PlayerControls : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    // --- MOVEMENT ---
     void HandleMovementInput()
     {
         hInput = Input.GetAxis("Horizontal");
@@ -77,7 +75,6 @@ public class PlayerControls : MonoBehaviour
         rb.MovePosition(rb.position + move);
     }
 
-    // --- INTERACT ---
     void Interact()
     {
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
@@ -85,17 +82,11 @@ public class PlayerControls : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, hit.collider.transform.position);
 
-        // Rock pickup
-        if (hit.collider.CompareTag("Rock") && heldRock == null && distance <= interactRange && Input.GetKeyDown(KeyCode.E))
-        {
+        if (hit.collider.CompareTag("Rock") && heldRock == null && Input.GetKeyDown(KeyCode.E))
             PickupRock(hit.collider.gameObject);
-        }
 
-        // Radar pickup
-        if (hit.collider.CompareTag("Radar") && !hasRadar && distance <= interactRange && Input.GetKeyDown(KeyCode.E))
-        {
+        if (hit.collider.CompareTag("Radar") && !hasRadar && Input.GetKeyDown(KeyCode.E))
             PickupRadar(hit.collider.gameObject);
-        }
     }
 
     void PickupRock(GameObject rock)
@@ -112,69 +103,61 @@ public class PlayerControls : MonoBehaviour
     void PickupRadar(GameObject radar)
     {
         hasRadar = true;
-
         if (radarUI != null)
             radarUI.EnableRadar();
-
         Destroy(radar);
     }
 
-    // --- THROW ROCK ---
     void ThrowRock()
     {
         if (Input.GetMouseButtonDown(0) && heldRock != null)
         {
             Rigidbody rockRb = heldRock.GetComponent<Rigidbody>();
             Collider rockCol = heldRock.GetComponent<Collider>();
-            Collider playerCol = GetComponent<Collider>();
-            Physics.IgnoreCollision(rockCol, playerCol, true);
-
-            if (!heldRock.GetComponent<RockCollisionHelper>())
-                heldRock.AddComponent<RockCollisionHelper>();
+            Physics.IgnoreCollision(GetComponent<Collider>(), rockCol, true);
 
             heldRock.transform.SetParent(null);
-            rockRb.isKinematic = false;
-            rockRb.AddForce((cameraTransform.forward + Vector3.up * 0.3f) * throwForce, ForceMode.Impulse);
+
+            RockImpact rock = heldRock.GetComponent<RockImpact>();
+            Vector3 force = (cameraTransform.forward + Vector3.up * 0.3f) * throwForce;
+
+            if (rock != null)
+                rock.Throw(force);
+            else
+            {
+                rockRb.isKinematic = false;
+                rockRb.AddForce(force, ForceMode.Impulse);
+            }
 
             heldRock = null;
         }
     }
 
-    // --- RADAR SCAN INPUT ---
     void RadarScanInput()
     {
         if (hasRadar && !radarScanned && Input.GetKeyDown(KeyCode.R))
         {
             radarScanned = true;
             if (radarUI != null)
-                radarUI.ActivateEnemyDots(); // show enemies
+                radarUI.ActivateEnemyDots();
         }
     }
 
-    // --- FEEDBACK UI ---
     void UpdateFeedbackUI()
     {
-        bool showMessage = false;
+        feedbackUI.HideMessage();
 
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
-        {
-            float distance = Vector3.Distance(transform.position, hit.collider.transform.position);
+        if (!Physics.Raycast(ray, out RaycastHit hit, interactRange)) return;
 
-            if (hit.collider.CompareTag("Rock") && heldRock == null && distance <= interactRange)
-            {
-                feedbackUI.ShowMessage("Press E to pick up rock");
-                showMessage = true;
-            }
-            else if (hit.collider.CompareTag("Radar") && !hasRadar && distance <= interactRange)
-            {
-                feedbackUI.ShowMessage("Press E to pick up radar");
-                showMessage = true;
-            }
-        }
+        if (hit.collider.CompareTag("Rock") && heldRock == null)
+            feedbackUI.ShowMessage("Press E to pick up rock");
 
-        if (!showMessage)
-            feedbackUI.HideMessage();
+        else if (hit.collider.CompareTag("Radar") && !hasRadar)
+            feedbackUI.ShowMessage("Press E to pick up radar");
     }
 }
+
+
+
 

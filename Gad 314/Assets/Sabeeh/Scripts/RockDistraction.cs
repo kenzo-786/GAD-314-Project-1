@@ -8,6 +8,8 @@ public class RockDistraction : MonoBehaviour
     public static void RockThrown(Vector3 position)
     {
         onRockThrown?.Invoke(position);
-        Debug.Log("Rock thrown at: " + position);
+        Debug.Log("Rock noise at: " + position);
     }
+    
 }
+

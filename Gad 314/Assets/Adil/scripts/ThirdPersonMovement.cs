@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class ThirdPersonMovement : MonoBehaviour
@@ -23,6 +24,13 @@ public class ThirdPersonMovement : MonoBehaviour
     public float throwForce = 15f;
     public float pickupRange = 3f;
 
+    [Header("Radar")]
+    public float radarRange = 20f;
+    public GameObject radarUI;
+    public Transform radarIconPrefab; 
+    private List<Transform> radarIcons = new List<Transform>();
+    private bool hasRadar = false;
+
     [Header("References")]
     public Transform cameraTransform;
 
@@ -35,12 +43,16 @@ public class ThirdPersonMovement : MonoBehaviour
     private float _lastDashTime;
 
     private GameObject heldRock;
+    private GameObject nearbyRadar; 
 
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
         if (cameraTransform == null)
             cameraTransform = Camera.main.transform;
+
+        if (radarUI != null)
+            radarUI.SetActive(false);
     }
 
     private void Update()
@@ -57,9 +69,12 @@ public class ThirdPersonMovement : MonoBehaviour
         }
 
         ApplyGravity();
+        HandleRadarPickup();
         HandleRockInteraction();
+        UpdateRadar();
     }
 
+    #region Movement
     private void HandleMovement()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -117,10 +132,12 @@ public class ThirdPersonMovement : MonoBehaviour
         _velocity.y += (_velocity.y < 0 ? gravity * gravityMultiplier : gravity) * Time.deltaTime;
         _controller.Move(_velocity * Time.deltaTime);
     }
+    #endregion
 
+    #region Rock Interaction
     private void HandleRockInteraction()
     {
-        // Pick up rock (T)
+       
         if (Input.GetKeyDown(KeyCode.T) && heldRock == null)
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
@@ -139,24 +156,20 @@ public class ThirdPersonMovement : MonoBehaviour
             }
         }
 
-        // Throw rock (Mouse1)
+        
         if (heldRock != null && Input.GetMouseButtonDown(0))
         {
-            // Detach
             heldRock.transform.parent = null;
 
             Rigidbody rb = heldRock.GetComponent<Rigidbody>();
             rb.isKinematic = false;
             rb.velocity = Vector3.zero;
 
-            // Place slightly in front
             heldRock.transform.position = holdPoint.position + cameraTransform.forward * 0.5f;
 
-            // Throw
             Vector3 throwDir = (cameraTransform.forward + Vector3.up * 0.7f).normalized;
             rb.AddForce(throwDir * throwForce, ForceMode.Impulse);
 
-            // Add RockImpact script if not present
             RockImpact rockImpact = heldRock.GetComponent<RockImpact>();
             if (rockImpact == null)
                 rockImpact = heldRock.AddComponent<RockImpact>();
@@ -166,13 +179,67 @@ public class ThirdPersonMovement : MonoBehaviour
             heldRock = null;
         }
 
-        // Keep rock following hold point
         if (heldRock != null)
         {
             heldRock.transform.position = holdPoint.position;
             heldRock.transform.rotation = holdPoint.rotation;
         }
     }
+    #endregion
+
+    #region Radar
+    private void HandleRadarPickup()
+    {
+       
+        Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
+        nearbyRadar = null;
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Radar"))
+            {
+                nearbyRadar = hit.gameObject;
+                break;
+            }
+        }
+
+      
+        if (nearbyRadar != null && Input.GetKeyDown(KeyCode.T))
+        {
+            hasRadar = true; // Player now has radar
+            if (radarUI != null)
+                radarUI.SetActive(true); // Show the UI
+
+            
+        }
+    }
+
+    private void UpdateRadar()
+    {
+        if (!hasRadar || radarUI == null || radarIconPrefab == null) return;
+
+       
+        foreach (Transform icon in radarIcons)
+            Destroy(icon.gameObject);
+        radarIcons.Clear();
+
+      
+        Collider[] hits = Physics.OverlapSphere(transform.position, radarRange);
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Enemy"))
+            {
+                Transform icon = Instantiate(radarIconPrefab, radarUI.transform);
+                icon.localPosition = new Vector3(
+                    (hit.transform.position.x - transform.position.x),
+                    (hit.transform.position.z - transform.position.z),
+                    0f
+                );
+                radarIcons.Add(icon);
+            }
+        }
+    }
+    #endregion
 
     private void OnDrawGizmosSelected()
     {
@@ -180,3 +247,5 @@ public class ThirdPersonMovement : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, pickupRange);
     }
 }
+
+

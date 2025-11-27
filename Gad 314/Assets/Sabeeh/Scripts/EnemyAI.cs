@@ -4,20 +4,18 @@ public class EnemyAI : MonoBehaviour
 {
     public float hearRange = 30f;
     public float moveSpeed = 3f;
-    public float groundCheckDistance = 1.3f;
+    public float stoppingDistance = 0.2f;
+    public float investigateDuration = 2f;
 
-    private Renderer rend;
     private Rigidbody rb;
-
     private Vector3 targetPosition;
     private bool movingToNoise = false;
+    private float investigateTimer = 0f;
 
     void Start()
     {
-        rend = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
 
-        // Lock physics rotation (prevents tipping over)
         rb.constraints = RigidbodyConstraints.FreezeRotationX |
                          RigidbodyConstraints.FreezeRotationZ;
 
@@ -33,23 +31,30 @@ public class EnemyAI : MonoBehaviour
     {
         if (!movingToNoise) return;
 
-        Vector3 direction = (targetPosition - transform.position);
-        direction.y = 0; // Keep movement horizontal
+        Vector3 direction = targetPosition - transform.position;
+        direction.y = 0;
+        float distance = direction.magnitude;
 
-        Vector3 move = direction.normalized * moveSpeed * Time.fixedDeltaTime;
-
-        rb.MovePosition(rb.position + move);
-
-        // Face movement direction
-        if (direction != Vector3.zero)
+        if (distance > stoppingDistance)
         {
-            Quaternion rot = Quaternion.LookRotation(direction);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, rot, 0.15f));
-        }
+            // Move only if not too close
+            Vector3 move = direction.normalized * moveSpeed * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + move);
 
-        // Stop if close
-        if (Vector3.Distance(transform.position, targetPosition) < 0.8f)
-            movingToNoise = false;
+            // Rotate smoothly
+            Quaternion targetRot = Quaternion.LookRotation(direction);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, 0.15f));
+        }
+        else
+        {
+            // At target, start investigate timer
+            investigateTimer += Time.fixedDeltaTime;
+            if (investigateTimer >= investigateDuration)
+            {
+                movingToNoise = false;
+                investigateTimer = 0f;
+            }
+        }
     }
 
     void OnRockNoise(Vector3 pos)
@@ -58,20 +63,7 @@ public class EnemyAI : MonoBehaviour
         {
             targetPosition = pos;
             movingToNoise = true;
+            investigateTimer = 0f;
         }
-    }
-
-    // Radar highlight
-    public void Highlight()
-    {
-        StartCoroutine(FlashRed());
-    }
-
-    IEnumerator FlashRed()
-    {
-        Color original = rend.material.color;
-        rend.material.color = Color.red;
-        yield return new WaitForSeconds(0.3f);
-        rend.material.color = original;
     }
 }

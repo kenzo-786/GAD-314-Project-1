@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class RockDistraction : MonoBehaviour
 {
-    public static Action<Vector3> onRockThrown;
+    public static event Action<Vector3> onRockThrown;
 
-    public static void Trigger(Vector3 pos)
+    public static void RockThrown(Vector3 position)
     {
-        onRockThrown?.Invoke(pos);
+        onRockThrown?.Invoke(position);
+        Debug.Log("Rock thrown at: " + position);
     }
 }

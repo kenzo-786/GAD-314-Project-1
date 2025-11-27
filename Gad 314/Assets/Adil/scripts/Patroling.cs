@@ -11,55 +11,45 @@ public class Patroling : MonoBehaviour
         Idle, Patrolling, Chasing, Investigating
     }
 
-    public class AIController : MonoBehaviour
-    {
+   
+    
         [Header("Patrol")]
-        [SerializeField] private Transform wayPoints;
-        [SerializeField] private float waitAtPoint = 2f;
-        private int currentWayPoint;
+        public Transform wayPoints;
+        public float waitAtPoint = 2f;
+        private int currentWayPoint = 0;
         private float waitCounter;
 
         [Header("Components")]
         private NavMeshAgent agent;
         private Renderer rend;
-        private Rigidbody rb;
 
         [Header("AI State")]
-        [SerializeField] private AIState currentState;
+        public AIState currentState;
 
         [Header("Chasing")]
-        [SerializeField] private float chaseRange;
-
-        [Header("Suspicious")]
-        [SerializeField] private float suspiciousTime;
-        private float lastSawPlayer;
+        public float chaseRange;
 
         [Header("Noise")]
         public float hearRange = 30f;
-        public float moveSpeed = 3f;
-        private Vector3 targetPosition;
-        private bool movingToNoise = false;
 
+        private Vector3 targetPosition;
         private GameObject player;
+
+        private bool investigatingRock = false;
 
         void Start()
         {
             agent = GetComponent<NavMeshAgent>();
-            rb = GetComponent<Rigidbody>();
             rend = GetComponent<Renderer>();
             player = GameObject.FindGameObjectWithTag("Player");
 
-            currentWayPoint = 0;
             waitCounter = waitAtPoint;
-            lastSawPlayer = suspiciousTime;
-
-            agent.isStopped = false;
-            agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
-
-            // Lock physics rotation
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 
             RockDistraction.onRockThrown += OnRockNoise;
+
+            // Start patrolling
+            currentState = AIState.Patrolling;
+            agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
         }
 
         void OnDestroy()
@@ -73,66 +63,30 @@ public class Patroling : MonoBehaviour
 
             switch (currentState)
             {
-                case AIState.Idle:
-                    agent.isStopped = false;
-
-                    if (waitCounter > 0)
-                        waitCounter -= Time.deltaTime;
-                    else
-                    {
-                        currentState = AIState.Patrolling;
-                        agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
-                    }
-
-                    if (distanceToPlayer <= chaseRange)
-                        currentState = AIState.Chasing;
-
-                    if (movingToNoise)
-                        currentState = AIState.Investigating;
-                    break;
-
                 case AIState.Patrolling:
-                    agent.isStopped = false;
-
-                    if (!agent.pathPending && agent.remainingDistance <= 0.2f)
-                    {
-                        currentWayPoint = (currentWayPoint + 1) % wayPoints.childCount;
-                        currentState = AIState.Idle;
-                        waitCounter = waitAtPoint;
-                    }
-
+                    HandlePatrol();
                     if (distanceToPlayer <= chaseRange)
                         currentState = AIState.Chasing;
-
-                    if (movingToNoise)
-                        currentState = AIState.Investigating;
                     break;
 
                 case AIState.Chasing:
                     agent.isStopped = false;
                     agent.SetDestination(player.transform.position);
-
                     if (distanceToPlayer > chaseRange)
-                    {
-                        lastSawPlayer -= Time.deltaTime;
-                        if (lastSawPlayer <= 0)
-                        {
-                            currentState = AIState.Idle;
-                            lastSawPlayer = suspiciousTime;
-                        }
-                    }
-                    else
-                    {
-                        lastSawPlayer = suspiciousTime;
-                    }
+                        currentState = investigatingRock ? AIState.Investigating : AIState.Patrolling;
                     break;
 
                 case AIState.Investigating:
-                    agent.isStopped = true; // stop NavMeshAgent while investigating
-                    MoveToNoise();
+                    agent.isStopped = false;
+                    agent.SetDestination(targetPosition);
 
-                    if (!movingToNoise)
-                        currentState = AIState.Idle;
+                    // Reached rock, go back to patrol
+                    if (Vector3.Distance(transform.position, targetPosition) < 0.5f)
+                    {
+                        investigatingRock = false;
+                        currentState = AIState.Patrolling;
+                        SetNextPatrolPoint();
+                    }
 
                     if (distanceToPlayer <= chaseRange)
                         currentState = AIState.Chasing;
@@ -140,24 +94,23 @@ public class Patroling : MonoBehaviour
             }
         }
 
-        void MoveToNoise()
+        void HandlePatrol()
         {
-            if (!movingToNoise) return;
-
-            Vector3 direction = targetPosition - transform.position;
-            direction.y = 0;
-
-            Vector3 move = direction.normalized * moveSpeed * Time.deltaTime;
-            rb.MovePosition(rb.position + move);
-
-            if (direction != Vector3.zero)
+            if (!agent.pathPending && agent.remainingDistance < 0.2f)
             {
-                Quaternion rot = Quaternion.LookRotation(direction);
-                rb.MoveRotation(Quaternion.Slerp(rb.rotation, rot, 0.15f));
+                waitCounter -= Time.deltaTime;
+                if (waitCounter <= 0f)
+                {
+                    SetNextPatrolPoint();
+                }
             }
+        }
 
-            if (Vector3.Distance(transform.position, targetPosition) < 0.8f)
-                movingToNoise = false;
+        void SetNextPatrolPoint()
+        {
+            currentWayPoint = (currentWayPoint + 1) % wayPoints.childCount;
+            agent.SetDestination(wayPoints.GetChild(currentWayPoint).position);
+            waitCounter = waitAtPoint;
         }
 
         void OnRockNoise(Vector3 pos)
@@ -165,14 +118,11 @@ public class Patroling : MonoBehaviour
             if (Vector3.Distance(transform.position, pos) <= hearRange)
             {
                 targetPosition = pos;
-                movingToNoise = true;
-                Highlight(); // optional visual feedback
-            }
-        }
+                investigatingRock = true;
+                currentState = AIState.Investigating;
 
-        public void Highlight()
-        {
-            StartCoroutine(FlashRed());
+                StartCoroutine(FlashRed());
+            }
         }
 
         IEnumerator FlashRed()
@@ -183,5 +133,3 @@ public class Patroling : MonoBehaviour
             rend.material.color = original;
         }
     }
-}
-    

@@ -5,25 +5,25 @@ public class PlayerControls : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float mouseSensitivity = 150f;
-
     public Transform cameraTransform;
 
-   
+    [Header("Throwing")]
     public Transform throwPoint;
     public float throwForce = 15f;
 
-    
+    [Header("Radar & Feedback")]
+    public float interactRange = 5f;
+    public FeedbackUI feedbackUI;
+    public RadarUI radarUI;
     public float radarRange = 30f;
 
-   
-    public FeedbackUI feedbackUI;    
-    public float interactRange = 5f;
-
-    private bool hasRadar = false;
-    private bool radarScanned = false; 
     private Rigidbody rb;
     private GameObject heldRock;
     private float xRotation = 0f;
+    private float hInput, vInput;
+
+    private bool hasRadar = false;
+    private bool radarScanned = false;
 
     void Start()
     {
@@ -39,10 +39,11 @@ public class PlayerControls : MonoBehaviour
     void Update()
     {
         Look();
+        HandleMovementInput();
         Interact();
         ThrowRock();
-        RadarPing();
-        UpdateFeedbackUI(); 
+        UpdateFeedbackUI();
+        RadarScanInput();
     }
 
     void FixedUpdate()
@@ -50,7 +51,7 @@ public class PlayerControls : MonoBehaviour
         Move();
     }
 
-   
+    // --- CAMERA ---
     void Look()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -63,32 +64,37 @@ public class PlayerControls : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
 
-   
+    // --- MOVEMENT ---
+    void HandleMovementInput()
+    {
+        hInput = Input.GetAxis("Horizontal");
+        vInput = Input.GetAxis("Vertical");
+    }
+
     void Move()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-
-        Vector3 move = (transform.right * h + transform.forward * v) * moveSpeed * Time.fixedDeltaTime;
+        Vector3 move = (transform.right * hInput + transform.forward * vInput) * moveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + move);
     }
 
-   
+    // --- INTERACT ---
     void Interact()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
-            {
-              
-                if (hit.collider.CompareTag("Rock") && heldRock == null)
-                    PickupRock(hit.collider.gameObject);
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        if (!Physics.Raycast(ray, out RaycastHit hit, interactRange)) return;
 
-               
-                if (hit.collider.CompareTag("Radar") && !hasRadar)
-                    PickupRadar(hit.collider.gameObject);
-            }
+        float distance = Vector3.Distance(transform.position, hit.collider.transform.position);
+
+        // Rock pickup
+        if (hit.collider.CompareTag("Rock") && heldRock == null && distance <= interactRange && Input.GetKeyDown(KeyCode.E))
+        {
+            PickupRock(hit.collider.gameObject);
+        }
+
+        // Radar pickup
+        if (hit.collider.CompareTag("Radar") && !hasRadar && distance <= interactRange && Input.GetKeyDown(KeyCode.E))
+        {
+            PickupRadar(hit.collider.gameObject);
         }
     }
 
@@ -107,15 +113,13 @@ public class PlayerControls : MonoBehaviour
     {
         hasRadar = true;
 
-       
-        RadarUI ui = FindObjectOfType<RadarUI>();
-        if (ui != null)
-            ui.EnableRadar();
+        if (radarUI != null)
+            radarUI.EnableRadar();
 
         Destroy(radar);
     }
 
-   
+    // --- THROW ROCK ---
     void ThrowRock()
     {
         if (Input.GetMouseButtonDown(0) && heldRock != null)
@@ -136,51 +140,41 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    
-    void RadarPing()
+    // --- RADAR SCAN INPUT ---
+    void RadarScanInput()
     {
-        if (!hasRadar || radarScanned) return;  
-
-        if (Input.GetKeyDown(KeyCode.R))
+        if (hasRadar && !radarScanned && Input.GetKeyDown(KeyCode.R))
         {
-            RadarUI ui = FindObjectOfType<RadarUI>();
-            if (ui != null)
-                ui.Scan();  
-
-            radarScanned = true;  
-            feedbackUI.HideMessage(); 
+            radarScanned = true;
+            if (radarUI != null)
+                radarUI.ActivateEnemyDots(); // show enemies
         }
     }
 
-   
+    // --- FEEDBACK UI ---
     void UpdateFeedbackUI()
     {
+        bool showMessage = false;
+
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
         {
-            if (hit.collider.CompareTag("Rock") && heldRock == null)
+            float distance = Vector3.Distance(transform.position, hit.collider.transform.position);
+
+            if (hit.collider.CompareTag("Rock") && heldRock == null && distance <= interactRange)
             {
                 feedbackUI.ShowMessage("Press E to pick up rock");
+                showMessage = true;
             }
-            else if (hit.collider.CompareTag("Radar") && !hasRadar)
+            else if (hit.collider.CompareTag("Radar") && !hasRadar && distance <= interactRange)
             {
                 feedbackUI.ShowMessage("Press E to pick up radar");
-            }
-            else if (hasRadar && !radarScanned) 
-            {
-                feedbackUI.ShowMessage("Press R to scan radar");
-            }
-            else
-            {
-                feedbackUI.HideMessage();
+                showMessage = true;
             }
         }
-        else
-        {
-            if (hasRadar && !radarScanned)
-                feedbackUI.ShowMessage("Press R to scan radar");
-            else
-                feedbackUI.HideMessage();
-        }
+
+        if (!showMessage)
+            feedbackUI.HideMessage();
     }
 }
+

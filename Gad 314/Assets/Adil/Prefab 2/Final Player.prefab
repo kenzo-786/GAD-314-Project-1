@@ -317,9 +317,16 @@ MonoBehaviour:
   jumpHeight: 1.2
   gravity: -20
   gravityMultiplier: 2.5
+  dashKey: 114
   dashSpeed: 20
   dashDuration: 0.2
   dashCooldown: 1
+  holdPoint: {fileID: 0}
+  throwForce: 15
+  pickupRange: 3
+  radarRange: 20
+  radarUI: {fileID: 0}
+  radarIconPrefab: {fileID: 0}
   cameraTransform: {fileID: 0}
 --- !u!114 &4201813422491808358
 MonoBehaviour:

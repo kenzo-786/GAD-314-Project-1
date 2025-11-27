@@ -5,16 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Textures/New Material 12.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Textures/New Material 12.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Textures/New Material 13.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Textures/New Material 13.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Textures/New Material 14.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Textures/New Material 14.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/scripts/ThirdPersonCamera1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/scripts/ThirdPersonCamera1.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MainGame/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainGame/MainMenu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MainGame/New level.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainGame/New level.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MainGame/SciLab.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainGame/SciLab.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/MainMenu/GameUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/MainMenu/GameUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

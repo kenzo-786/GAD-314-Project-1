@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 [RequireComponent(typeof(Camera))]
 public class ThirdPersonCamera1 : MonoBehaviour
 {
@@ -29,7 +28,6 @@ public class ThirdPersonCamera1 : MonoBehaviour
     private float _pitch;
     private float _currentDistance;
     private float _targetDistance;
-    private Vector3 _currentVelocity;
     private Vector3 _rotationVelocity;
 
     private float _inputX;
@@ -47,70 +45,45 @@ public class ThirdPersonCamera1 : MonoBehaviour
 
         _currentDistance = defaultDistance;
         _targetDistance = defaultDistance;
-
     }
 
     private void Update()
     {
-        HandleInput();
+        _inputX = Input.GetAxis("Mouse X") * mouseSensitivityX * Time.deltaTime;
+        _inputY = Input.GetAxis("Mouse Y") * mouseSensitivityY * Time.deltaTime;
+        _inputScroll = Input.GetAxis("Mouse ScrollWheel");
     }
 
     private void LateUpdate()
     {
         if (target == null) return;
 
-        HandleRotation();
-        HandleZoom();
-        HandleCollisionAndPosition();
-
-    }
-
-    private void HandleInput()
-    {
-        _inputX =Input.GetAxis("Mouse X") * mouseSensitivityX * Time.deltaTime;
-        _inputY = Input.GetAxis("Mouse Y") * mouseSensitivityY * Time.deltaTime;
-        _inputScroll = Input.GetAxis("Mouse ScrollWheel");
-    }
-
-    private void HandleRotation()
-    {
         _yaw += _inputX;
         _pitch -= invertY ? -_inputY : _inputY;
         _pitch = Mathf.Clamp(_pitch, minVerticalAngle, maxVerticalAngle);
 
-        Vector3 targetRotationEuler = new Vector3(_pitch, _yaw, 0);
-    }
-
-    private void HandleZoom()
-    {
         if (Mathf.Abs(_inputScroll) > 0.01f)
         {
             _targetDistance -= _inputScroll * zoomSpeed;
             _targetDistance = Mathf.Clamp(_targetDistance, minDistance, maxDistance);
         }
-    }
 
-    private void HandleCollisionAndPosition()
-    {
-        float currentYaw = transform.eulerAngles.y;
-        float currentPitch = transform.eulerAngles.x;
+        float smoothedYaw = Mathf.SmoothDampAngle(transform.eulerAngles.y, _yaw, ref _rotationVelocity.y, rotationSmoothTime);
+        float smoothedPitch = Mathf.SmoothDampAngle(transform.eulerAngles.x, _pitch, ref _rotationVelocity.x, rotationSmoothTime);
 
-        float smoothedYaw = Mathf.SmoothDampAngle(currentYaw, _yaw, ref _rotationVelocity.y, rotationSmoothTime);
-        float smoothedPitch = Mathf.SmoothDampAngle(currentPitch, _pitch, ref _rotationVelocity.x, rotationSmoothTime);
-
-        Quaternion currentRotation = Quaternion.Euler(smoothedPitch, smoothedYaw, 0);
+        Quaternion rotation = Quaternion.Euler(smoothedPitch, smoothedYaw, 0);
 
         Vector3 targetPos = target.position + targetOffset;
-        Vector3 direction = currentRotation * Vector3.back;
-        Vector3 desiredPosition = targetPos + (direction * _targetDistance);
+        Vector3 direction = rotation * Vector3.back;
+        Vector3 desiredPos = targetPos + direction * _targetDistance;
 
         RaycastHit hit;
         float finalDistance = _targetDistance;
 
-        Vector3 castDirection = (desiredPosition - targetPos).normalized;
-        float castDistance = Vector3.Distance(targetPos, desiredPosition);
+        Vector3 castDir = (desiredPos - targetPos).normalized;
+        float castDist = Vector3.Distance(targetPos, desiredPos);
 
-        if (Physics.SphereCast(targetPos, cameraCollisionRadius, castDirection, out hit, castDistance, collisionLayers))
+        if (Physics.SphereCast(targetPos, cameraCollisionRadius, castDir, out hit, castDist, collisionLayers))
         {
             finalDistance = Mathf.Max(minDistance, hit.distance - cameraCollisionRadius);
         }
@@ -118,13 +91,9 @@ public class ThirdPersonCamera1 : MonoBehaviour
         _currentDistance = Mathf.Lerp(_currentDistance, finalDistance, Time.deltaTime * collisionLerpSpeed);
 
         if (finalDistance < _currentDistance)
-        {
             _currentDistance = finalDistance;
-        }
 
-        transform.rotation = currentRotation;
-        transform.position = targetPos + (direction * _currentDistance);
+        transform.rotation = rotation;
+        transform.position = targetPos + direction * _currentDistance;
     }
-
-
 }

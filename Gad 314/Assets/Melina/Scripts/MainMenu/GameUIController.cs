@@ -7,27 +7,45 @@ public class GameUIController : MonoBehaviour
     public GameObject controlsPanel;
     public GameObject pauseButton;
 
+    private bool isPaused = false;
+
     void Start()
     {
         pausePanel.SetActive(false);
         controlsPanel.SetActive(false);
         pauseButton.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleCursor();
+        }
     }
 
     public void TogglePause()
     {
-        if (!pausePanel.activeSelf && !controlsPanel.activeSelf)
+        isPaused = !isPaused;
+
+        pausePanel.SetActive(isPaused);
+        controlsPanel.SetActive(false);
+        pauseButton.SetActive(!isPaused);
+
+        Time.timeScale = isPaused ? 0f : 1f;
+
+        if (isPaused)
         {
-            pausePanel.SetActive(true);
-            pauseButton.SetActive(false);
-            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else
         {
-            pausePanel.SetActive(false);
-            controlsPanel.SetActive(false);
-            pauseButton.SetActive(true);
-            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 
@@ -49,5 +67,14 @@ public class GameUIController : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
+    }
+
+    private void ToggleCursor()
+    {
+        if (!isPaused)
+        {
+            Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = !Cursor.visible;
+        }
     }
 }

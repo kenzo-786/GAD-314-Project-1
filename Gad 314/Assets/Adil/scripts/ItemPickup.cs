@@ -8,7 +8,7 @@ public class ItemPickup : MonoBehaviour
     public int amount = 1;
 
     [Header("Interaction")]
-    public KeyCode interactKey = KeyCode.E;
+    public KeyCode interactKey = KeyCode.F;
     public float holdDuration = 1.5f;
 
     [Header("Visuals & Audio")]

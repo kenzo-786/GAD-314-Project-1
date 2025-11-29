@@ -190,7 +190,6 @@ GameObject:
   - component: {fileID: 5864775401067107759}
   - component: {fileID: 7036826960059538608}
   - component: {fileID: 3161778686876380296}
-  - component: {fileID: 2230567209445639805}
   - component: {fileID: 4201813422491808358}
   - component: {fileID: 1608121528853076251}
   m_Layer: 7
@@ -299,28 +298,6 @@ CharacterController:
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2230567209445639805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539590612425329182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caf488c9588313045aab67b953093c95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonMovement
-  walkSpeed: 6
-  sprintSpeed: 12
-  turnSmoothTime: 0.1
-  jumpHeight: 1.2
-  gravity: -20
-  gravityMultiplier: 2.5
-  dashSpeed: 20
-  dashDuration: 0.2
-  dashCooldown: 1
-  cameraTransform: {fileID: 0}
 --- !u!114 &4201813422491808358
 MonoBehaviour:
   m_ObjectHideFlags: 0

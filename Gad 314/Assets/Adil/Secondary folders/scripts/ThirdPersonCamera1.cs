@@ -29,7 +29,7 @@ public class ThirdPersonCamera1 : MonoBehaviour
     private float _pitch;
     private float _currentDistance;
     private float _targetDistance;
-    private Vector3 _currentVelocity;
+    //private Vector3 _currentVelocity;
     private Vector3 _rotationVelocity;
 
     private float _inputX;
@@ -52,7 +52,11 @@ public class ThirdPersonCamera1 : MonoBehaviour
 
     private void Update()
     {
-        HandleInput();
+        if (GameManager.Instance != null && !GameManager.Instance.CanMove()) return;
+
+        _inputX = Input.GetAxis("Mouse X") * mouseSensitivityX * Time.deltaTime;
+        _inputY = Input.GetAxis("Mouse Y") * mouseSensitivityY * Time.deltaTime;
+        _inputScroll = Input.GetAxis("Mouse ScrollWheel");
     }
 
     private void LateUpdate()
@@ -65,20 +69,11 @@ public class ThirdPersonCamera1 : MonoBehaviour
 
     }
 
-    private void HandleInput()
-    {
-        _inputX =Input.GetAxis("Mouse X") * mouseSensitivityX * Time.deltaTime;
-        _inputY = Input.GetAxis("Mouse Y") * mouseSensitivityY * Time.deltaTime;
-        _inputScroll = Input.GetAxis("Mouse ScrollWheel");
-    }
-
     private void HandleRotation()
     {
         _yaw += _inputX;
         _pitch -= invertY ? -_inputY : _inputY;
         _pitch = Mathf.Clamp(_pitch, minVerticalAngle, maxVerticalAngle);
-
-        Vector3 targetRotationEuler = new Vector3(_pitch, _yaw, 0);
     }
 
     private void HandleZoom()
@@ -125,6 +120,5 @@ public class ThirdPersonCamera1 : MonoBehaviour
         transform.rotation = currentRotation;
         transform.position = targetPos + (direction * _currentDistance);
     }
-
 
 }

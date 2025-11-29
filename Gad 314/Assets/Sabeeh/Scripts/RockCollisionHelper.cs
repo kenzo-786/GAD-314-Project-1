@@ -20,7 +20,7 @@ public class RockCollisionHelper : MonoBehaviour
         RockDistraction.Trigger(transform.position);
 
         
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
        

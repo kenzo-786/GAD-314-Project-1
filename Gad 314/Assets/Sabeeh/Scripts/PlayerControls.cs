@@ -5,25 +5,25 @@ public class PlayerControls : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float mouseSensitivity = 150f;
-
     public Transform cameraTransform;
 
-   
+    [Header("Throwing")]
     public Transform throwPoint;
     public float throwForce = 15f;
 
-    
+    [Header("Radar & Feedback")]
+    public float interactRange = 5f;
+    public FeedbackUI feedbackUI;
+    public RadarUI radarUI;
     public float radarRange = 30f;
 
-   
-    public FeedbackUI feedbackUI;    
-    public float interactRange = 5f;
-
-    private bool hasRadar = false;
-    private bool radarScanned = false; 
     private Rigidbody rb;
     private GameObject heldRock;
     private float xRotation = 0f;
+    private float hInput, vInput;
+
+    private bool hasRadar = false;
+    private bool radarScanned = false;
 
     void Start()
     {
@@ -39,10 +39,11 @@ public class PlayerControls : MonoBehaviour
     void Update()
     {
         Look();
+        HandleMovementInput();
         Interact();
         ThrowRock();
-        RadarPing();
-        UpdateFeedbackUI(); 
+        UpdateFeedbackUI();
+        RadarScanInput();
     }
 
     void FixedUpdate()
@@ -50,7 +51,6 @@ public class PlayerControls : MonoBehaviour
         Move();
     }
 
-   
     void Look()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -63,33 +63,30 @@ public class PlayerControls : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
 
-   
+    void HandleMovementInput()
+    {
+        hInput = Input.GetAxis("Horizontal");
+        vInput = Input.GetAxis("Vertical");
+    }
+
     void Move()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-
-        Vector3 move = (transform.right * h + transform.forward * v) * moveSpeed * Time.fixedDeltaTime;
+        Vector3 move = (transform.right * hInput + transform.forward * vInput) * moveSpeed * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + move);
     }
 
-   
     void Interact()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
-            {
-              
-                if (hit.collider.CompareTag("Rock") && heldRock == null)
-                    PickupRock(hit.collider.gameObject);
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        if (!Physics.Raycast(ray, out RaycastHit hit, interactRange)) return;
 
-               
-                if (hit.collider.CompareTag("Radar") && !hasRadar)
-                    PickupRadar(hit.collider.gameObject);
-            }
-        }
+        float distance = Vector3.Distance(transform.position, hit.collider.transform.position);
+
+        if (hit.collider.CompareTag("Rock") && heldRock == null && Input.GetKeyDown(KeyCode.E))
+            PickupRock(hit.collider.gameObject);
+
+        if (hit.collider.CompareTag("Radar") && !hasRadar && Input.GetKeyDown(KeyCode.E))
+            PickupRadar(hit.collider.gameObject);
     }
 
     void PickupRock(GameObject rock)
@@ -106,81 +103,61 @@ public class PlayerControls : MonoBehaviour
     void PickupRadar(GameObject radar)
     {
         hasRadar = true;
-
-       
-        RadarUI ui = FindObjectOfType<RadarUI>();
-        if (ui != null)
-            ui.EnableRadar();
-
+        if (radarUI != null)
+            radarUI.EnableRadar();
         Destroy(radar);
     }
 
-   
     void ThrowRock()
     {
         if (Input.GetMouseButtonDown(0) && heldRock != null)
         {
             Rigidbody rockRb = heldRock.GetComponent<Rigidbody>();
             Collider rockCol = heldRock.GetComponent<Collider>();
-            Collider playerCol = GetComponent<Collider>();
-            Physics.IgnoreCollision(rockCol, playerCol, true);
-
-            if (!heldRock.GetComponent<RockCollisionHelper>())
-                heldRock.AddComponent<RockCollisionHelper>();
+            Physics.IgnoreCollision(GetComponent<Collider>(), rockCol, true);
 
             heldRock.transform.SetParent(null);
-            rockRb.isKinematic = false;
-            rockRb.AddForce((cameraTransform.forward + Vector3.up * 0.3f) * throwForce, ForceMode.Impulse);
+
+            RockImpact rock = heldRock.GetComponent<RockImpact>();
+            Vector3 force = (cameraTransform.forward + Vector3.up * 0.3f) * throwForce;
+
+            if (rock != null)
+                rock.Throw(force);
+            else
+            {
+                rockRb.isKinematic = false;
+                rockRb.AddForce(force, ForceMode.Impulse);
+            }
 
             heldRock = null;
         }
     }
 
-    
-    void RadarPing()
+    void RadarScanInput()
     {
-        if (!hasRadar || radarScanned) return;  
-
-        if (Input.GetKeyDown(KeyCode.R))
+        if (hasRadar && !radarScanned && Input.GetKeyDown(KeyCode.R))
         {
-            RadarUI ui = FindObjectOfType<RadarUI>();
-            if (ui != null)
-                ui.Scan();  
-
-            radarScanned = true;  
-            feedbackUI.HideMessage(); 
+            radarScanned = true;
+            if (radarUI != null)
+                radarUI.ActivateEnemyDots();
         }
     }
 
-   
     void UpdateFeedbackUI()
     {
+        feedbackUI.HideMessage();
+
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, interactRange))
-        {
-            if (hit.collider.CompareTag("Rock") && heldRock == null)
-            {
-                feedbackUI.ShowMessage("Press E to pick up rock");
-            }
-            else if (hit.collider.CompareTag("Radar") && !hasRadar)
-            {
-                feedbackUI.ShowMessage("Press E to pick up radar");
-            }
-            else if (hasRadar && !radarScanned) 
-            {
-                feedbackUI.ShowMessage("Press R to scan radar");
-            }
-            else
-            {
-                feedbackUI.HideMessage();
-            }
-        }
-        else
-        {
-            if (hasRadar && !radarScanned)
-                feedbackUI.ShowMessage("Press R to scan radar");
-            else
-                feedbackUI.HideMessage();
-        }
+        if (!Physics.Raycast(ray, out RaycastHit hit, interactRange)) return;
+
+        if (hit.collider.CompareTag("Rock") && heldRock == null)
+            feedbackUI.ShowMessage("Press E to pick up rock");
+
+        else if (hit.collider.CompareTag("Radar") && !hasRadar)
+            feedbackUI.ShowMessage("Press E to pick up radar");
     }
 }
+
+
+
+

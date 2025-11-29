@@ -4,22 +4,20 @@ public class EnemyAI : MonoBehaviour
 {
     public float hearRange = 30f;
     public float moveSpeed = 3f;
-    public float groundCheckDistance = 1.3f;
+    public float stoppingDistance = 0.2f; // base stop distance
+    public float stopOffset = 0.02f; // stop 2 cm before rock
+    public float investigateDuration = 2f;
 
-    private Renderer rend;
     private Rigidbody rb;
-
     private Vector3 targetPosition;
-    private bool movingToNoise = false;
+    private bool hasTarget = false;
+    private float investigateTimer;
 
     void Start()
     {
-        rend = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
-
-        // Lock physics rotation (prevents tipping over)
-        rb.constraints = RigidbodyConstraints.FreezeRotationX |
-                         RigidbodyConstraints.FreezeRotationZ;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 
         RockDistraction.onRockThrown += OnRockNoise;
     }
@@ -31,25 +29,41 @@ public class EnemyAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!movingToNoise) return;
+        if (!hasTarget) return;
 
-        Vector3 direction = (targetPosition - transform.position);
-        direction.y = 0; // Keep movement horizontal
+        Vector3 flatEnemy = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 flatTarget = new Vector3(targetPosition.x, 0, targetPosition.z);
+        Vector3 direction = flatTarget - flatEnemy;
+        float distance = direction.magnitude;
 
-        Vector3 move = direction.normalized * moveSpeed * Time.fixedDeltaTime;
+        // STOP before hitting rock
+        float finalStopDistance = stoppingDistance + stopOffset;
 
-        rb.MovePosition(rb.position + move);
-
-        // Face movement direction
-        if (direction != Vector3.zero)
+        if (distance > finalStopDistance)
         {
-            Quaternion rot = Quaternion.LookRotation(direction);
-            rb.MoveRotation(Quaternion.Slerp(rb.rotation, rot, 0.15f));
-        }
+            // Move with velocity, not MovePosition
+            Vector3 move = direction.normalized * moveSpeed;
+            rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
 
-        // Stop if close
-        if (Vector3.Distance(transform.position, targetPosition) < 0.8f)
-            movingToNoise = false;
+            // Rotate toward rock
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(direction);
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, 0.2f));
+            }
+        }
+        else
+        {
+            // Stop movement
+            rb.velocity = Vector3.zero;
+
+            investigateTimer += Time.fixedDeltaTime;
+            if (investigateTimer >= investigateDuration)
+            {
+                hasTarget = false;
+                investigateTimer = 0f;
+            }
+        }
     }
 
     void OnRockNoise(Vector3 pos)
@@ -57,21 +71,14 @@ public class EnemyAI : MonoBehaviour
         if (Vector3.Distance(transform.position, pos) <= hearRange)
         {
             targetPosition = pos;
-            movingToNoise = true;
+            hasTarget = true;
+            investigateTimer = 0;
+            Debug.Log(gameObject.name + " heading to rock at " + pos);
         }
     }
-
-    // Radar highlight
-    public void Highlight()
-    {
-        StartCoroutine(FlashRed());
-    }
-
-    IEnumerator FlashRed()
-    {
-        Color original = rend.material.color;
-        rend.material.color = Color.red;
-        yield return new WaitForSeconds(0.3f);
-        rend.material.color = original;
-    }
 }
+
+
+
+
+

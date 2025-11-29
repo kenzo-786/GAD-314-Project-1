@@ -3,16 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class HoldToTeleport : MonoBehaviour
 {
-    [Header("Teleport Settings")]
-
     public string sceneToLoad;
     public string missionToComplete = "";
-
-    [Header("Interaction")]
     public KeyCode interactKey = KeyCode.E;
     public float holdDuration = 2.0f;
-
-    [Header("Visuals/Audio")]
     public AudioClip teleportSound;
 
     private bool _isPlayerInRange = false;
@@ -62,6 +56,8 @@ public class HoldToTeleport : MonoBehaviour
         }
 
         if (InteractionHUD.Instance != null) InteractionHUD.Instance.Hide();
+
+        TeleportSpawnPoint.lastTeleportPosition = transform.position;
 
         if (LevelLoader.Instance != null)
         {

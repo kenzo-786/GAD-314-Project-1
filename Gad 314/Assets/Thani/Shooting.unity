@@ -249,6 +249,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5438948338994683613, guid: 43a24ba005b7a4134a98845e9fbd5b2c, type: 3}
+      propertyPath: mouseSensitivity
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5960014615114639437, guid: 43a24ba005b7a4134a98845e9fbd5b2c, type: 3}
       propertyPath: m_Name
       value: player (Shooting)
@@ -556,7 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewShooting
   shootSFX: {fileID: 462708968}
-  mouseSensitivity: 1
+  mouseSensitivity: 10
   xAxis: 0
   yAxis: 0
   camFollowPos: {fileID: 1086447872}
@@ -1123,7 +1127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &515219454
 MeshCollider:
   m_ObjectHideFlags: 0

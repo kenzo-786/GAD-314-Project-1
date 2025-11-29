@@ -7,12 +7,10 @@ public class LevelLoader : MonoBehaviour
 {
     public static LevelLoader Instance;
 
-    [Header("Grid Settings")]
     public int rows = 8;
     public int columns = 12;
     public float waveSpeed = 0.05f;
 
-    [Header("References")]
     public Canvas transitionCanvas;
     public GameObject boxPrefab;
     public Transform gridContainer;

@@ -66,36 +66,50 @@ public class LevelLoader : MonoBehaviour
 
     private IEnumerator TransitionSequence(string sceneName)
     {
-        for (int sum = 0; sum < rows + columns; sum++)
-        {
-            for (int x = 0; x < columns; x++)
-            {
-                int y = sum - x;
-                if (y >= 0 && y < rows)
-                {
-                    _gridImages[x, y].enabled = true;
-                }
-            }
-            yield return _waveDelay;
-        }
-
-        yield return new WaitForSeconds(0.5f);
-
-        SceneManager.LoadScene(sceneName);
-
-        yield return new WaitForSeconds(0.5f);
+        if (GameManager.Instance) GameManager.Instance.SetState(GameState.Loading);
 
         for (int sum = 0; sum < rows + columns; sum++)
         {
             for (int x = 0; x < columns; x++)
             {
                 int y = sum - x;
-                if (y >= 0 && y < rows)
-                {
-                    _gridImages[x, y].enabled = false;
-                }
+
+                if (y >= 0 && y < rows) _gridImages[x, y].enabled = true;
             }
             yield return _waveDelay;
         }
+
+        yield return new WaitForSeconds(0.5f);
+
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+        op.allowSceneActivation = false;
+
+        while (op.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        System.GC.Collect();
+        Resources.UnloadUnusedAssets();
+
+        op.allowSceneActivation = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        for (int sum = 0; sum < rows + columns; sum++)
+        {
+            for (int x = 0; x < columns; x++)
+            {
+                int y = sum - x;
+                if (y >= 0 && y < rows) _gridImages[x, y].enabled = false;
+            }
+            yield return _waveDelay;
+        }
+
+        if (GameManager.Instance)
+        {
+            GameManager.Instance.SetState(GameState.Gameplay);
+        }
+
     }
 }

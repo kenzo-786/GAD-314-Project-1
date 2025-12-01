@@ -10,8 +10,8 @@ public class RockImpact : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.drag = 3f;
-        rb.angularDrag = 5f;
+        rb.linearDamping = 3f;
+        rb.angularDamping = 5f;
     }
 
     public void Throw(Vector3 force)
@@ -22,7 +22,7 @@ public class RockImpact : MonoBehaviour
         rb.constraints = RigidbodyConstraints.None;
         rb.isKinematic = false;
 
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.AddForce(force, ForceMode.Impulse);
     }
@@ -45,7 +45,7 @@ public class RockImpact : MonoBehaviour
         }
 
         // HARD STOP
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
         // Freeze ONLY horizontal movement (Y gravity still applies)

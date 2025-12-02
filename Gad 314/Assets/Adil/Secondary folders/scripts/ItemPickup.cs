@@ -7,6 +7,12 @@ public class ItemPickup : MonoBehaviour
     public ItemData itemData;
     public int amount = 1;
 
+    [Header("Mission Settings")]
+    public string missionToUpdate;
+    public string missionToStart;
+    public string missionStartDesc;
+    public int missionStartTarget = 1;
+
     [Header("Interaction")]
     public KeyCode pickupKey = KeyCode.E;
     public float holdDuration = 0.5f;
@@ -52,14 +58,26 @@ public class ItemPickup : MonoBehaviour
         if (InventoryManager.Instance != null && itemData != null)
         {
             InventoryManager.Instance.AddItem(itemData, amount);
-
-            if (pickupSound) AudioSource.PlayClipAtPoint(pickupSound, transform.position);
-
-            if (InteractionHUD.Instance) InteractionHUD.Instance.Hide();
-
-            Destroy(gameObject);
         }
 
+        if (MissionManager.Instance != null)
+        {
+            if (!string.IsNullOrEmpty(missionToUpdate))
+            {
+                MissionManager.Instance.AddProgress(missionToUpdate, 1);
+            }
+
+            if (!string.IsNullOrEmpty(missionToStart))
+            {
+                MissionManager.Instance.AddMission(missionToStart, missionStartDesc, missionStartTarget);
+            }
+        }
+
+        if (pickupSound) AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+
+        if (InteractionHUD.Instance) InteractionHUD.Instance.Hide();
+
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

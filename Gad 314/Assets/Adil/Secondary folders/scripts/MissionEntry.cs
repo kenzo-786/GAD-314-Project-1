@@ -9,24 +9,26 @@ public class MissionEntry : MonoBehaviour
     public Image checkboxImage; 
 
     [Header("Visual Settings")]
-    public Sprite untickedSprite;
-    public Sprite tickedSprite;
+    public Sprite emptyBox;
+    public Sprite checkedBox;
+    public Color normalColor = Color.white;
     public Color completedColor = Color.gray;
 
-    public void Setup(string text, Sprite emptyBox, Sprite checkedBox)
+    public void Setup(string text, Sprite emptySprite, Sprite checkedSprite)
     {
         missionText.text = text;
-        untickedSprite = emptyBox;
-        tickedSprite = checkedBox;
 
-        checkboxImage.sprite = untickedSprite;
+        if (emptySprite != null) emptyBox = emptySprite;
+        if (checkedSprite != null) checkedBox = checkedSprite;
+
+        checkboxImage.sprite = emptyBox;
+        missionText.color = normalColor;
         missionText.fontStyle = FontStyles.Normal;
-        missionText.color = Color.white;
     }
 
     public void UpdateText(string newText)
     {
-        if (checkboxImage.sprite == untickedSprite)
+        if (checkboxImage.sprite == emptyBox)
         {
             missionText.text = newText;
         }
@@ -34,12 +36,13 @@ public class MissionEntry : MonoBehaviour
 
     public void SetComplete()
     {
-        if (tickedSprite != null)
-            checkboxImage.sprite = tickedSprite;
+        if (checkedBox != null) checkboxImage.sprite = checkedBox;
 
         missionText.fontStyle = FontStyles.Strikethrough;
 
         missionText.color = completedColor;
+
+
     }
 
 }

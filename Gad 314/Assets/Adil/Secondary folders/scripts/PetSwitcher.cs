@@ -30,7 +30,7 @@ public class PetSwitcher : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player) _playerTransform = player.transform;
 
-        _petController = FindObjectOfType<PetController>();
+        _petController = FindFirstObjectByType<PetController>();
         if (_petController) _petTransform = _petController.transform;
 
         if (mainCameraObject) mainCameraObject.SetActive(true);
@@ -65,6 +65,12 @@ public class PetSwitcher : MonoBehaviour
         if (_petTransform == null || !_petTransform.gameObject.activeInHierarchy)
         {
             ShowError("No Signal: Pet not found.");
+            return;
+        }
+
+        if (_petController != null && _petController.isBroken)
+        {
+            ShowError("System Failure: Pet requires reboot.");
             return;
         }
 

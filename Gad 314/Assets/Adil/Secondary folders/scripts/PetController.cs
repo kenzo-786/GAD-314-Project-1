@@ -2,6 +2,9 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PetController : MonoBehaviour
 {
+    [Header("Status")]
+    public bool isBroken = false;
+
     [Header("Follow Settings")]
     public Transform playerTarget;
     public float stoppingDistance = 3f;
@@ -55,6 +58,12 @@ public class PetController : MonoBehaviour
             GameManager.Instance.OnStateChanged -= HandleStateChange;
     }
 
+    public void Repair()
+    {
+        isBroken = false;
+        Debug.Log("Pet Rebooted!");
+    }
+
     private void HandleStateChange(GameState newState)
     {
         _isControlled = (newState == GameState.PetControl);
@@ -64,6 +73,8 @@ public class PetController : MonoBehaviour
     private void Update()
     {
         ApplyGravity();
+
+        if (isBroken) return;
 
         if (_isControlled)
         {

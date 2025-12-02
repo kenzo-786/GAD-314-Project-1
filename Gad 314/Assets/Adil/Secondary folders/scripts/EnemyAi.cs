@@ -22,7 +22,7 @@ public class EnemyAi : MonoBehaviour
     public Transform[] wayPoints;
     int currentWayPointIndex;
 
-    Vector3 playerLastPos = Vector3.zero;
+   // Vector3 playerLastPos = Vector3.zero;
     Vector3 playerPos;
 
     float waitTime;

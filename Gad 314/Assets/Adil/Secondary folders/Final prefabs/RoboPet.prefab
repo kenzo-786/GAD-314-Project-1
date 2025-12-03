@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 586841182042709508}
   - component: {fileID: 4884899663030634516}
   - component: {fileID: 1572192629921528221}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RoboPet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 5873867898889454701}
   - component: {fileID: 8207781447148854454}
   - component: {fileID: 4571293350473467834}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PetFPCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2557117517341448310}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CameraTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}

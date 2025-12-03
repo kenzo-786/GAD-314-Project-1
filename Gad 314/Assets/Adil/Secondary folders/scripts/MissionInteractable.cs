@@ -11,6 +11,10 @@ public class MissionInteractable : MonoBehaviour
     public float holdDuration = 1.0f;
     public bool disableAfterUse = true;
 
+    [Header("Unlockable")]
+    public GameObject objectToEnable;
+    public GameObject objectToDisable;
+
     private bool _inRange;
     private float _timer;
     private bool _used = false;
@@ -56,7 +60,17 @@ public class MissionInteractable : MonoBehaviour
             pet.Repair();
         }
 
-        if (disableAfterUse) this.enabled = false;
+        if (objectToEnable != null)
+        {
+            objectToEnable.SetActive(true);
+        }
+
+        if (objectToDisable != null)
+        {
+            objectToDisable.SetActive(false);
+        }
+
+            if (disableAfterUse) this.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -30,6 +30,9 @@ public class MissionManager : MonoBehaviour
     }
 
     private Dictionary<string, MissionData> activeMissions = new Dictionary<string, MissionData>();
+
+    private Dictionary<string, int> pendingProgress = new Dictionary<string, int>();
+
     private int missionCounter = 0;
 
     private void Awake()
@@ -75,6 +78,16 @@ public class MissionManager : MonoBehaviour
         GameObject newObj = Instantiate(missionEntryPrefab, missionListContainer);
         MissionEntry entry = newObj.GetComponent<MissionEntry>();
 
+        int startProgress = 0;
+        if (pendingProgress.ContainsKey(id))
+        {
+            startProgress = pendingProgress[id];
+            Debug.Log($"[Mission] {id} starting with pending progress: {startProgress}");
+
+            pendingProgress.Remove(id);
+        }
+
+
         string prefix = $"Mission {missionCounter}: ";
         string fullText = prefix + description;
 
@@ -88,32 +101,38 @@ public class MissionManager : MonoBehaviour
             description = prefix + description,
             currentProgress = 0,
             targetAmount = targetAmount,
-            isComplete = false
+            isComplete = false,
+            isRemoving = false
         };
 
         activeMissions.Add(id, data);
         Debug.Log($"[Mission] Added: {id}");
+
+        if (data.currentProgress >= data.targetAmount)
+        {
+            CompleteMission(id);
+        }
     }
 
     public void AddProgress(string id, int amount)
     {
-        if (!activeMissions.ContainsKey(id)) return;
-
-        MissionData m = activeMissions[id];
-
-        if (m.isComplete) return;
-
-        m.currentProgress += amount;
-
-        if (m.targetAmount > 1)
+        if (!activeMissions.ContainsKey(id))
         {
-            m.entryScript.UpdateText($"{m.description} ({m.currentProgress}/{m.targetAmount})");
+            MissionData m = activeMissions[id];
+
+            if (m.isComplete) return;
+
+            m.currentProgress += amount;
+
+            if (m.targetAmount > 1)
+            {
+                m.entryScript.UpdateText($"{m.description} ({m.currentProgress}/{m.targetAmount})");
+            }
+
+
         }
 
-        if (m.currentProgress >= m.targetAmount)
-        {
-            CompleteMission(id);
-        }
+       
     }
 
     public void CompleteMission(string id)

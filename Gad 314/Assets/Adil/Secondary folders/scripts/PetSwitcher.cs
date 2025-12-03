@@ -1,9 +1,11 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PetSwitcher : MonoBehaviour
 {
     [Header("Game Design Settings")]
+    public string dinoSceneName = "FinalMasterScene";
     public bool canSwitch = false;
     public string disabledMessage = "Signal Blocked: Cannot switch in Lab.";
 
@@ -23,20 +25,52 @@ public class PetSwitcher : MonoBehaviour
     private PetController _petController;
     private float _uiTimer;
 
-
-
-    private void Start()
+    private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"[PetSwitcher] New Scene Loaded: {scene.name}. Re-linking references...");
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player) _playerTransform = player.transform;
 
         _petController = FindFirstObjectByType<PetController>();
-        if (_petController) _petTransform = _petController.transform;
+        if (_petController)
+        {
+            _petTransform = _petController.transform;
 
-        if (mainCameraObject) mainCameraObject.SetActive(true);
-        if (petCameraObject) petCameraObject.SetActive(false);
+            Camera petCam = _petController.GetComponentInChildren<Camera>(true);
+            if (petCam) petCameraObject = petCam.gameObject;
+        }
 
-        if (errorTextUI) errorTextUI.text = "";
+        if (Camera.main) mainCameraObject = Camera.main.gameObject;
+
+        GameObject uiTextObj = GameObject.Find("ErrorText");
+        if (uiTextObj) errorTextUI = uiTextObj.GetComponent<TextMeshProUGUI>();
+
+        if (scene.name == dinoSceneName)
+        {
+            canSwitch = true;
+            Debug.Log("[PetSwitcher] Signal Established: Switching Enabled.");
+        }
+        else
+        {
+            canSwitch = false;
+        }
+
+    }
+
+    private void Start()
+    {
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
     }
 
@@ -64,6 +98,9 @@ public class PetSwitcher : MonoBehaviour
 
         if (_petTransform == null || !_petTransform.gameObject.activeInHierarchy)
         {
+            _petController = FindFirstObjectByType<PetController>();
+            if (_petController) _petTransform = _petController.transform;
+
             ShowError("No Signal: Pet not found.");
             return;
         }

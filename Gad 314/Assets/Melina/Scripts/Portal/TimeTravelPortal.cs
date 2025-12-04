@@ -24,7 +24,7 @@ public class TimeTravelPortal : MonoBehaviour
 
     void Start()
     {
-        fadeController = FindObjectOfType<FadeController>();
+        fadeController = FindFirstObjectByType<FadeController>();
 
         timeTravelVolume.profile.TryGet(out lensDist);
         timeTravelVolume.profile.TryGet(out chroma);

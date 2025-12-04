@@ -43,7 +43,7 @@ public class EnemyAI : MonoBehaviour
         {
             // Move with velocity, not MovePosition
             Vector3 move = direction.normalized * moveSpeed;
-            rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+            rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
 
             // Rotate toward rock
             if (direction != Vector3.zero)
@@ -55,7 +55,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             // Stop movement
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
 
             investigateTimer += Time.fixedDeltaTime;
             if (investigateTimer >= investigateDuration)

@@ -1,15 +1,30 @@
-using System;
 using UnityEngine;
 
 public class RockCollisionHelper : MonoBehaviour
 {
-    // Event for enemies to listen to
-    public static event Action<Vector3> onRockThrown;
+    private bool triggered = false;
+    private Rigidbody rb;
 
-    // Call this when a rock is thrown
-    public static void RockThrown(Vector3 position)
+    void Awake()
     {
-        onRockThrown?.Invoke(position);
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (triggered) return;
+
+        triggered = true;
+
+      
+        //RockDistraction.Trigger(transform.position);
+
+        
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+       
+        rb.isKinematic = true;
     }
 }
 

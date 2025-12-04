@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+
 [RequireComponent(typeof(CharacterController))]
 public class PetController : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class PetController : MonoBehaviour
     [Header("Control Settings")]
     public float controlSpeed = 4f;
     public float turnSpeed = 10f;
-    public float maxSignalRange = 25f;
+    public float maxSignalRange = 50f;
 
     public bool isFirstPerson = false;
 
@@ -23,6 +25,10 @@ public class PetController : MonoBehaviour
     public float jumpHeight = 2.5f;
     public bool canDoubleJump = true;
 
+    [Header("UI References")]
+    public GameObject signalWarningUI;
+    public float warningThreshold = 0.8f;
+
     [Header("References")]
     public Transform petCameraPos;
 
@@ -30,6 +36,7 @@ public class PetController : MonoBehaviour
     private bool _isControlled = false;
     private Vector3 _velocity;
     private int _jumpCount = 0;
+    private float _blinkTimer;
 
     private void Start()
     {
@@ -68,6 +75,7 @@ public class PetController : MonoBehaviour
     {
         _isControlled = (newState == GameState.PetControl);
         _velocity = Vector3.zero;
+        if (signalWarningUI) signalWarningUI.SetActive(false);
     }
 
     private void Update()
@@ -83,6 +91,24 @@ public class PetController : MonoBehaviour
         else
         {
             HandleSimpleFollow();
+        }
+    }
+
+    private void UpdateSignalUI()
+    {
+        if (playerTarget == null || signalWarningUI == null) return;
+
+        float dist = Vector3.Distance(transform.position, playerTarget.position);
+        float limit = maxSignalRange;
+
+        if (dist > limit * warningThreshold)
+        {
+            _blinkTimer += Time.deltaTime * 5f;
+            signalWarningUI.SetActive(Mathf.Sin(_blinkTimer) > 0);
+        }
+        else
+        {
+            signalWarningUI.SetActive(false);
         }
     }
 
@@ -141,8 +167,22 @@ public class PetController : MonoBehaviour
                 }
             } 
         }
+        if (playerTarget != null)
+        {
+            float distToPlayer = Vector3.Distance(transform.position, playerTarget.position);
 
-        if (moveDir.magnitude > 0.001f)
+            if (distToPlayer >= maxSignalRange)
+            {
+                Vector3 dirToPlayer = (playerTarget.position - transform.position).normalized;
+
+                if (Vector3.Dot(moveDir, dirToPlayer) < 0)
+                {
+                    moveDir = Vector3.zero;
+                }
+            }
+        }
+
+            if (moveDir.magnitude > 0.001f)
         {
             _controller.Move(moveDir * controlSpeed * Time.deltaTime);
         }
@@ -164,7 +204,7 @@ public class PetController : MonoBehaviour
         if (Vector3.Distance(transform.position, playerTarget.position) > maxSignalRange)
         {
             Debug.LogWarning("Signal Lost!");
-            GameManager.Instance.SetState(GameState.Gameplay);
+           // GameManager.Instance.SetState(GameState.Gameplay);
         }
     }
 
@@ -179,6 +219,4 @@ public class PetController : MonoBehaviour
         _velocity.y += gravity * Time.deltaTime;
         _controller.Move(_velocity * Time.deltaTime);
     }
-
-
 }

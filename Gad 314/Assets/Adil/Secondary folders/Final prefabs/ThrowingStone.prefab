@@ -152,6 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd74d64ea7c72c44f8221ee1d97ccf8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowingStone
-  noiseRadius: 15
+  noiseRadius: 20
   impactSound: {fileID: 0}
   volume: 1

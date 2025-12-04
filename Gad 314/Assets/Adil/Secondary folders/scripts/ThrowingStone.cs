@@ -14,6 +14,7 @@ public class ThrowingStone : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (_hasHit) return;
+
         if (collision.gameObject.CompareTag("Player")) return;
 
         _hasHit = true;
@@ -34,6 +35,7 @@ public class ThrowingStone : MonoBehaviour
             if (hit.CompareTag("Enemy"))
             {
                 DinoEnemyAI brain = hit.GetComponent<DinoEnemyAI>();
+
                 if (brain != null)
                 {
                     brain.Distract(transform.position);

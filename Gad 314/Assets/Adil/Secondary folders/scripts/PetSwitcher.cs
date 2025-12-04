@@ -28,11 +28,31 @@ public class PetSwitcher : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnStateChanged += HandleStateChange;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnStateChanged -= HandleStateChange;
+    }
+
+    private void HandleStateChange(GameState newState)
+    {
+        if (newState == GameState.Gameplay)
+        {
+            if (mainCameraObject) mainCameraObject.SetActive(true);
+            if (petCameraObject) petCameraObject.SetActive(false);
+            if (_petController) _petController.isFirstPerson = false;
+        }
+        else if (newState == GameState.PetControl)
+        {
+            if (mainCameraObject) mainCameraObject.SetActive(false);
+            if (petCameraObject) petCameraObject.SetActive(true);
+            if (_petController) _petController.isFirstPerson = true;
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -130,43 +150,22 @@ public class PetSwitcher : MonoBehaviour
 
         if (current == GameState.Gameplay)
         {
-            SwitchToPet();
+            GameManager.Instance.SetState(GameState.PetControl);
         }
 
         else if (current == GameState.PetControl)
         {
+
             float dist = Vector3.Distance(_playerTransform.position, _petTransform.position);
 
             if (dist <= switchRadius)
             {
-                SwitchToPlayer();
+                GameManager.Instance.SetState(GameState.Gameplay);
             }
             else
             {
                 ShowError("Signal Weak: Get closer to Scientist.");
             }
         }
-    }
-
-    private void SwitchToPet()
-    {
-        GameManager.Instance.SetState(GameState.PetControl);
-
-        if (mainCameraObject) mainCameraObject.SetActive(false);
-        if (petCameraObject) petCameraObject.SetActive(true);
-
-        if (_petController) _petController.isFirstPerson = true;
-
-
-    }
-
-    private void SwitchToPlayer()
-    {
-        GameManager.Instance.SetState(GameState.Gameplay);
-        if (mainCameraObject) mainCameraObject.SetActive(true);
-        if (petCameraObject) petCameraObject.SetActive(false);
-
-        if (_petController) _petController.isFirstPerson = false;
-
     }
 }

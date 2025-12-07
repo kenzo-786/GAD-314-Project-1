@@ -13,12 +13,13 @@ public class PlayerHealth : MonoBehaviour
     public float regenDelay = 3f;
 
     [Header("UI References")]
+
     public GameObject healthBarContainer;
     public Image healthFillImage;
-    public GameObject deathScreenPanel;
-    public TextMeshProUGUI deathText;
 
     public Image damageFlashImage;
+    public GameObject deathScreenPanel;
+    public TextMeshProUGUI deathText;
 
     [Header("Respawn")]
     public Transform respawnPoint;
@@ -34,10 +35,36 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        UpdateUI();
+
+        GameObject hud = GameObject.Find("HUD_Canvas");
+        if (hud)
+        {
+            Transform flashTr = hud.transform.Find("DamageFlash");
+            if (flashTr) damageFlashImage = flashTr.GetComponent<Image>();
+
+            Transform deathTr = hud.transform.Find("DeathScreenPanel");
+            if (deathTr)
+            {
+                deathScreenPanel = deathTr.gameObject;
+                Transform textTr = deathTr.Find("Countdown");
+                if (textTr) deathText = textTr.GetComponent<TextMeshProUGUI>();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("PlayerHealth: Could not find HUD_Canvas!");
+        }
+         UpdateUI();
 
         if (healthBarContainer) healthBarContainer.SetActive(false);
         if (deathScreenPanel) deathScreenPanel.SetActive(false);
+
+        if (damageFlashImage)
+        {
+            Color c = damageFlashImage.color;
+            c.a = 0f;
+            damageFlashImage.color = c;
+        }
 
         if (respawnPoint == null)
         {

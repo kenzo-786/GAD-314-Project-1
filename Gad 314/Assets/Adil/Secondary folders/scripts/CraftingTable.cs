@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class CraftingTable : MonoBehaviour
 {
+    [Header("Missions")]
+    public string missionToComplete = "craft_cure";
+    public string missionToStart = "";
+
     [Header("The Output")]
     public ItemData finalItem;
     public int finalItemAmount = 1;
@@ -24,17 +28,19 @@ public class CraftingTable : MonoBehaviour
     [Header("Interaction")]
     public float holdDuration = 2.0f;
     public KeyCode interactKey = KeyCode.E;
+    public bool oneTimeOnly = true;
 
     [Header("Feedback")]
     public AudioClip craftSound;
     public AudioClip failSound;
+    private bool _hasCrafted = false;
 
     private bool _inRange;
     private float _timer;
 
     private void Update()
     {
-        if (_inRange)
+        if (_inRange && !_hasCrafted)
         {
             if (Input.GetKey(interactKey))
             {
@@ -66,47 +72,53 @@ public class CraftingTable : MonoBehaviour
 
         foreach (var req in requiredItems)
         {
+            if (req.item == null) continue;
             if (!InventoryManager.Instance.HasItem(req.item, req.amount))
             {
-                Debug.Log("Missing Ingredients: " + req.item.displayName);
                 if (failSound) AudioSource.PlayClipAtPoint(failSound, transform.position);
-
                 return;
             }
         }
 
         foreach (var req in requiredItems)
         {
-            InventoryManager.Instance.RemoveItem(req.item, req.amount);
+            if (req.item != null)
+                InventoryManager.Instance.RemoveItem(req.item, req.amount);
         }
 
         if (finalItem != null)
         {
             InventoryManager.Instance.AddItem(finalItem, finalItemAmount);
-            Debug.Log("Crafting Successful: " + finalItem.displayName);
         }
 
         if (craftSound) AudioSource.PlayClipAtPoint(craftSound, transform.position);
         if (InteractionHUD.Instance) InteractionHUD.Instance.Hide();
 
+        if (MissionManager.Instance)
+        {
+            if (!string.IsNullOrEmpty(missionToComplete))
+                MissionManager.Instance.CompleteMission(missionToComplete);
+        }
+
+        if (oneTimeOnly)
+        {
+            _hasCrafted = true;
+        }
+
         if (!string.IsNullOrEmpty(winSceneName))
         {
-
-            Debug.Log("Game Finished! Loading Win Scene...");
-
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-
-            if (LevelLoader.Instance)
-                LevelLoader.Instance.LoadLevel(winSceneName);
-            else
-                SceneManager.LoadScene(winSceneName);
+            if (LevelLoader.Instance) LevelLoader.Instance.LoadLevel(winSceneName);
+            else SceneManager.LoadScene(winSceneName);
         }
+
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!_hasCrafted && other.CompareTag("Player"))
         {
             _inRange = true;
             if (InteractionHUD.Instance)

@@ -30,8 +30,9 @@ public class MissionManager : MonoBehaviour
     }
 
     private Dictionary<string, MissionData> activeMissions = new Dictionary<string, MissionData>();
-
     private Dictionary<string, int> pendingProgress = new Dictionary<string, int>();
+
+    private Dictionary<string, KeyValuePair<string, string>> missionChains = new Dictionary<string, KeyValuePair<string, string>>();
 
     private int missionCounter = 0;
 
@@ -51,21 +52,42 @@ public class MissionManager : MonoBehaviour
 
     private void Start()
     {
-        if (!activeMissions.ContainsKey("teleport_lab"))
+        string startID = SanitizeID("teleport_lab");
+        if (!activeMissions.ContainsKey(startID))
         {
-            AddMission("teleport_lab", "Teleport to Mesozoic Era");
+            AddMission(startID, "Teleport to Mesozoic Era");
+        }
+
+        LinkMission("collect_resources", "return_lab", "Return to the Lab Portal");
+
+        LinkMission("return_lab", "craft_cure", "Craft the Time Cure at the Workbench");
+    }
+
+    private void LinkMission(string doneID, string nextID, string nextDesc)
+    {
+        string id = SanitizeID(doneID);
+        if (!missionChains.ContainsKey(id))
+        {
+            missionChains.Add(id, new KeyValuePair<string, string>(SanitizeID(nextID), nextDesc));
         }
     }
 
-    public void AddMission(string id, string description, int targetAmount = 1)
+    private string SanitizeID(string input)
     {
+        if (string.IsNullOrEmpty(input)) return "";
+        return input.Trim().ToLower();
+    }
+
+    public void AddMission(string rawID, string description, int targetAmount = 1)
+    {
+        string id = SanitizeID(rawID);
+
         if (activeMissions.ContainsKey(id)) return;
         if (missionListContainer == null) return;
 
         foreach (var key in activeMissions.Keys)
         {
             MissionData oldMission = activeMissions[key];
-
             if (oldMission.isComplete && !oldMission.isRemoving)
             {
                 oldMission.isRemoving = true;
@@ -73,7 +95,7 @@ public class MissionManager : MonoBehaviour
             }
         }
 
-            missionCounter++;
+        missionCounter++;
 
         GameObject newObj = Instantiate(missionEntryPrefab, missionListContainer);
         MissionEntry entry = newObj.GetComponent<MissionEntry>();
@@ -83,15 +105,13 @@ public class MissionManager : MonoBehaviour
         {
             startProgress = pendingProgress[id];
             Debug.Log($"[Mission] {id} starting with pending progress: {startProgress}");
-
             pendingProgress.Remove(id);
         }
-
 
         string prefix = $"Mission {missionCounter}: ";
         string fullText = prefix + description;
 
-        if (targetAmount > 1) fullText += $" (0/{targetAmount})";
+        if (targetAmount > 1) fullText += $" ({startProgress}/{targetAmount})";
 
         entry.Setup(fullText, emptyCheckbox, checkedCheckbox);
 
@@ -99,7 +119,7 @@ public class MissionManager : MonoBehaviour
         {
             entryScript = entry,
             description = prefix + description,
-            currentProgress = 0,
+            currentProgress = startProgress,
             targetAmount = targetAmount,
             isComplete = false,
             isRemoving = false
@@ -112,11 +132,14 @@ public class MissionManager : MonoBehaviour
         {
             CompleteMission(id);
         }
+
     }
 
-    public void AddProgress(string id, int amount)
+    public void AddProgress(string rawID, int amount)
     {
-        if (!activeMissions.ContainsKey(id))
+        string id = SanitizeID(rawID);
+
+        if (activeMissions.ContainsKey(id))
         {
             MissionData m = activeMissions[id];
 
@@ -129,14 +152,30 @@ public class MissionManager : MonoBehaviour
                 m.entryScript.UpdateText($"{m.description} ({m.currentProgress}/{m.targetAmount})");
             }
 
-
+            if (m.currentProgress >= m.targetAmount)
+            {
+                CompleteMission(id);
+            }
         }
-
-       
+        else
+        {
+            if (pendingProgress.ContainsKey(id))
+            {
+                pendingProgress[id] += amount;
+            }
+            else
+            {
+                pendingProgress.Add(id, amount);
+            }
+            Debug.Log($"[Mission] Progress saved for future mission '{id}': {pendingProgress[id]}");
+        }
     }
 
-    public void CompleteMission(string id)
+    public void CompleteMission(string rawID)
     {
+        string id = SanitizeID(rawID);
+
+
         if (activeMissions.ContainsKey(id))
         {
             MissionData m = activeMissions[id];
@@ -144,7 +183,6 @@ public class MissionManager : MonoBehaviour
             if (!m.isComplete)
             {
                 m.isComplete = true;
-
                 m.currentProgress = m.targetAmount;
 
                 m.entryScript.SetComplete();
@@ -156,9 +194,19 @@ public class MissionManager : MonoBehaviour
 
                 Debug.Log($"[Mission] Completed: {id}");
 
-              //  StartCoroutine(RemoveMissionRoutine(id, m.entryScript.gameObject));
+                if (missionChains.ContainsKey(id))
+                {
+                    KeyValuePair<string, string> nextInfo = missionChains[id];
+                    StartCoroutine(StartNextMissionRoutine(nextInfo.Key, nextInfo.Value));
+                }
             }
         }
+    }
+
+    private IEnumerator StartNextMissionRoutine(string nextID, string nextDesc)
+    {
+        yield return new WaitForSeconds(2.0f);
+        AddMission(nextID, nextDesc);
     }
 
     private System.Collections.IEnumerator RemoveMissionRoutine(string id, GameObject uiObject)

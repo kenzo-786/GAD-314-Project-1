@@ -56,19 +56,6 @@ public class HotbarManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5)) SelectSlot(4);
         if (Input.GetKeyDown(KeyCode.Alpha6)) SelectSlot(5);
 
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll > 0f)
-        {
-            _selectedIndex--;
-            if (_selectedIndex < 0) _selectedIndex = _uiSlots.Count - 1;
-            SelectSlot(_selectedIndex);
-        }
-        else if (scroll < 0f)
-        {
-            _selectedIndex++;
-            if (_selectedIndex >= _uiSlots.Count) _selectedIndex = 0;
-            SelectSlot(_selectedIndex);
-        }
     }
 
     private void SelectSlot(int index)

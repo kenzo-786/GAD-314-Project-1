@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class CraftingTable : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class CraftingTable : MonoBehaviour
 
     [Header("Game Over / Win")]
     public string winSceneName;
+    public float waitBeforeWinScene = 4.0f;
 
     [Header("Interaction")]
     public float holdDuration = 2.0f;
@@ -107,35 +109,24 @@ public class CraftingTable : MonoBehaviour
 
         if (!string.IsNullOrEmpty(winSceneName))
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            if (LevelLoader.Instance) LevelLoader.Instance.LoadLevel(winSceneName);
-            else SceneManager.LoadScene(winSceneName);
-        }
-
-
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!_hasCrafted && other.CompareTag("Player"))
-        {
-            _inRange = true;
-            if (InteractionHUD.Instance)
-            {
-                InteractionHUD.Instance.Show();
-                InteractionHUD.Instance.UpdateProgress(0);
-            }
+            StartCoroutine(EndGameRoutine());
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private IEnumerator EndGameRoutine()
     {
-        if (other.CompareTag("Player"))
-        {
-            _inRange = false;
-            _timer = 0;
-            if (InteractionHUD.Instance) InteractionHUD.Instance.Hide();
-        }
+        Debug.Log("Crafting complete. Waiting for cinematic pause...");
+
+        if (GameManager.Instance) GameManager.Instance.SetState(GameState.Paused);
+
+        yield return new WaitForSeconds(waitBeforeWinScene);
+
+        Debug.Log("Loading Win Scene...");
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        SceneManager.LoadScene(winSceneName);
+
     }
 }

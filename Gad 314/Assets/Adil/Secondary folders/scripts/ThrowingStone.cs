@@ -4,6 +4,7 @@ public class ThrowingStone : MonoBehaviour
 {
     [Header("Settings")]
     public float noiseRadius = 15f;
+    public LayerMask enemyLayer;
 
     [Header("Audio")]
     public AudioClip impactSound;
@@ -14,7 +15,6 @@ public class ThrowingStone : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (_hasHit) return;
-
         if (collision.gameObject.CompareTag("Player")) return;
 
         _hasHit = true;

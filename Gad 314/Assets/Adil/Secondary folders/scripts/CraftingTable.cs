@@ -18,6 +18,9 @@ public class CraftingTable : MonoBehaviour
         public int amount;
     }
 
+    [Header("Game Over / Win")]
+    public string winSceneName;
+
     [Header("Interaction")]
     public float holdDuration = 2.0f;
     public KeyCode interactKey = KeyCode.E;
@@ -77,12 +80,28 @@ public class CraftingTable : MonoBehaviour
             InventoryManager.Instance.RemoveItem(req.item, req.amount);
         }
 
-        InventoryManager.Instance.AddItem(finalItem, finalItemAmount);
+        if (finalItem != null)
+        {
+            InventoryManager.Instance.AddItem(finalItem, finalItemAmount);
+            Debug.Log("Crafting Successful: " + finalItem.displayName);
+        }
 
-        Debug.Log("Crafting Successful: " + finalItem.displayName);
         if (craftSound) AudioSource.PlayClipAtPoint(craftSound, transform.position);
-
         if (InteractionHUD.Instance) InteractionHUD.Instance.Hide();
+
+        if (!string.IsNullOrEmpty(winSceneName))
+        {
+
+            Debug.Log("Game Finished! Loading Win Scene...");
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            if (LevelLoader.Instance)
+                LevelLoader.Instance.LoadLevel(winSceneName);
+            else
+                SceneManager.LoadScene(winSceneName);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

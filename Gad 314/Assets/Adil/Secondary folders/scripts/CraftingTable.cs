@@ -7,6 +7,7 @@ public class CraftingTable : MonoBehaviour
 {
     [Header("Missions")]
     public string missionToComplete = "craft_cure";
+    public string requiredActiveMission = "craft_cure";
     public string missionToStart = "";
 
     [Header("The Output")]
@@ -35,14 +36,18 @@ public class CraftingTable : MonoBehaviour
     [Header("Feedback")]
     public AudioClip craftSound;
     public AudioClip failSound;
-    private bool _hasCrafted = false;
+    private bool hasCrafted = false;
 
-    private bool _inRange;
+    public bool inRange = false;
     private float _timer;
 
     private void Update()
     {
-        if (_inRange && !_hasCrafted)
+        if (Input.GetKeyDown(KeyCode.P)) hasCrafted = false;
+
+        if (!IsInteractionAllowed()) return;
+
+        if (inRange && !hasCrafted)
         {
             if (Input.GetKey(interactKey))
             {
@@ -67,6 +72,18 @@ public class CraftingTable : MonoBehaviour
             }
         }
     }
+
+    private bool IsInteractionAllowed()
+    {
+        if (string.IsNullOrEmpty(requiredActiveMission)) return true;
+
+        if (MissionManager.Instance != null)
+        {
+            return MissionManager.Instance.IsMissionActive(requiredActiveMission);
+        }
+        return true;
+    }
+
 
     private void TryCraft()
     {
@@ -104,7 +121,7 @@ public class CraftingTable : MonoBehaviour
 
         if (oneTimeOnly)
         {
-            _hasCrafted = true;
+            hasCrafted = true;
         }
 
         if (!string.IsNullOrEmpty(winSceneName))
@@ -128,5 +145,39 @@ public class CraftingTable : MonoBehaviour
 
         SceneManager.LoadScene(winSceneName);
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (!IsInteractionAllowed()) return;
+
+            Debug.Log("Player entered Crafting Zone.");
+
+            if (!hasCrafted)
+            {
+                inRange = true;
+                if (InteractionHUD.Instance)
+                {
+                    InteractionHUD.Instance.Show();
+                    InteractionHUD.Instance.UpdateProgress(0);
+                }
+            }
+            else
+            {
+                Debug.Log("Table is locked (Already Crafted).");
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            inRange = false;
+            _timer = 0;
+            if (InteractionHUD.Instance) InteractionHUD.Instance.Hide();
+        }
     }
 }

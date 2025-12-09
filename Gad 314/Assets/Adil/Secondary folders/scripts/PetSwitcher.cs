@@ -45,13 +45,11 @@ public class PetSwitcher : MonoBehaviour
         {
             if (mainCameraObject) mainCameraObject.SetActive(true);
             if (petCameraObject) petCameraObject.SetActive(false);
-            if (_petController) _petController.isFirstPerson = false;
         }
         else if (newState == GameState.PetControl)
         {
             if (mainCameraObject) mainCameraObject.SetActive(false);
             if (petCameraObject) petCameraObject.SetActive(true);
-            if (_petController) _petController.isFirstPerson = true;
         }
     }
 

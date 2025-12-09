@@ -214,6 +214,17 @@ public class MissionManager : MonoBehaviour
         return false;
     }
 
+    public bool IsMissionActive(string rawID)
+    {
+        string id = SanitizeID(rawID);
+
+        if (activeMissions.ContainsKey(id))
+        {
+            return !activeMissions[id].isComplete;
+        }
+        return false;
+    }
+
     private IEnumerator StartNextMissionRoutine(string nextID, string nextDesc)
     {
         yield return new WaitForSeconds(2.0f);

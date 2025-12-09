@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class SceneTeleporter : MonoBehaviour
 {
@@ -7,21 +8,52 @@ public class SceneTeleporter : MonoBehaviour
     public string targetSceneName;
     public string missionID_ToComplete = "";
 
+    [Header("Requirements")]
+    public string requiredMissionID = "";
+    public string lockedMessage = "Locked: Complete objectives first.";
+
+
     [Header("Interaction")]
     public KeyCode interactKey = KeyCode.E;
     public float holdTime = 1.5f;
     public AudioClip teleportSound;
+    public AudioClip lockedSound;
+
+    public float activationDelay = 3.0f;
+    private bool _isLocked = true;
 
     private bool _inZone = false;
     private float _timer = 0f;
     private bool _isTeleporting = false;
 
+
+    private void Start()
+    {
+        StartCoroutine(UnlockTeleporterRoutine());
+    }
+
+    private IEnumerator UnlockTeleporterRoutine()
+    {
+        _isLocked = true;
+        yield return new WaitForSeconds(activationDelay);
+        _isLocked = false;
+    }
+
+
+
     private void Update()
     {
-        if (_isTeleporting || !_inZone) return;
+        if (_isTeleporting || !_inZone || _isLocked) return;
 
         if (Input.GetKey(interactKey))
         {
+            if (!CheckRequirements())
+            {
+                _timer = 0;
+                if (InteractionHUD.Instance) InteractionHUD.Instance.UpdateProgress(0);
+                return;
+            }
+
             _timer += Time.deltaTime;
 
             if (InteractionHUD.Instance)
@@ -56,10 +88,6 @@ public class SceneTeleporter : MonoBehaviour
                 Debug.Log($"[Teleporter] Completing Mission: {missionID_ToComplete}");
                 MissionManager.Instance.CompleteMission(missionID_ToComplete);
             }
-            else
-            {
-                Debug.LogWarning("[Teleporter] Warning: Mission ID set, but MissionManager is missing!");
-            }
         }
 
         if (InteractionHUD.Instance) InteractionHUD.Instance.Hide();
@@ -74,6 +102,24 @@ public class SceneTeleporter : MonoBehaviour
         {
             SceneManager.LoadScene(targetSceneName);
         }
+    }
+
+    private bool CheckRequirements()
+    {
+        if (string.IsNullOrEmpty(requiredMissionID)) return true;
+
+        if (MissionManager.Instance != null)
+        {
+            if (MissionManager.Instance.IsMissionComplete(requiredMissionID))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void OnTriggerEnter(Collider other)

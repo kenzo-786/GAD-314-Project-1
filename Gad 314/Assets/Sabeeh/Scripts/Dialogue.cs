@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class Dialogue : MonoBehaviour
+public class DialogueManager : MonoBehaviour
 {
     public GameObject dialogueBox;
     public TextMeshProUGUI dialogueText;
@@ -9,7 +9,7 @@ public class Dialogue : MonoBehaviour
     [TextArea(2, 5)]
     public string[] lines;
 
-    public MonoBehaviour playerController; // drag your player script here
+    public ThirdPersonMovement playerController;
 
     private int index = 0;
     private bool isActive = true;
@@ -19,7 +19,7 @@ public class Dialogue : MonoBehaviour
         dialogueBox.SetActive(true);
         dialogueText.text = lines[index];
 
-        playerController.enabled = false; // FREEZE PLAYER
+        playerController.enabled = false; 
     }
 
     void Update()
@@ -43,11 +43,8 @@ public class Dialogue : MonoBehaviour
             dialogueBox.SetActive(false);
             isActive = false;
 
-            playerController.enabled = true; // UNFREEZE player
+            playerController.enabled = true;
         }
     }
 }
-
-
-
 

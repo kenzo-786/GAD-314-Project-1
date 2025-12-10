@@ -160,7 +160,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1833887781450821677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,4 +192,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldIcon
   iconImage: {fileID: 9020728846139914758}
   floatDuration: 3
-  floatSpeed: 0.5
+  floatSpeed: 1

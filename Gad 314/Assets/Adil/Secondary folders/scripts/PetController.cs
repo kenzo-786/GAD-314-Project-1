@@ -55,9 +55,17 @@ public class PetController : MonoBehaviour
                 Collider[] petColliders = GetComponentsInChildren<Collider>();
                 foreach (var c in petColliders)
                 {
-                    Physics.IgnoreCollision(c, playerCollider);
+                    if (!c.isTrigger)
+                    {
+                        Physics.IgnoreCollision(c, playerCollider);
+                    }
                 }
             }
+        }
+
+        if (playerTarget != null && !isBroken)
+        {
+            SafeTeleport(playerTarget.position + Vector3.up);
         }
 
         if (GameManager.Instance != null)
@@ -168,7 +176,6 @@ public class PetController : MonoBehaviour
                     if (Vector3.Dot(targetDir, dirToPlayer) < 0)
                     {
                         isBlocked = true;
-
                         if (signalWarningUI) signalWarningUI.SetActive(true);
                     }
                     else
@@ -227,7 +234,7 @@ public class PetController : MonoBehaviour
 
         if (dist > teleportDistance)
         {
-            transform.position = playerTarget.position + Vector3.up;
+            SafeTeleport(playerTarget.position + Vector3.up);
             return;
         }
 
@@ -239,7 +246,6 @@ public class PetController : MonoBehaviour
             if (dir != Vector3.zero)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
-
                 _velocity.x = dir.x * moveSpeed * 0.8f;
                 _velocity.z = dir.z * moveSpeed * 0.8f;
             }
@@ -249,6 +255,22 @@ public class PetController : MonoBehaviour
             _velocity.x = 0;
             _velocity.z = 0;
         }
+    }
+
+    private void SafeTeleport(Vector3 targetPos)
+    {
+        if (_cc != null)
+        {
+            _cc.enabled = false;
+            transform.position = targetPos;
+            _cc.enabled = true;
+        }
+        else
+        {
+            transform.position = targetPos;
+        }
+
+        _velocity = Vector3.zero;
     }
 
     private void ApplyHoverAndGravity()

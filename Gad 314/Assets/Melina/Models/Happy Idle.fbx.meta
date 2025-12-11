@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2f7133ea5be91e742aabd39a32c5a5f5
+guid: f3f62178bf83679448f79888389d4dc4
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -17,7 +17,10 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Body' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -31,22 +34,22 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walking
+      name: idle
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 31
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -233,50 +236,50 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Walking(Clone)
+    - name: Happy Idle(Clone)
       parentName: 
-      position: {x: 0.0066334284, y: -0.011240539, z: -0.022432694}
-      rotation: {x: -0.70074254, y: -0.021512583, z: -0.010186559, w: 0.7130171}
+      position: {x: 0.018438818, y: -0.0024790955, z: -0.000017489194}
+      rotation: {x: -0.7125296, y: -0.036301922, z: -0.02227465, w: 0.7003482}
       scale: {x: 1, y: 1, z: 1}
     - name: Character_Hat
-      parentName: Walking(Clone)
+      parentName: Happy Idle(Clone)
       position: {x: 0.0050395285, y: 0.016240897, z: 1.7456659}
       rotation: {x: -0.006741711, y: -0.000000004641907, z: -0.000000004941095, w: 0.9999773}
       scale: {x: 26.773027, y: 26.77303, z: 26.77303}
     - name: Character_Layer2
-      parentName: Walking(Clone)
+      parentName: Happy Idle(Clone)
       position: {x: 0.015528338, y: 0.026864108, z: 1.6189474}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 62.035404, y: 62.035404, z: 62.035404}
     - name: Character_Main
-      parentName: Walking(Clone)
+      parentName: Happy Idle(Clone)
       position: {x: 0.015528338, y: 0.026864108, z: 1.6189474}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 62.035404, y: 62.035404, z: 62.035404}
     - name: Pelvis
-      parentName: Walking(Clone)
+      parentName: Happy Idle(Clone)
       position: {x: 0.0025283068, y: 0.0017689692, z: 0.7505257}
       rotation: {x: -0.006741283, y: 0, z: -0, w: 0.9999773}
       scale: {x: 62.0354, y: 62.035404, z: 62.035404}
     - name: Body
       parentName: Pelvis
       position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.70910597, y: -0.0053635514, z: -0.003442101, w: 0.7050732}
+      rotation: {x: 0.6933689, y: -0.0045869052, z: 0.004179214, w: 0.7205561}
       scale: {x: 1, y: 1, z: 1}
     - name: Chest
       parentName: Body
       position: {x: -0, y: 0.0059999977, z: 2.7939677e-11}
-      rotation: {x: 0.005642706, y: -0.009947245, z: -0.007395715, w: 0.99990726}
+      rotation: {x: -0.038440574, y: -0.0005374787, z: 0.011878321, w: 0.99919015}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmLeftUpper
       parentName: Chest
       position: {x: -0.006, y: 0.0040000007, z: -1.3969838e-10}
-      rotation: {x: 0.9804794, y: -0.18762273, z: -0.04733427, w: 0.03489096}
+      rotation: {x: 0.9794521, y: -0.1085113, z: -0.15322807, w: -0.07362104}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmLeftLower
       parentName: ArmLeftUpper
       position: {x: -0.0000000047683715, y: 0.0039999983, z: 0}
-      rotation: {x: -0.26352167, y: -0.16352199, z: -0.08897398, w: 0.9465202}
+      rotation: {x: -0.07690046, y: -0.0000000028230926, z: -0.0010369396, w: 0.99703825}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmLeftLower_end
       parentName: ArmLeftLower
@@ -286,12 +289,12 @@ ModelImporter:
     - name: ArmRightUpper
       parentName: Chest
       position: {x: 0.006, y: 0.0040000007, z: 1.3969838e-10}
-      rotation: {x: 0.9801218, y: 0.15542766, z: -0.087500736, w: -0.08687439}
+      rotation: {x: 0.9913182, y: 0.07090008, z: -0.07801972, w: -0.078576855}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmRightLower
       parentName: ArmRightUpper
       position: {x: 0.0000000047683715, y: 0.0039999997, z: 1.8626451e-11}
-      rotation: {x: -0.20198037, y: 0.11907393, z: 0.11575225, w: 0.9652082}
+      rotation: {x: -0.12524761, y: 0.0000000062067116, z: 0.0016886505, w: 0.9921241}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmRightLower_end
       parentName: ArmRightLower
@@ -301,7 +304,7 @@ ModelImporter:
     - name: Head
       parentName: Chest
       position: {x: -0, y: 0.005999999, z: 9.3132255e-12}
-      rotation: {x: 0.0000043636846, y: 0.0038369342, z: 0.010594833, w: 0.9999365}
+      rotation: {x: -0.023435498, y: 0.0026131396, z: 0.0037871278, w: 0.9997148}
       scale: {x: 1, y: 1, z: 1}
     - name: Head_end
       parentName: Head
@@ -311,12 +314,12 @@ ModelImporter:
     - name: LegLeftUpper
       parentName: Pelvis
       position: {x: -0.0020000003, y: 0.0000000016205013, z: 0}
-      rotation: {x: -0.819122, y: 0.07348477, z: -0.021828614, w: 0.56847394}
+      rotation: {x: -0.7315069, y: 0.072093554, z: -0.022860762, w: 0.6776265}
       scale: {x: 1, y: 1, z: 1}
     - name: LegLeftLower
       parentName: LegLeftUpper
       position: {x: -0, y: 0.0059999996, z: -9.3132255e-12}
-      rotation: {x: 0.5709316, y: -0.0097773615, z: 0.0017352299, w: 0.8209376}
+      rotation: {x: 0.16804267, y: 0.016016334, z: 0.021180013, w: 0.985422}
       scale: {x: 1, y: 1, z: 1}
     - name: LegLeftLower_end
       parentName: LegLeftLower
@@ -326,12 +329,12 @@ ModelImporter:
     - name: LegRightUpper
       parentName: Pelvis
       position: {x: 0.0020000003, y: -1.3038516e-10, z: -0.0000000011920929}
-      rotation: {x: -0.7576204, y: -0.034716103, z: 0.06841088, w: 0.6481714}
+      rotation: {x: -0.687094, y: -0.099251226, z: 0.039307117, w: 0.71868354}
       scale: {x: 1, y: 1, z: 1}
     - name: LegRightLower
       parentName: LegRightUpper
       position: {x: -0, y: 0.0059999996, z: 4.6566128e-12}
-      rotation: {x: 0.15085413, y: 0.06927227, z: 0.010309534, w: 0.98607206}
+      rotation: {x: 0.091154076, y: -0.055269595, z: -0.020489974, w: 0.99409074}
       scale: {x: 1, y: 1, z: 1}
     - name: LegRightLower_end
       parentName: LegRightLower

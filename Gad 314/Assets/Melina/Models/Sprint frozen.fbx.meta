@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2f7133ea5be91e742aabd39a32c5a5f5
+guid: 368e940d09facef4d917f074ff8ff215
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -17,7 +17,10 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Body' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -31,11 +34,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Walking
+      name: Sprint
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 31
+      lastFrame: 16
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -46,10 +49,10 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
@@ -81,7 +84,7 @@ ModelImporter:
     weldVertices: 1
     bakeAxisConversion: 0
     preserveHierarchy: 0
-    skinWeightsMode: 0
+    skinWeightsMode: 1
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
@@ -216,14 +219,6 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: ArmRightLower_end
-      humanName: RightHand
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
     - boneName: ArmLeftLower_end
       humanName: LeftHand
       limit:
@@ -232,51 +227,59 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
+    - boneName: ArmRightLower_end
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
     skeleton:
-    - name: Walking(Clone)
+    - name: Sprint frozen(Clone)
       parentName: 
-      position: {x: 0.0066334284, y: -0.011240539, z: -0.022432694}
-      rotation: {x: -0.70074254, y: -0.021512583, z: -0.010186559, w: 0.7130171}
+      position: {x: -0.039201245, y: -0.046433106, z: -0.29235232}
+      rotation: {x: -0.5820671, y: 0.050918963, z: 0.07100962, w: 0.80843234}
       scale: {x: 1, y: 1, z: 1}
     - name: Character_Hat
-      parentName: Walking(Clone)
+      parentName: Sprint frozen(Clone)
       position: {x: 0.0050395285, y: 0.016240897, z: 1.7456659}
       rotation: {x: -0.006741711, y: -0.000000004641907, z: -0.000000004941095, w: 0.9999773}
       scale: {x: 26.773027, y: 26.77303, z: 26.77303}
     - name: Character_Layer2
-      parentName: Walking(Clone)
+      parentName: Sprint frozen(Clone)
       position: {x: 0.015528338, y: 0.026864108, z: 1.6189474}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 62.035404, y: 62.035404, z: 62.035404}
     - name: Character_Main
-      parentName: Walking(Clone)
+      parentName: Sprint frozen(Clone)
       position: {x: 0.015528338, y: 0.026864108, z: 1.6189474}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 62.035404, y: 62.035404, z: 62.035404}
     - name: Pelvis
-      parentName: Walking(Clone)
+      parentName: Sprint frozen(Clone)
       position: {x: 0.0025283068, y: 0.0017689692, z: 0.7505257}
       rotation: {x: -0.006741283, y: 0, z: -0, w: 0.9999773}
       scale: {x: 62.0354, y: 62.035404, z: 62.035404}
     - name: Body
       parentName: Pelvis
       position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.70910597, y: -0.0053635514, z: -0.003442101, w: 0.7050732}
+      rotation: {x: 0.7684904, y: -0.00890702, z: -0.05429579, w: 0.63749135}
       scale: {x: 1, y: 1, z: 1}
     - name: Chest
       parentName: Body
       position: {x: -0, y: 0.0059999977, z: 2.7939677e-11}
-      rotation: {x: 0.005642706, y: -0.009947245, z: -0.007395715, w: 0.99990726}
+      rotation: {x: 0.1835706, y: -0.08991246, z: -0.07635463, w: 0.97590345}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmLeftUpper
       parentName: Chest
       position: {x: -0.006, y: 0.0040000007, z: -1.3969838e-10}
-      rotation: {x: 0.9804794, y: -0.18762273, z: -0.04733427, w: 0.03489096}
+      rotation: {x: 0.86423737, y: -0.2036222, z: -0.023547115, w: -0.4594316}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmLeftLower
       parentName: ArmLeftUpper
       position: {x: -0.0000000047683715, y: 0.0039999983, z: 0}
-      rotation: {x: -0.26352167, y: -0.16352199, z: -0.08897398, w: 0.9465202}
+      rotation: {x: -0.82958335, y: 0.004231843, z: -0.020055743, w: 0.5580066}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmLeftLower_end
       parentName: ArmLeftLower
@@ -286,12 +289,12 @@ ModelImporter:
     - name: ArmRightUpper
       parentName: Chest
       position: {x: 0.006, y: 0.0040000007, z: 1.3969838e-10}
-      rotation: {x: 0.9801218, y: 0.15542766, z: -0.087500736, w: -0.08687439}
+      rotation: {x: 0.793138, y: 0.20972772, z: 0.21404961, w: 0.53021616}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmRightLower
       parentName: ArmRightUpper
       position: {x: 0.0000000047683715, y: 0.0039999997, z: 1.8626451e-11}
-      rotation: {x: -0.20198037, y: 0.11907393, z: 0.11575225, w: 0.9652082}
+      rotation: {x: -0.8080958, y: -0.0045507546, z: 0.005559654, w: 0.58900726}
       scale: {x: 1, y: 1, z: 1}
     - name: ArmRightLower_end
       parentName: ArmRightLower
@@ -301,7 +304,7 @@ ModelImporter:
     - name: Head
       parentName: Chest
       position: {x: -0, y: 0.005999999, z: 9.3132255e-12}
-      rotation: {x: 0.0000043636846, y: 0.0038369342, z: 0.010594833, w: 0.9999365}
+      rotation: {x: -0.007998688, y: -0.003086271, z: 0.047752015, w: 0.99882245}
       scale: {x: 1, y: 1, z: 1}
     - name: Head_end
       parentName: Head
@@ -311,12 +314,12 @@ ModelImporter:
     - name: LegLeftUpper
       parentName: Pelvis
       position: {x: -0.0020000003, y: 0.0000000016205013, z: 0}
-      rotation: {x: -0.819122, y: 0.07348477, z: -0.021828614, w: 0.56847394}
+      rotation: {x: 0.96322066, y: -0.14818874, z: 0.03699912, w: -0.22108167}
       scale: {x: 1, y: 1, z: 1}
     - name: LegLeftLower
       parentName: LegLeftUpper
       position: {x: -0, y: 0.0059999996, z: -9.3132255e-12}
-      rotation: {x: 0.5709316, y: -0.0097773615, z: 0.0017352299, w: 0.8209376}
+      rotation: {x: 0.89959055, y: -0.047082264, z: -0.10627916, w: 0.42098087}
       scale: {x: 1, y: 1, z: 1}
     - name: LegLeftLower_end
       parentName: LegLeftLower
@@ -326,12 +329,12 @@ ModelImporter:
     - name: LegRightUpper
       parentName: Pelvis
       position: {x: 0.0020000003, y: -1.3038516e-10, z: -0.0000000011920929}
-      rotation: {x: -0.7576204, y: -0.034716103, z: 0.06841088, w: 0.6481714}
+      rotation: {x: -0.8242917, y: 0.03361433, z: 0.07081031, w: 0.5607131}
       scale: {x: 1, y: 1, z: 1}
     - name: LegRightLower
       parentName: LegRightUpper
       position: {x: -0, y: 0.0059999996, z: 4.6566128e-12}
-      rotation: {x: 0.15085413, y: 0.06927227, z: 0.010309534, w: 0.98607206}
+      rotation: {x: 0.39418525, y: -0.052747674, z: -0.06301568, w: 0.91534954}
       scale: {x: 1, y: 1, z: 1}
     - name: LegRightLower_end
       parentName: LegRightLower

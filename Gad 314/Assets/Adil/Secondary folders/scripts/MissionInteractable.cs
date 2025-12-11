@@ -17,7 +17,7 @@ public class MissionInteractable : MonoBehaviour
 
     private bool _inRange;
     private float _timer;
-    private bool _used = false;
+    [SerializeField] private bool _used = false;
 
     private void Update()
     {
@@ -75,7 +75,7 @@ public class MissionInteractable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!_used && other.CompareTag("Player"))
+        if (_used ==false && other.CompareTag("Player"))
         {
             _inRange = true;
             if (InteractionHUD.Instance) { InteractionHUD.Instance.Show(); InteractionHUD.Instance.UpdateProgress(0); }

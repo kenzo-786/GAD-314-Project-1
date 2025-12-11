@@ -21,6 +21,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [Header("References")]
     public Transform cameraTransform;
+    public Animator animator;
 
     private CharacterController _controller;
     private float _turnSmoothVelocity;
@@ -33,6 +34,8 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
 
+        if (animator == null) animator = GetComponentInChildren<Animator>();
+
         if (cameraTransform == null)
         {
             cameraTransform = Camera.main.transform;
@@ -42,7 +45,10 @@ public class ThirdPersonMovement : MonoBehaviour
     private void Update()
     {
         if (GameManager.Instance != null && GameManager.Instance.CurrentState != GameState.Gameplay)
+        {
+            if (animator) animator.SetFloat("Speed", 0f);
             return;
+        }
 
         Vector2 moveInput = InputReader.Instance.GetMoveInput();
         bool jumpDown = InputReader.Instance.GetJumpDown();
@@ -50,6 +56,7 @@ public class ThirdPersonMovement : MonoBehaviour
         bool sprintHeld = InputReader.Instance.GetSprintHeld();
 
         _isGrounded = _controller.isGrounded;
+
         if (_isGrounded && _velocity.y < 0) _velocity.y = -2f;
 
         if (dashDown && Time.time >= _lastDashTime + dashCooldown)
@@ -62,11 +69,14 @@ public class ThirdPersonMovement : MonoBehaviour
         HandleMovement(moveInput, sprintHeld);
         HandleJump(jumpDown);
         ApplyGravity();
+
+        UpdateAnimations(moveInput, sprintHeld);
     }
 
     private void HandleMovement(Vector2 input, bool isSprinting)
     {
         if (input.sqrMagnitude < 0.01f) return;
+
         Vector3 direction = new Vector3(input.x, 0f, input.y).normalized;
         float targetSpeed = isSprinting ? sprintSpeed : walkSpeed;
 
@@ -76,7 +86,6 @@ public class ThirdPersonMovement : MonoBehaviour
 
         Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         _controller.Move(moveDir.normalized * targetSpeed * Time.deltaTime);
-
     }
 
     private void HandleJump(bool isJumping)
@@ -84,7 +93,24 @@ public class ThirdPersonMovement : MonoBehaviour
         if (isJumping && _isGrounded)
         {
             _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+            if (animator) animator.SetTrigger("Jump");
         }
+    }
+
+    private void UpdateAnimations(Vector2 input, bool isSprinting)
+    {
+        if (animator == null) return;
+
+        float targetValue = 0f;
+
+        if (input.sqrMagnitude > 0.01f)
+        {
+            targetValue = isSprinting ? 1.0f : 0.5f;
+        }
+
+        animator.SetFloat("Speed", targetValue, 0.1f, Time.deltaTime);
+        animator.SetBool("IsGrounded", _isGrounded);
     }
 
     private IEnumerator DashRoutine(Vector2 inputDir)
@@ -92,13 +118,14 @@ public class ThirdPersonMovement : MonoBehaviour
         _isDashing = true;
         _lastDashTime = Time.time;
 
+        if (animator) animator.SetTrigger("Dash");
+
         Vector3 dashDirection = transform.forward;
 
         if (inputDir.sqrMagnitude > 0.01f)
         {
             float targetAngle = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             dashDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
             transform.rotation = Quaternion.LookRotation(dashDirection);
         }
 

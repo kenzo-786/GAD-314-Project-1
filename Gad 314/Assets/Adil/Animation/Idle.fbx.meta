@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bbe97b5fd07ff0d45be10b347eea2645
+guid: 7f620297d8170dc4db08ff56fb220e4b
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -17,7 +17,10 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Body' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -29,7 +32,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: mixamo.com
+      internalID: -203655887218126122
+      firstFrame: 0
+      lastFrame: 250
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -187,14 +219,6 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: ArmRightLower_end
-      humanName: RightHand
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
     - boneName: ArmLeftLower_end
       humanName: LeftHand
       limit:
@@ -203,112 +227,120 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
+    - boneName: ArmRightLower_end
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
     skeleton:
-    - name: Scientist(Clone)
+    - name: Idle(Clone)
       parentName: 
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      position: {x: 0.03141851, y: -0.005453262, z: 0.05104767}
+      rotation: {x: -0.7279755, y: 0.014346426, z: 0.05151558, w: 0.68351454}
       scale: {x: 1, y: 1, z: 1}
     - name: Pelvis
-      parentName: Scientist(Clone)
-      position: {x: 0.0025283068, y: 0.0017689692, z: 0.7505257}
-      rotation: {x: -0.0067414725, y: -0.00000002597909, z: -0.0000000010013221, w: 0.9999773}
-      scale: {x: 62.0354, y: 62.035404, z: 62.035404}
-    - name: LegLeftUpper
-      parentName: Pelvis
-      position: {x: -0.0020000003, y: 0.0000000016205013, z: 0}
-      rotation: {x: -0.7044076, y: 0.000000017947169, z: 0.000000018304238, w: 0.7097957}
-      scale: {x: 1, y: 1, z: 1}
-    - name: LegLeftLower
-      parentName: LegLeftUpper
-      position: {x: -0, y: 0.0059999996, z: -9.3132255e-12}
-      rotation: {x: 0.0041926987, y: -4.243511e-10, z: 2.3105352e-10, w: 0.99999124}
-      scale: {x: 1, y: 1, z: 1}
-    - name: LegLeftLower_end
-      parentName: LegLeftLower
-      position: {x: -0, y: 0.005999998, z: 1.7462298e-12}
-      rotation: {x: 2.1403406e-34, y: -1.5422778e-17, z: 1.387779e-17, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: LegRightUpper
-      parentName: Pelvis
-      position: {x: 0.0020000003, y: -1.3038516e-10, z: -0.0000000011920929}
-      rotation: {x: -0.70436215, y: 0.000000018120385, z: 0.000000018460732, w: 0.7098408}
-      scale: {x: 1, y: 1, z: 1}
-    - name: LegRightLower
-      parentName: LegRightUpper
-      position: {x: -0, y: 0.0059999996, z: 4.6566128e-12}
-      rotation: {x: 0.004065737, y: -4.8874127e-10, z: -4.6765397e-10, w: 0.9999918}
-      scale: {x: 1, y: 1, z: 1}
-    - name: LegRightLower_end
-      parentName: LegRightLower
-      position: {x: -0, y: 0.005999999, z: -5.820766e-13}
-      rotation: {x: -1.1641535e-10, y: 2.4177712e-17, z: 5.551116e-17, w: 1}
-      scale: {x: 1, y: 1, z: 1}
+      parentName: Idle(Clone)
+      position: {x: 0.010286134, y: 0.0010564327, z: 0.750094}
+      rotation: {x: -0.006741283, y: 0, z: -0, w: 0.9999773}
+      scale: {x: 62.0354, y: 62.0354, z: 62.0354}
     - name: Body
       parentName: Pelvis
       position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.7071067, y: 0.000000018958536, z: -0.000000017790168, w: 0.7071068}
+      rotation: {x: 0.7185531, y: 0.0061104745, z: -0.01450642, w: 0.6952939}
       scale: {x: 1, y: 1, z: 1}
     - name: Chest
       parentName: Body
-      position: {x: -0, y: 0.0059999977, z: 2.7939677e-11}
-      rotation: {x: 4.6566134e-10, y: -3.7404975e-18, z: 1.741805e-27, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: ArmRightUpper
-      parentName: Chest
-      position: {x: 0.006, y: 0.0040000007, z: 1.3969838e-10}
-      rotation: {x: 0.7071068, y: 0.7071067, z: 0.00000003123789, w: 0.00000003057935}
-      scale: {x: 1, y: 1, z: 1}
-    - name: ArmRightLower
-      parentName: ArmRightUpper
-      position: {x: 0.0000000047683715, y: 0.0039999997, z: 1.8626451e-11}
-      rotation: {x: 1.771416e-10, y: -0.000000059138983, z: 1.422133e-14, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: ArmRightLower_end
-      parentName: ArmRightLower
-      position: {x: -0, y: 0.005999999, z: 1.8626451e-11}
-      rotation: {x: 2.2204463e-16, y: -4.6566134e-10, z: -7.1054274e-15, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: ArmLeftUpper
-      parentName: Chest
-      position: {x: -0.006, y: 0.0040000007, z: -1.3969838e-10}
-      rotation: {x: 0.7071068, y: -0.7071067, z: -0.00000003123789, w: 0.00000003057935}
-      scale: {x: 1, y: 1, z: 1}
-    - name: ArmLeftLower
-      parentName: ArmLeftUpper
-      position: {x: -0.0000000047683715, y: 0.0039999983, z: 0}
-      rotation: {x: 1.7713928e-10, y: 0.000000059138983, z: -1.422133e-14, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: ArmLeftLower_end
-      parentName: ArmLeftLower
-      position: {x: -0, y: 0.0059999977, z: 0}
-      rotation: {x: 1.4432901e-15, y: 4.6566134e-10, z: -6.7208435e-25, w: 1}
+      position: {x: -0, y: 0.006, z: 0}
+      rotation: {x: 0.032864466, y: -0.011719917, z: -0.031993028, w: 0.9988789}
       scale: {x: 1, y: 1, z: 1}
     - name: Head
       parentName: Chest
-      position: {x: -0, y: 0.005999999, z: 9.3132255e-12}
-      rotation: {x: 4.6566134e-10, y: -3.7404975e-18, z: 1.741805e-27, w: 1}
+      position: {x: -0, y: 0.006, z: 0}
+      rotation: {x: 0.04907569, y: 0.0009359799, z: -0.0039167386, w: 0.9987869}
       scale: {x: 1, y: 1, z: 1}
     - name: Head_end
       parentName: Head
-      position: {x: -0, y: 0.008000001, z: 1.8626451e-11}
-      rotation: {x: 4.6566134e-10, y: -3.7404975e-18, z: 1.741805e-27, w: 1}
+      position: {x: -0, y: 0.008, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Main
-      parentName: Scientist(Clone)
-      position: {x: 0.015528338, y: 0.026864108, z: 1.6189474}
+    - name: ArmLeftUpper
+      parentName: Chest
+      position: {x: -0.006, y: 0.004, z: 0}
+      rotation: {x: 0.6934638, y: -0.6613183, z: -0.21413417, w: -0.18950647}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ArmLeftLower
+      parentName: ArmLeftUpper
+      position: {x: -0, y: 0.004, z: 0}
+      rotation: {x: -0.012733807, y: -0.000000026434233, z: -0.00017168462, w: 0.99991894}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ArmLeftLower_end
+      parentName: ArmLeftLower
+      position: {x: -0, y: 0.006, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 62.035404, y: 62.035404, z: 62.035404}
-    - name: Character_Layer2
-      parentName: Scientist(Clone)
-      position: {x: 0.015528338, y: 0.026864108, z: 1.6189474}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ArmRightUpper
+      parentName: Chest
+      position: {x: 0.006, y: 0.004, z: 0}
+      rotation: {x: 0.65362877, y: 0.6628641, z: 0.24926816, w: -0.26691952}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ArmRightLower
+      parentName: ArmRightUpper
+      position: {x: -0, y: 0.004, z: 0}
+      rotation: {x: -0.034042656, y: -0.00012625754, z: -0.0017002523, w: 0.999419}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ArmRightLower_end
+      parentName: ArmRightLower
+      position: {x: -0, y: 0.006, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 62.035404, y: 62.035404, z: 62.035404}
-    - name: Character_Hat
-      parentName: Scientist(Clone)
-      position: {x: 0.0050395285, y: 0.016240897, z: 1.7456659}
-      rotation: {x: -0.006741711, y: -0.000000004641907, z: -0.000000004941095, w: 0.9999773}
-      scale: {x: 26.773027, y: 26.77303, z: 26.77303}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LegRightUpper
+      parentName: Pelvis
+      position: {x: 0.002, y: 0, z: 0}
+      rotation: {x: -0.6650885, y: -0.04654891, z: 0.0808821, w: 0.74091065}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LegRightLower
+      parentName: LegRightUpper
+      position: {x: -0, y: 0.006, z: 0}
+      rotation: {x: 0.03371364, y: -0.08366814, z: -0.030909734, w: 0.99544346}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LegRightLower_end
+      parentName: LegRightLower
+      position: {x: -0, y: 0.006, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LegLeftUpper
+      parentName: Pelvis
+      position: {x: -0.002, y: 0, z: 0}
+      rotation: {x: -0.74829614, y: 0.1477285, z: -0.04416447, w: 0.6451966}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LegLeftLower
+      parentName: LegLeftUpper
+      position: {x: -0, y: 0.006, z: 0}
+      rotation: {x: 0.14882718, y: 0.012376458, z: 0.03892372, w: 0.9880194}
+      scale: {x: 1, y: 1, z: 1}
+    - name: LegLeftLower_end
+      parentName: LegLeftLower
+      position: {x: -0, y: 0.006, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: mixamo:Character_Main
+      parentName: Idle(Clone)
+      position: {x: 0.015528, y: 0.026864, z: 1.6189469}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 62.0354, y: 62.0354, z: 62.0354}
+    - name: mixamo:Character_Layer2
+      parentName: Idle(Clone)
+      position: {x: 0.015528, y: 0.026864, z: 1.6189469}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 62.0354, y: 62.0354, z: 62.0354}
+    - name: mixamo:Character_Hat
+      parentName: Idle(Clone)
+      position: {x: 0.00504, y: 0.016241, z: 1.745666}
+      rotation: {x: -0.006741283, y: 0, z: -0, w: 0.9999773}
+      scale: {x: 26.773, y: 26.773, z: 26.773}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5

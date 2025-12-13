@@ -6,9 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Final Build scenes/Intro.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Final Build scenes/Intro.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Resources_Items/RoboPet(OG).prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Resources_Items/RoboPet(OG).prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Secondary folders/Textures/New Material 12.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Secondary folders/Textures/New Material 12.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Secondary folders/Textures/New Material 13.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Secondary folders/Textures/New Material 13.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Secondary folders/Textures/New Material 14.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Secondary folders/Textures/New Material 14.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Secondary folders/Textures/New Material 15.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Secondary folders/Textures/New Material 15.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Secondary folders/scripts/TerminalIntro.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Secondary folders/scripts/TerminalIntro.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Blue.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Blue.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MainGame/FinalMasterScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainGame/FinalMasterScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/MainGame/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainGame/MainMenu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MainGame/SplashScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MainGame/SplashScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Assets/Sprites/ages of cure.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Assets/Sprites/ages of cure.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Melina/Scripts/MainMenu/MainMenuController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Melina/Scripts/MainMenu/MainMenuController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/New Material 1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/New Material 1.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Red.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Red.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -148,6 +163,7 @@
       <workItem from="1764048745367" duration="709000" />
       <workItem from="1764057416522" duration="2503000" />
       <workItem from="1765299067253" duration="1341000" />
+      <workItem from="1765619549107" duration="9163000" />
     </task>
     <servers />
   </component>

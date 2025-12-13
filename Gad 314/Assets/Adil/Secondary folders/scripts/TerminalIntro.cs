@@ -17,47 +17,52 @@ public class TerminalIntro : MonoBehaviour
     public AudioClip alarmSound;
     public AudioClip petVoiceSound;
 
-    [Range(0f, 1f)] public float typingVolume = 0.3f;
-    [Range(0f, 1f)] public float petVoiceVolume = 0.2f;
+    [Range(0f, 1f)]
+    public float typingVolume = 0.3f;
+
+    [Range(0f, 1f)]
+    public float petVoiceVolume = 0.2f;
 
     [Header("UI References")]
     public TextMeshProUGUI terminalText;
     public GameObject blackScreen;
 
-    private string[] _introLines = new string[]
+    private string[] _introLines =
     {
         "SYSTEM BOOT... [OK]",
-        "USER: DR. JAMES",
-        "DATE: 204X - PROJECT CHRONO",
+        "USER - DR. STILINSKI",
+        "DATE - 2125 - PROJECT X",
         "--------------------------------",
-        "LOG ENTRY 404:",
+        "LOG ENTRY 10100 -",
+        "",
         "We are close. The new material...",
         "It's unstable, but the energy output is infinite.",
-        "If we can stabilize the Chrono Core, we can...",
+        "If we can stabilize the Core, we can...",
         "Wait...",
         "Energy spike detected.",
         "Stabilizers failing...",
-        "WARNING: CRITICAL ERROR",
+        "--------------------------------",
+        "WARNING - CRITICAL ERROR",
         "CONTAINMENT BREACH DETECTED"
     };
 
-    private string[] _postExplosionLines = new string[]
-   {
-        "...",
+    private string[] _postExplosionLines =
+    {
         "SYSTEM REBOOT...",
+        "--------------------------------",
         "Scanning for life signs...",
         "[1] Survivor Detected.",
         "Doctor? Can you hear me?",
         "The blast... it released a virus.",
         "The world is changing rapidly.",
-        "We have one option.",
+        "We are left with one option.",
         "I have located the resources in the Mesozoic Era.",
         "We must travel back.",
         "Find the cure.",
         "Save the future.",
+        "--------------------------------",
         "Initiating Time Jump..."
-   };
-
+    };
 
     private void Start()
     {
@@ -85,21 +90,29 @@ public class TerminalIntro : MonoBehaviour
             if (line.Contains("WARNING"))
             {
                 terminalText.color = Color.red;
-                if (alarmSound) audioSource.PlayOneShot(alarmSound);
+                if (alarmSound)
+                    audioSource.PlayOneShot(alarmSound);
             }
         }
 
         yield return new WaitForSeconds(0.5f);
+
         terminalText.text = "";
 
-        if (explosionSound) audioSource.PlayOneShot(explosionSound);
+        if (explosionSound)
+            audioSource.PlayOneShot(explosionSound);
 
         terminalText.color = Color.red;
         terminalText.text = "SIGNAL LOST";
+
         yield return new WaitForSeconds(0.1f);
+
         terminalText.text = "";
+
         yield return new WaitForSeconds(0.1f);
+
         terminalText.text = "ERROR";
+
         yield return new WaitForSeconds(2.0f);
 
         terminalText.color = Color.cyan;
@@ -107,7 +120,9 @@ public class TerminalIntro : MonoBehaviour
 
         foreach (string line in _postExplosionLines)
         {
-            if (petVoiceSound) audioSource.PlayOneShot(petVoiceSound, petVoiceVolume);
+            if (petVoiceSound)
+                audioSource.PlayOneShot(petVoiceSound, petVoiceVolume);
+
             yield return StartCoroutine(TypeText(line));
             yield return new WaitForSeconds(lineDelay);
         }
@@ -120,10 +135,13 @@ public class TerminalIntro : MonoBehaviour
     {
         terminalText.text += "\n";
 
-        foreach (char c in line.ToCharArray())
+        foreach (char c in line)
         {
             terminalText.text += c;
-            if (typingSound) audioSource.PlayOneShot(typingSound, typingVolume);
+
+            if (typingSound)
+                audioSource.PlayOneShot(typingSound, typingVolume);
+
             yield return new WaitForSeconds(typingSpeed);
         }
     }

@@ -34,7 +34,7 @@ public class ThrowingStone : MonoBehaviour
         {
             if (hit.CompareTag("Enemy"))
             {
-                DinoEnemyAI brain = hit.GetComponent<DinoEnemyAI>();
+                DinoNavMeshAI brain = hit.GetComponent<DinoNavMeshAI>();
 
                 if (brain != null)
                 {

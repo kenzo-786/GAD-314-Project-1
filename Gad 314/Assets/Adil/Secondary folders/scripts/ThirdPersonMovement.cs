@@ -11,7 +11,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [Header("Jumping & Gravity")]
     public float jumpHeight = 1.2f;
-    public float gravity = -22f;
+    public float gravity = -15f;
     public float gravityMultiplier = 2.5f;
 
     [Header("Dash")]
@@ -57,7 +57,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
         _isGrounded = _controller.isGrounded;
 
-        if (_isGrounded && _velocity.y < 0) _velocity.y = -2f;
+        if (_isGrounded && _velocity.y < 0) _velocity.y = -10f;
 
         if (dashDown && Time.time >= _lastDashTime + dashCooldown)
         {

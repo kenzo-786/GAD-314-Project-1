@@ -19,7 +19,7 @@ public class DinoNavMeshAI : MonoBehaviour
     public float sightRange = 15f;
     public float attackRange = 2.5f;
     public float losePlayerRange = 20f;
-
+    public float damageAmount = 25f;
     [Header("Territory")]
     public float maxTerritoryRange = 40f;
     private Vector3 _spawnPosition;

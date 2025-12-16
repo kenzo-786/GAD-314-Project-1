@@ -19,13 +19,18 @@ public class ThirdPersonMovement : MonoBehaviour
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;
 
+    [Header("Ground Detection")]
+    public LayerMask groundLayers;
+    public float groundCheckRadius = 0.25f;
+    public float groundCheckOffset = 0.05f;
+
     [Header("References")]
     public Transform cameraTransform;
     public Animator animator;
 
     private CharacterController _controller;
     private float _turnSmoothVelocity;
-    private Vector3 _velocity;
+    private Vector3 _verticalVelocity;
     private bool _isGrounded;
     private bool _isDashing;
     private float _lastDashTime;
@@ -55,9 +60,12 @@ public class ThirdPersonMovement : MonoBehaviour
         bool dashDown = InputReader.Instance.GetDashDown();
         bool sprintHeld = InputReader.Instance.GetSprintHeld();
 
-        _isGrounded = _controller.isGrounded;
+        _isGrounded = CheckGround();
 
-        if (_isGrounded && _velocity.y < 0) _velocity.y = -10f;
+        if (_isGrounded && _verticalVelocity.y < 0)
+        {
+            _verticalVelocity.y = -2f;
+        }
 
         if (dashDown && Time.time >= _lastDashTime + dashCooldown)
         {
@@ -66,16 +74,39 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (_isDashing) return;
 
-        HandleMovement(moveInput, sprintHeld);
-        HandleJump(jumpDown);
-        ApplyGravity();
+        Vector3 horizontalMove = CalculateHorizontalMovement(moveInput, sprintHeld);
+
+        if (jumpDown && _isGrounded)
+        {
+            _verticalVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+            if (animator) animator.SetTrigger("Jump");
+        }
+
+        if (_verticalVelocity.y < 0)
+        {
+            _verticalVelocity.y += gravity * gravityMultiplier * Time.deltaTime;
+        }
+        else
+        {
+            _verticalVelocity.y += gravity * Time.deltaTime;
+        }
+
+        Vector3 finalMovement = (horizontalMove * Time.deltaTime) + (_verticalVelocity * Time.deltaTime);
+        _controller.Move(finalMovement);
 
         UpdateAnimations(moveInput, sprintHeld);
     }
 
-    private void HandleMovement(Vector2 input, bool isSprinting)
+    private bool CheckGround()
     {
-        if (input.sqrMagnitude < 0.01f) return;
+        Vector3 spherePosition = transform.position + Vector3.down * groundCheckOffset;
+        return Physics.CheckSphere(spherePosition, groundCheckRadius, groundLayers, QueryTriggerInteraction.Ignore);
+    }
+
+    private Vector3 CalculateHorizontalMovement(Vector2 input, bool isSprinting)
+    {
+        if (input.sqrMagnitude < 0.01f) return Vector3.zero;
 
         Vector3 direction = new Vector3(input.x, 0f, input.y).normalized;
         float targetSpeed = isSprinting ? sprintSpeed : walkSpeed;
@@ -85,17 +116,8 @@ public class ThirdPersonMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
         Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-        _controller.Move(moveDir.normalized * targetSpeed * Time.deltaTime);
-    }
 
-    private void HandleJump(bool isJumping)
-    {
-        if (isJumping && _isGrounded)
-        {
-            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
-            if (animator) animator.SetTrigger("Jump");
-        }
+        return moveDir.normalized * targetSpeed;
     }
 
     private void UpdateAnimations(Vector2 input, bool isSprinting)
@@ -138,11 +160,10 @@ public class ThirdPersonMovement : MonoBehaviour
         _isDashing = false;
     }
 
-    private void ApplyGravity()
+    private void OnDrawGizmosSelected()
     {
-        if (_velocity.y < 0) _velocity.y += gravity * gravityMultiplier * Time.deltaTime;
-        else _velocity.y += gravity * Time.deltaTime;
-
-        _controller.Move(_velocity * Time.deltaTime);
+        Gizmos.color = new Color(0, 1, 0, 0.5f);
+        Vector3 spherePosition = transform.position + Vector3.down * groundCheckOffset;
+        Gizmos.DrawSphere(spherePosition, groundCheckRadius);
     }
 }

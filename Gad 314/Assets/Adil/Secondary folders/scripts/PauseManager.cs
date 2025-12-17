@@ -11,12 +11,21 @@ public class PauseManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private string mainMenuSceneName = "MainMenu";
 
-    private bool isPaused;
+    private bool isPaused = false;
+    private GameState previousState;
 
     private void Start()
     {
         SetAllPanels(false);
-        ResumeGame();
+        isPaused = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
     }
 
     public void TogglePause()
@@ -29,32 +38,30 @@ public class PauseManager : MonoBehaviour
 
     public void PauseGame()
     {
+        if (GameManager.Instance == null) return;
+
         isPaused = true;
         Time.timeScale = 0f;
+
+        previousState = GameManager.Instance.CurrentState;
 
         pauseMenuPanel.SetActive(true);
         controlsPanel.SetActive(false);
         accessibilityPanel.SetActive(false);
 
-        if (GameManager.Instance != null)
-            GameManager.Instance.SetState(GameState.Paused);
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        GameManager.Instance.SetState(GameState.Paused);
     }
 
     public void ResumeGame()
     {
+        if (GameManager.Instance == null) return;
+
         isPaused = false;
         Time.timeScale = 1f;
 
         SetAllPanels(false);
 
-        if (GameManager.Instance != null)
-            GameManager.Instance.SetState(GameState.Gameplay);
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        GameManager.Instance.SetState(previousState);
     }
 
     public void OpenControls()
@@ -95,4 +102,7 @@ public class PauseManager : MonoBehaviour
         if (controlsPanel != null) controlsPanel.SetActive(state);
         if (accessibilityPanel != null) accessibilityPanel.SetActive(state);
     }
+
+
 }
+

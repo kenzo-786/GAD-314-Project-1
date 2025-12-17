@@ -15,6 +15,6 @@ MonoBehaviour:
   id: crystal
   displayName: Amber Crystal
   description: 
-  icon: {fileID: 2085554840, guid: 93b318964f0cc6a408e9dcc43dfd1895, type: 3}
+  icon: {fileID: 21300000, guid: cbe75e1f810b9914db3164a4bc438bc5, type: 3}
   isStackable: 1
   maxStack: 64

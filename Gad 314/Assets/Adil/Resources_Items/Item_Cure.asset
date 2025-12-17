@@ -15,6 +15,6 @@ MonoBehaviour:
   id: Item_Cure
   displayName: The Antidote
   description: The final formula to save humanity
-  icon: {fileID: 0}
+  icon: {fileID: 275417701, guid: eb111e6b7933745489ed3f6fdaf1246d, type: 3}
   isStackable: 1
   maxStack: 64

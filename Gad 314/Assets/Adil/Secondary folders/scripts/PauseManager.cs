@@ -4,55 +4,40 @@ using UnityEngine.SceneManagement;
 public class PauseManager : MonoBehaviour
 {
     [Header("UI References")]
-    public GameObject pauseMenuPanel;
-    public GameObject controlsPanel;
-    public GameObject accessibilityPanel;
+    [SerializeField] private GameObject pauseMenuPanel;
+    [SerializeField] private GameObject controlsPanel;
+    [SerializeField] private GameObject accessibilityPanel;
 
     [Header("Settings")]
-    public string mainMenuSceneName = "MainMenu";
-    public KeyCode pauseKey = KeyCode.Escape;
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
 
-    private bool _isPaused = false;
+    private bool isPaused;
 
     private void Start()
     {
-        if (pauseMenuPanel) pauseMenuPanel.SetActive(false);
-        if (controlsPanel) controlsPanel.SetActive(false);
-        if (accessibilityPanel) accessibilityPanel.SetActive(false);
+        SetAllPanels(false);
+        ResumeGame();
     }
 
-    private void Update()
+    public void TogglePause()
     {
-        if (GameManager.Instance)
-        {
-            GameState state = GameManager.Instance.CurrentState;
-            if (state != GameState.Gameplay && state != GameState.PetControl && state != GameState.Paused) return;
-        }
-
-        if (Input.GetKeyDown(pauseKey))
-        {
-            if (_isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
-        }
+        if (isPaused)
+            ResumeGame();
+        else
+            PauseGame();
     }
 
     public void PauseGame()
     {
-        _isPaused = true;
+        isPaused = true;
         Time.timeScale = 0f;
 
-        if (pauseMenuPanel) pauseMenuPanel.SetActive(true);
+        pauseMenuPanel.SetActive(true);
+        controlsPanel.SetActive(false);
+        accessibilityPanel.SetActive(false);
 
-        if (GameManager.Instance)
-        {
+        if (GameManager.Instance != null)
             GameManager.Instance.SetState(GameState.Paused);
-        }
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -60,46 +45,54 @@ public class PauseManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        _isPaused = false;
+        isPaused = false;
         Time.timeScale = 1f;
 
-        if (pauseMenuPanel) pauseMenuPanel.SetActive(false);
-        if (controlsPanel) controlsPanel.SetActive(false);
-        if (accessibilityPanel) accessibilityPanel.SetActive(false);
+        SetAllPanels(false);
 
-        if (GameManager.Instance)
-        {
+        if (GameManager.Instance != null)
             GameManager.Instance.SetState(GameState.Gameplay);
-        }
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void OpenControls()
     {
-        if (pauseMenuPanel) pauseMenuPanel.SetActive(false);
-        if (controlsPanel) controlsPanel.SetActive(true);
+        pauseMenuPanel.SetActive(false);
+        controlsPanel.SetActive(true);
+        accessibilityPanel.SetActive(false);
     }
 
     public void CloseControls()
     {
-        if (controlsPanel) controlsPanel.SetActive(false);
-        if (pauseMenuPanel) pauseMenuPanel.SetActive(true);
+        controlsPanel.SetActive(false);
+        pauseMenuPanel.SetActive(true);
     }
 
     public void OpenAccessibility()
     {
-        if (pauseMenuPanel) pauseMenuPanel.SetActive(false);
-        if (accessibilityPanel) accessibilityPanel.SetActive(true);
+        pauseMenuPanel.SetActive(false);
+        accessibilityPanel.SetActive(true);
+        controlsPanel.SetActive(false);
     }
 
     public void CloseAccessibility()
     {
-        if (accessibilityPanel) accessibilityPanel.SetActive(false);
-        if (pauseMenuPanel) pauseMenuPanel.SetActive(true);
+        accessibilityPanel.SetActive(false);
+        pauseMenuPanel.SetActive(true);
     }
 
     public void QuitToMainMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(mainMenuSceneName);
+    }
+
+    private void SetAllPanels(bool state)
+    {
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(state);
+        if (controlsPanel != null) controlsPanel.SetActive(state);
+        if (accessibilityPanel != null) accessibilityPanel.SetActive(state);
     }
 }

@@ -7,7 +7,7 @@
     <list default="true" id="d442c339-53ad-4a3e-b098-026330f42049" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Gad 314/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Adil/Final Build scenes/SciLab 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Final Build scenes/SciLab 1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Adil/Secondary folders/scripts/ThirdPersonMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Secondary folders/scripts/ThirdPersonMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Adil/Secondary folders/scripts/PauseManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Adil/Secondary folders/scripts/PauseManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +151,7 @@
       <workItem from="1765914468437" duration="203000" />
       <workItem from="1765915187189" duration="13000" />
       <workItem from="1765915220735" duration="80000" />
-      <workItem from="1765916114622" duration="3699000" />
+      <workItem from="1765916114622" duration="6981000" />
     </task>
     <servers />
   </component>

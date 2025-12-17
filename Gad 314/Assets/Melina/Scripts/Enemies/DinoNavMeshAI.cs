@@ -5,10 +5,11 @@ using System.Collections;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(CapsuleCollider))]
 
 public class DinoNavMeshAI : MonoBehaviour
 {
-    public enum DinoState { Patrol, Chase, Distracted, Attack }
+    public enum DinoState { Patrol, Chase, Distracted, Attack } 
 
     [Header("State")]
     public DinoState currentState;
@@ -19,7 +20,7 @@ public class DinoNavMeshAI : MonoBehaviour
     public float sightRange = 15f;
     public float attackRange = 2.5f;
     public float losePlayerRange = 20f;
-    public float damageAmount = 50f;
+    public float damageAmount = 40f;
 
     [Header("Territory")]
     public float maxTerritoryRange = 40f;
@@ -43,7 +44,6 @@ public class DinoNavMeshAI : MonoBehaviour
     private float _waitTimer = 0f;
     private float _attackCooldown = 0f;
 
-
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -65,21 +65,15 @@ public class DinoNavMeshAI : MonoBehaviour
 
         if (!_agent.enabled) _agent.enabled = true;
 
-        if (_agent.isOnNavMesh)
-        {
-
-        }
-        else
+        if (!_agent.isOnNavMesh)
         {
             NavMeshHit hit;
             if (NavMesh.SamplePosition(transform.position, out hit, 5.0f, NavMesh.AllAreas))
             {
                 _agent.Warp(hit.position);
-                Debug.Log($"[DinoAI] Snapped {name} to NavMesh.");
             }
             else
             {
-                Debug.LogError($"[DinoAI] {name} could not find NavMesh within 5 units! Check your bake.");
                 enabled = false;
                 yield break;
             }
@@ -120,7 +114,6 @@ public class DinoNavMeshAI : MonoBehaviour
         }
 
         UpdateAnimations();
-
     }
 
     private void PatrolLogic(float distToPlayer)
@@ -188,7 +181,12 @@ public class DinoNavMeshAI : MonoBehaviour
             _animator.SetTrigger("Attack");
             _attackCooldown = 1.0f;
 
-            if (PlayerHealth.Instance)
+            var health = playerTarget.GetComponent<PlayerHealth>();
+            if (health != null)
+            {
+                health.TakeDamage(damageAmount);
+            }
+            else if (PlayerHealth.Instance != null)
             {
                 PlayerHealth.Instance.TakeDamage(damageAmount);
             }
@@ -197,7 +195,7 @@ public class DinoNavMeshAI : MonoBehaviour
 
     private void DistractedLogic(float distToPlayer)
     {
-        if (distToPlayer < sightRange && CanSeePlayer(distToPlayer))
+        if (CanSeePlayer(distToPlayer))
         {
             currentState = DinoState.Chase;
             return;
@@ -251,17 +249,17 @@ public class DinoNavMeshAI : MonoBehaviour
     {
         if (dist > sightRange) return false;
 
-        Vector3 dirToPlayer = (playerTarget.position - transform.position).normalized;
-
-        Vector3 eyePos = transform.position + Vector3.up * 1.5f;
+        Vector3 eyePos = transform.position + Vector3.up * 1.5f + transform.forward * 0.5f;
         Vector3 playerEyePos = playerTarget.position + Vector3.up * 1.5f;
 
-        Debug.DrawLine(eyePos, playerEyePos, Color.yellow);
+        Vector3 dirToPlayer = (playerEyePos - eyePos).normalized;
+        float distToEye = Vector3.Distance(eyePos, playerEyePos);
 
-        if (Physics.Linecast(eyePos, playerEyePos, obstacleMask))
+        if (Physics.Raycast(eyePos, dirToPlayer, distToEye, obstacleMask))
         {
             return false;
         }
+
         return true;
     }
 
@@ -278,10 +276,5 @@ public class DinoNavMeshAI : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
-
-        Gizmos.color = Color.blue;
-        Vector3 center = Application.isPlaying ? _spawnPosition : transform.position;
-        Gizmos.DrawWireSphere(center, maxTerritoryRange);
     }
-
 }

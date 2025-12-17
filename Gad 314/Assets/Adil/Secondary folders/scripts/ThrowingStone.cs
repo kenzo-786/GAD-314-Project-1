@@ -16,7 +16,6 @@ public class ThrowingStone : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-
         _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
@@ -36,11 +35,11 @@ public class ThrowingStone : MonoBehaviour
 
     private void MakeNoise()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, noiseRadius);
+        Collider[] hits = Physics.OverlapSphere(transform.position, noiseRadius, enemyLayer);
 
         foreach (var hit in hits)
         {
-            DinoNavMeshAI brain = hit.GetComponent<DinoNavMeshAI>();
+            DinoNavMeshAI brain = hit.GetComponentInParent<DinoNavMeshAI>();
 
             if (brain != null)
             {
@@ -54,5 +53,4 @@ public class ThrowingStone : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, noiseRadius);
     }
-
 }

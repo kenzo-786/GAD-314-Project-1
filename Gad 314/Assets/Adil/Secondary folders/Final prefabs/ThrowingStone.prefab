@@ -153,5 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowingStone
   noiseRadius: 20
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 9
   impactSound: {fileID: 0}
   volume: 1

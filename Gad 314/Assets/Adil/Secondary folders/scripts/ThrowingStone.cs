@@ -3,7 +3,7 @@ using UnityEngine;
 public class ThrowingStone : MonoBehaviour
 {
     [Header("Settings")]
-    public float noiseRadius = 15f;
+    public float noiseRadius = 20f;
     public LayerMask enemyLayer;
 
     [Header("Audio")]
@@ -11,6 +11,14 @@ public class ThrowingStone : MonoBehaviour
     public float volume = 1f;
 
     private bool _hasHit = false;
+    private Rigidbody _rb;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+
+        _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -32,14 +40,11 @@ public class ThrowingStone : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            if (hit.CompareTag("Enemy"))
-            {
-                DinoNavMeshAI brain = hit.GetComponent<DinoNavMeshAI>();
+            DinoNavMeshAI brain = hit.GetComponent<DinoNavMeshAI>();
 
-                if (brain != null)
-                {
-                    brain.Distract(transform.position);
-                }
+            if (brain != null)
+            {
+                brain.Distract(transform.position);
             }
         }
     }

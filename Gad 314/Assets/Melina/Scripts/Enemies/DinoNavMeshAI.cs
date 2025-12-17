@@ -19,7 +19,8 @@ public class DinoNavMeshAI : MonoBehaviour
     public float sightRange = 15f;
     public float attackRange = 2.5f;
     public float losePlayerRange = 20f;
-    public float damageAmount = 25f;
+    public float damageAmount = 50f;
+
     [Header("Territory")]
     public float maxTerritoryRange = 40f;
     private Vector3 _spawnPosition;
@@ -125,7 +126,7 @@ public class DinoNavMeshAI : MonoBehaviour
     private void PatrolLogic(float distToPlayer)
     {
         _agent.speed = patrolSpeed;
-        _agent.stoppingDistance = 0.1f;
+        _agent.stoppingDistance = 0.5f;
 
         if (CanSeePlayer(distToPlayer))
         {
@@ -185,25 +186,25 @@ public class DinoNavMeshAI : MonoBehaviour
         if (_attackCooldown <= 0)
         {
             _animator.SetTrigger("Attack");
-            _attackCooldown = 2.0f;
+            _attackCooldown = 1.0f;
 
             if (PlayerHealth.Instance)
             {
-                PlayerHealth.Instance.TakeDamage(10);
+                PlayerHealth.Instance.TakeDamage(damageAmount);
             }
         }
     }
 
     private void DistractedLogic(float distToPlayer)
     {
-        if (distToPlayer < sightRange / 2f && CanSeePlayer(distToPlayer))
+        if (distToPlayer < sightRange && CanSeePlayer(distToPlayer))
         {
             currentState = DinoState.Chase;
             return;
         }
 
         _agent.speed = patrolSpeed;
-        _agent.stoppingDistance = 0.5f;
+        _agent.stoppingDistance = 1.0f;
         _agent.SetDestination(_distractionTarget);
 
         if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance)
@@ -225,15 +226,25 @@ public class DinoNavMeshAI : MonoBehaviour
             currentState = DinoState.Distracted;
             _distractionTarget = location;
             _waitTimer = 0f;
+
+            if (_agent.enabled)
+            {
+                _agent.isStopped = false;
+                _agent.SetDestination(_distractionTarget);
+            }
         }
     }
 
     private void MoveToNextPatrolPoint()
     {
-        if (patrolPoints.Length == 0) return;
+        if (patrolPoints == null || patrolPoints.Length == 0) return;
 
-        _agent.destination = patrolPoints[_patrolIndex].position;
-        _patrolIndex = (_patrolIndex + 1) % patrolPoints.Length;
+        if (_agent.isOnNavMesh)
+        {
+            _agent.isStopped = false;
+            _agent.SetDestination(patrolPoints[_patrolIndex].position);
+            _patrolIndex = (_patrolIndex + 1) % patrolPoints.Length;
+        }
     }
 
     private bool CanSeePlayer(float dist)
@@ -242,11 +253,16 @@ public class DinoNavMeshAI : MonoBehaviour
 
         Vector3 dirToPlayer = (playerTarget.position - transform.position).normalized;
 
-        if (!Physics.Raycast(transform.position + Vector3.up, dirToPlayer, dist, obstacleMask))
+        Vector3 eyePos = transform.position + Vector3.up * 1.5f;
+        Vector3 playerEyePos = playerTarget.position + Vector3.up * 1.5f;
+
+        Debug.DrawLine(eyePos, playerEyePos, Color.yellow);
+
+        if (Physics.Linecast(eyePos, playerEyePos, obstacleMask))
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private void UpdateAnimations()

@@ -56,7 +56,7 @@ public class TerminalIntro : MonoBehaviour
         "The blast... it released a virus.",
         "The world is changing rapidly.",
         "We are left with one option.",
-        "I have located the resources in the Mesozoic Era.",
+        "I have located the resources in the Dino Era.",
         "We must travel back.",
         "Find the cure.",
         "Save the future.",
@@ -115,7 +115,7 @@ public class TerminalIntro : MonoBehaviour
 
         yield return new WaitForSeconds(2.0f);
 
-        terminalText.color = Color.cyan;
+        terminalText.color = Color.black;
         terminalText.text = "";
 
         foreach (string line in _postExplosionLines)

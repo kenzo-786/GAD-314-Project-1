@@ -6,7 +6,7 @@ public class InventoryManager3 : MonoBehaviour
 {
     [Header("Configuration")]
     public int slotCount = 6;
-    public Color selectedColor = Color.yellow;
+    public Color selectedColor = Color.cyan;
     public Color normalColor = Color.white;
 
     [Header("Item Definitions ")]

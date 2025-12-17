@@ -15,6 +15,6 @@ MonoBehaviour:
   id: radar
   displayName: Radar
   description: 
-  icon: {fileID: -837116721, guid: 232cb6d9b14a4b44ea378fbb9e74c627, type: 3}
+  icon: {fileID: 21300000, guid: d9cee5a11758f7144857f64a83be7588, type: 3}
   isStackable: 0
   maxStack: 1

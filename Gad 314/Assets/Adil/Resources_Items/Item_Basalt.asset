@@ -15,6 +15,6 @@ MonoBehaviour:
   id: basalt
   displayName: Volcanic Basalt
   description: 
-  icon: {fileID: 258153766, guid: d9733d21fed39f34bad19148b8eb1da1, type: 3}
+  icon: {fileID: 21300000, guid: 6cba9fa8c14ae4a4f8672be776730cd9, type: 3}
   isStackable: 1
   maxStack: 64

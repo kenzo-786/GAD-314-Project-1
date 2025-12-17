@@ -15,6 +15,6 @@ MonoBehaviour:
   id: stone
   displayName: Stone
   description: 
-  icon: {fileID: -1556511015, guid: 0aa24f9b95d0c9e4f8b92ed71713d437, type: 3}
+  icon: {fileID: 21300000, guid: d4b83454114695144bab9937667fecd7, type: 3}
   isStackable: 1
   maxStack: 64

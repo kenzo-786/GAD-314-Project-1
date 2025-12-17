@@ -15,6 +15,6 @@ MonoBehaviour:
   id: flower
   displayName: Eternal Flower
   description: 
-  icon: {fileID: -1580785358, guid: 82c65d75028db9847a598c15bbc28d4f, type: 3}
+  icon: {fileID: 21300000, guid: 0e79948426ac529428d6ce1d546f163e, type: 3}
   isStackable: 1
   maxStack: 64

@@ -15,6 +15,6 @@ MonoBehaviour:
   id: egg
   displayName: Dino Egg
   description: 
-  icon: {fileID: 542787269, guid: 27457c3270755574faeb29eb18de9d54, type: 3}
+  icon: {fileID: 21300000, guid: f048f9d3ee177864a9625ca28dfe6b17, type: 3}
   isStackable: 1
   maxStack: 64

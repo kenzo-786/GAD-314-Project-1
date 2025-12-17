@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1484392127863161309
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 36.4541
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 36.4541
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 36.4541
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 50.513
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.662
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 53.326
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      propertyPath: m_Name
+      value: Eternal flower (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7561772657342919459}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4623125472602382396}
+  m_SourcePrefab: {fileID: 100100000, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+--- !u!1 &1754423734974200972 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 67b357e0e83daed409c3b9449c4277d8, type: 3}
+  m_PrefabInstance: {fileID: 1484392127863161309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &7561772657342919459
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754423734974200972}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.037994508, y: 0.02171532, z: 0.03723931}
+  m_Center: {x: 0.000022078217, y: 0.0046561034, z: 0.0006386839}
+--- !u!114 &4623125472602382396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754423734974200972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73364b9a49e5fa34785168b8ad0b8b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
+  itemData: {fileID: 11400000, guid: 38ad6b33bad8239479132022574347aa, type: 2}
+  amount: 1
+  missionToUpdate: collect_resources
+  missionToStart: 
+  missionStartDesc: 
+  missionStartTarget: 1
+  pickupKey: 101
+  holdDuration: 1.5
+  pickupSound: {fileID: 0}
+  rotate: 1
